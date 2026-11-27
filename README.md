@@ -131,7 +131,7 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 ![Big VU Meter REV 5](KICAD/Big_VU_Meter_REV5/Big_VU_Meter_REV5.png)
 
 
-- **VU meter driver + meter: Big VU Meter REV 5** (2021|54, 102 × 64 mm). A dual op-amp line input feeds an Arduino Micro, which drives two Neopixel bars of 57 pixels each (left / right). Two WBS 10-080 pots set the ceiling. The firmware ([SOFTWARE/BIG_VU_METERS_arduinopro_mini.ino](SOFTWARE/BIG_VU_METERS_arduinopro_mini.ino), 2015|48) adds a log scale, calibration and two falling peak dots. This is the driver to move to Eurorack and the ESP32-S3.
+- **VU meter driver + meter: Big VU Meter REV 5** (2021|54, 102 × 64 mm). A dual op-amp line input feeds an Arduino Micro, which drives two Neopixel bars of 57 pixels each (left / right). Two WBS 10-080 pots set the ceiling. The firmware ([SOFTWARE/BigVU](SOFTWARE/BigVU/), 2015|48) adds a log scale, calibration and two falling peak dots. This is the driver to move to Eurorack and the ESP32-S3.
 - **Moving-coil VU meters**, one per bus, as in the 2016|49 prototype (five WBS meters, each with a 15 dB calibration pad): [M435 VU Meter](https://github.com/WardBeckSystems/MODULES.METER.M435-VU-Meter), driven by an [M405 Extended Range VU Meter](https://github.com/WardBeckSystems/MODULES.METER.M405-Extended-Range-VU-Meter) / [M445](https://github.com/WardBeckSystems/MODULES.METER.M445-Extended-Range-Meter) stage (+4 dBu = 0 VU).
 
 ---
