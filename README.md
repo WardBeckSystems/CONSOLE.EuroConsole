@@ -188,7 +188,7 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 | [EAGLE/2016-DCASSP](EAGLE/2016-DCASSP/) | Encoder PCB 17.2, QTP-BAC 14.1, Maxim (DS1882) adapter, VU meter and summing amp, block diagram |
 | [EAGLE/2021-APK](EAGLE/2021-APK/) | M480B, M462B, M466, M466 control amp, M466/M462B output amp, Big VU Meter REV 5, QTP-BITTREE patchbay, QTP-NEUTRIK D-hole |
 | [GERBERS/](GERBERS/) | QTP-BITTREE PATCHBAY REV 2.1 ("good to go") |
-| [SOFTWARE/](SOFTWARE/) | Big VU meter firmware (Arduino, Neopixel) |
+| [SOFTWARE/](SOFTWARE/) | DCASSP channel-strip firmware (Arduino Mega, 2016) with its history, pan law and PC interface; Big VU meter firmware (all versions), which runs every vertical meter |
 | [MANUALS/](MANUALS/) | 2016\|49 DCASSP final report (TPJ655) and schematics |
 | [MECHANICAL/](MECHANICAL/) | HUI front panel REV 4.1 (DXF and render), Bourns PTA6043 fader |
 | [PHOTOS/](PHOTOS/) | HUI prototype cross reference |

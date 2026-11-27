@@ -1,0 +1,533 @@
+Netlist
+
+Exported from Encoder PCB - REV 13.sch at 2016-03-19 4:27 PM
+
+EAGLE Version 7.5.0 Copyright (c) 1988-2015 CadSoft
+
+Net                   Part                Pad      Pin        Sheet
+
++5V                   C18                 1        1          7
+                      C21                 1        1          7
+                      C6                  1        1          6
+                      C9                  1        1          6
+                      EARTH_POT1          P$6      CW         2
+                      FADER_CONNECTOR     12       12         1
+                      FADER_LIN_SLIDE     P$3      CW         4
+                      FRONT_CON_1         8        8          3
+                      FRONT_CON_2         8        8          3
+                      FRONT_CON_3         8        8          3
+                      GRASS_POT1          P$6      CW         2
+                      LSP3                MP       MP         4
+                      MAIN_TO_FRONT_CON_1 7        7          1
+                      MAIN_TO_FRONT_CON_1 8        8          1
+                      MAIN_TO_FRONT_CON_2 7        7          1
+                      MAIN_TO_FRONT_CON_2 8        8          1
+                      MAIN_TO_FRONT_CON_3 7        7          1
+                      MAIN_TO_FRONT_CON_3 8        8          1
+                      PCB1                5V       5V         1
+                      PCB1                <PWR>+V  <PWR>+V    1
+                      POT1                16       VDD        6
+                      POT2                16       VDD        6
+                      POT5                16       VDD        7
+                      POT6                16       VDD        7
+                      R1                  2        2          3
+                      R12                 2        2          5
+                      R13                 2        2          5
+                      R15                 2        2          6
+                      R16                 2        2          6
+                      R17                 2        2          6
+                      R18                 2        2          6
+                      R2                  2        2          3
+                      R25                 2        2          7
+                      R26                 2        2          7
+                      R27                 2        2          7
+                      R28                 2        2          7
+                      R3                  2        2          3
+                      R4                  2        2          3
+                      R5                  2        2          3
+                      R9                  2        2          5
+                      RS1                 2        2          3
+                      RS10                2        2          3
+                      RS11                2        2          4
+                      RS13                2        2          4
+                      RS14                2        2          4
+                      RS15                2        2          4
+                      RS16                2        2          4
+                      RS17                2        2          4
+                      RS2                 2        2          3
+                      RS3                 2        2          3
+                      RS4                 2        2          3
+                      RS5                 2        2          3
+                      RS6                 2        2          3
+                      RS7                 2        2          3
+                      RS8                 2        2          3
+                      RS9                 2        2          3
+                      R_EARTH_SW          1        1          2
+                      R_GRASS_SW          1        1          2
+                      R_SKY_SW            1        1          2
+                      R_SUN_SW            1        1          2
+                      SJ1                 3        3          6
+                      SJ13                3        3          7
+                      SJ14                3        3          7
+                      SJ15                3        3          7
+                      SJ16                3        3          7
+                      SJ17                3        3          7
+                      SJ18                3        3          7
+                      SJ2                 3        3          6
+                      SJ3                 3        3          6
+                      SJ4                 3        3          6
+                      SJ5                 3        3          6
+                      SJ6                 3        3          6
+                      SKY_POT1            P$6      CW         2
+                      SUN_POT1            P$6      CW         2
+                      SV1                 12       12         4
+                      U1                  8        VCC        5
+                      U2                  8        VCC        5
+
++12V                  C10                 1        1          6
+                      C19                 1        1          7
+                      C22                 1        1          7
+                      C7                  1        1          6
+                      POT1                15       VCC        6
+                      POT2                15       VCC        6
+                      POT5                15       VCC        7
+                      POT6                15       VCC        7
+
+-12V                  C11                 2        2          6
+                      C20                 2        2          7
+                      C23                 2        2          7
+                      C8                  2        2          6
+                      POT1                4        VB         6
+                      POT2                4        VB         6
+                      POT5                4        VB         7
+                      POT6                4        VB         7
+
+A0_FNT_POT_SUN        PCB1                A0       A0         1
+                      R6                  2        2          2
+
+A1_FNT_POT_SKY        PCB1                A1       A1         1
+                      R7                  2        2          2
+
+A6_FNT_POT_GRASS      PCB1                A6       A6         1
+                      R8                  2        2          2
+
+A12_FNT_POT_EARTH     PCB1                A12      A12        1
+                      R10                 2        2          2
+
+A14_FDR_POT_POSITION  FADER_CONNECTOR     10       10         1
+                      LSP2                MP       MP         4
+                      PCB1                A14      A14        1
+                      SV1                 10       10         4
+
+A15_FDR_POT_SLIDE     FADER_CONNECTOR     11       11         1
+                      FADER_LIN_SLIDE     P$2      WIPER      4
+                      PCB1                A15      A15        1
+                      SV1                 11       11         4
+
+D02_SCI_TX_3RC2       PCB1                2        2          1
+                      U2                  2        ~RE        5
+                      U2                  3        DE         5
+
+D14_SCI_TX3           PCB1                14       14(TX3)    1
+                      U2                  4        DI         5
+
+D15_SCI_RX3           LINK_1              2        2          5
+                      PCB1                15       15(RX3)    1
+                      R12                 1        1          5
+                      U1                  1        RO         5
+
+D20_SCI_I2C_SDA       PCB1                20       20(SDA)    1
+                      POT1                13       SDA        6
+                      POT2                13       SDA        6
+                      POT5                13       SDA        7
+                      POT6                13       SDA        7
+                      R15                 1        1          6
+                      R17                 1        1          6
+                      R25                 1        1          7
+                      R27                 1        1          7
+
+D21_SCI_I2C_SCL       PCB1                21       21(SCL)    1
+                      POT1                14       SCL        6
+                      POT2                14       SCL        6
+                      POT5                14       SCL        7
+                      POT6                14       SCL        7
+                      R16                 1        1          6
+                      R18                 1        1          6
+                      R26                 1        1          7
+                      R28                 1        1          7
+
+D22_FDR_LED_KEY_ONLY  FADER_BUT_ONLY      LEDB     LEDB       4
+                      FADER_CONNECTOR     8        8          1
+                      PCB1                22       22         1
+                      SV1                 8        8          4
+
+D23_FDR_LED_KEY_SEL   FADER_BUT_SEL       LEDB     LEDB       4
+                      FADER_CONNECTOR     6        6          1
+                      PCB1                23       23         1
+                      SV1                 6        6          4
+
+D25_FDR_LED_KEY_CHON  FADER_BUT_ON        LEDB     LEDB       4
+                      FADER_CONNECTOR     4        4          1
+                      PCB1                25       25         1
+                      SV1                 4        4          4
+
+D27_FDR_KEY_CHON      FADER_BUT_ON        SW1A     SW1A       4
+                      FADER_BUT_ON        SW2A     SW2A       4
+                      FADER_CONNECTOR     3        3          1
+                      PCB1                27       27         1
+                      RS17                1        1          4
+                      SV1                 3        3          4
+
+D29_FDR_KEY_SEL       FADER_BUT_SEL       SW1A     SW1A       4
+                      FADER_BUT_SEL       SW2A     SW2A       4
+                      FADER_CONNECTOR     5        5          1
+                      PCB1                29       29         1
+                      RS15                1        1          4
+                      SV1                 5        5          4
+
+D31_FDR_KEY_ONLY      FADER_BUT_ONLY      SW1A     SW1A       4
+                      FADER_BUT_ONLY      SW2A     SW2A       4
+                      FADER_CONNECTOR     7        7          1
+                      PCB1                31       31         1
+                      RS11                1        1          4
+                      SV1                 7        7          4
+
+D33_FNT_POT_SW_EARTH  EARTH_POT1          P$7      P$1        2
+                      EARTH_POT1          P$9      P$1        2
+                      PCB1                33       33         1
+                      R_EARTH_SW          2        2          2
+
+D35_FNT_KEY_GRASS     FRONT_BUT_GRASS     SW1A     SW1A       3
+                      FRONT_BUT_GRASS     SW2A     SW2A       3
+                      FRONT_CON_3         6        6          3
+                      MAIN_TO_FRONT_CON_3 6        6          1
+                      PCB1                35       35         1
+                      RS8                 1        1          3
+
+D37_FNT_KEY_EARTH     FRONT_BUT_EARTH     SW1A     SW1A       3
+                      FRONT_BUT_EARTH     SW2A     SW2A       3
+                      FRONT_CON_3         4        4          3
+                      MAIN_TO_FRONT_CON_3 4        4          1
+                      PCB1                37       37         1
+                      RS10                1        1          3
+
+D39_FNT_LED_KEY_EARTH FRONT_BUT_EARTH     LEDB     LEDB       3
+                      FRONT_CON_3         3        3          3
+                      MAIN_TO_FRONT_CON_3 3        3          1
+                      PCB1                39       39         1
+
+D41_FNT_LED_KEY_GRASS FRONT_BUT_GRASS     LEDB     LEDB       3
+                      FRONT_CON_3         5        5          3
+                      MAIN_TO_FRONT_CON_3 5        5          1
+                      PCB1                41       41         1
+
+D43_FNT_POT_SW_GRASS  GRASS_POT1          P$7      P$1        2
+                      GRASS_POT1          P$9      P$1        2
+                      PCB1                43       43         1
+                      R_GRASS_SW          2        2          2
+
+D45_FNT_KEY_SUN       FRONT_BUT_SUN       SW1A     SW1A       3
+                      FRONT_BUT_SUN       SW2A     SW2A       3
+                      FRONT_CON_2         6        6          3
+                      MAIN_TO_FRONT_CON_2 6        6          1
+                      PCB1                45       45         1
+                      RS4                 1        1          3
+
+D46_FNT_POT_SW_SUN    PCB1                46       46         1
+                      R_SUN_SW            2        2          2
+                      SUN_POT1            P$7      P$1        2
+                      SUN_POT1            P$9      P$1        2
+
+D47_FNT_KEY_SKY       FRONT_BUT_SKY       SW1A     SW1A       3
+                      FRONT_BUT_SKY       SW2A     SW2A       3
+                      FRONT_CON_2         4        4          3
+                      MAIN_TO_FRONT_CON_2 4        4          1
+                      PCB1                47       47         1
+                      RS6                 1        1          3
+
+D48_FNT_NEO_PIXEL     FRONT_CON_1         7        7          3
+                      MAIN_TO_FRONT_CON_1 5        5          1
+                      PCB1                48       48         1
+                      R23                 2        2          3
+                      R24                 2        2          3
+
+D49_FNT_LED_KEY_SKY   FRONT_BUT_SKY       LEDB     LEDB       3
+                      FRONT_CON_2         3        3          3
+                      MAIN_TO_FRONT_CON_2 3        3          1
+                      PCB1                49       49         1
+
+D50_FRT_LED_KEY_SEL   FRONT_BUT_SEL       LEDB     LEDB       3
+                      FRONT_CON_1         3        3          3
+                      MAIN_TO_FRONT_CON_1 3        3          1
+                      PCB1                50       50         1
+
+D51_FNT_LED_KEY_SUN   FRONT_BUT_SUN       LEDB     LEDB       3
+                      FRONT_CON_2         5        5          3
+                      MAIN_TO_FRONT_CON_2 5        5          1
+                      PCB1                51       51         1
+
+D52_FNT_KEY_SEL       FRONT_BUT_SEL       SW1A     SW1A       3
+                      FRONT_BUT_SEL       SW2A     SW2A       3
+                      FRONT_CON_1         2        2          3
+                      MAIN_TO_FRONT_CON_1 2        2          1
+                      PCB1                52       52         1
+                      RS2                 1        1          3
+
+D53_FNT_POT_SW_SKY    PCB1                53       53         1
+                      R_SKY_SW            2        2          2
+                      SKY_POT1            P$7      P$1        2
+                      SKY_POT1            P$9      P$1        2
+
+DB9_RS-485-RX+        R9                  1        1          5
+                      U1                  6        DO/RI      5
+                      X1                  3        F          5
+
+DB9_RS-485-RX-        R11                 2        2          5
+                      U1                  7        ~DO/~RI    5
+                      X1                  4        F          5
+
+DB9_RS-485-TX+        R13                 1        1          5
+                      U2                  6        DO/RI      5
+                      X1                  1        F          5
+
+DB9_RS-485-TX-        R14                 2        2          5
+                      U2                  7        ~DO/~RI    5
+                      X1                  2        F          5
+
+GND                   C1                  2        2          3
+                      C18                 2        2          7
+                      C2                  2        2          3
+                      C21                 2        2          7
+                      C3                  2        2          3
+                      C4                  2        2          3
+                      C5                  2        2          3
+                      C6                  2        2          6
+                      C9                  2        2          6
+                      EARTH_POT1          P$10     P$2        2
+                      EARTH_POT1          P$4      CCW        2
+                      EARTH_POT1          P$8      P$2        2
+                      FADER_BUT_ON        SW1B     SW1B       4
+                      FADER_BUT_ON        SW2B     SW2B       4
+                      FADER_BUT_ONLY      SW1B     SW1B       4
+                      FADER_BUT_ONLY      SW2B     SW2B       4
+                      FADER_BUT_SEL       SW1B     SW1B       4
+                      FADER_BUT_SEL       SW2B     SW2B       4
+                      FADER_CONNECTOR     1        1          1
+                      FADER_LIN_SLIDE     P$1      CCW        4
+                      FRONT_BUT_EARTH     SW1B     SW1B       3
+                      FRONT_BUT_EARTH     SW2B     SW2B       3
+                      FRONT_BUT_GRASS     SW1B     SW1B       3
+                      FRONT_BUT_GRASS     SW2B     SW2B       3
+                      FRONT_BUT_SEL       SW1B     SW1B       3
+                      FRONT_BUT_SEL       SW2B     SW2B       3
+                      FRONT_BUT_SKY       SW1B     SW1B       3
+                      FRONT_BUT_SKY       SW2B     SW2B       3
+                      FRONT_BUT_SUN       SW1B     SW1B       3
+                      FRONT_BUT_SUN       SW2B     SW2B       3
+                      FRONT_CON_1         1        1          3
+                      FRONT_CON_2         1        1          3
+                      FRONT_CON_3         1        1          3
+                      FRONT_EARTH         VSS      GND        3
+                      FRONT_GRASS         VSS      GND        3
+                      FRONT_SKY           VSS      GND        3
+                      FRONT_SUN           VSS      GND        3
+                      FRONT_SUN1          VSS      GND        3
+                      GRASS_POT1          P$10     P$2        2
+                      GRASS_POT1          P$4      CCW        2
+                      GRASS_POT1          P$8      P$2        2
+                      LSP1                MP       MP         4
+                      MAIN_TO_FRONT_CON_1 1        1          1
+                      MAIN_TO_FRONT_CON_2 1        1          1
+                      MAIN_TO_FRONT_CON_3 1        1          1
+                      PCB1                <PWR>-V  <PWR>-V    1
+                      PCB1                GND      GND        1
+                      PCB1                GND.     GND.       1
+                      PCB1                GND..    GND..      1
+                      POT1                1        GND        6
+                      POT1                7        L0         6
+                      POT1                9        L1         6
+                      POT2                1        GND        6
+                      POT2                7        L0         6
+                      POT2                9        L1         6
+                      POT5                1        GND        7
+                      POT5                7        L0         7
+                      POT5                9        L1         7
+                      POT6                1        GND        7
+                      POT6                7        L0         7
+                      POT6                9        L1         7
+                      R11                 1        1          5
+                      R14                 1        1          5
+                      R24                 1        1          3
+                      SJ1                 1        1          6
+                      SJ13                1        1          7
+                      SJ14                1        1          7
+                      SJ15                1        1          7
+                      SJ16                1        1          7
+                      SJ17                1        1          7
+                      SJ18                1        1          7
+                      SJ2                 1        1          6
+                      SJ3                 1        1          6
+                      SJ4                 1        1          6
+                      SJ5                 1        1          6
+                      SJ6                 1        1          6
+                      SKY_POT1            P$10     P$2        2
+                      SKY_POT1            P$4      CCW        2
+                      SKY_POT1            P$8      P$2        2
+                      SUN_POT1            P$10     P$2        2
+                      SUN_POT1            P$4      CCW        2
+                      SUN_POT1            P$8      P$2        2
+                      SV1                 1        1          4
+                      U1                  2        ~RE        5
+                      U1                  3        DE         5
+                      U1                  5        GND        5
+                      U2                  5        GND        5
+
+N$1                   FADER_BUT_ON        LEDA     LEDA       4
+                      RS16                1        1          4
+
+N$2                   FRONT_BUT_GRASS     LEDA     LEDA       3
+                      RS7                 1        1          3
+
+N$3                   FADER_BUT_SEL       LEDA     LEDA       4
+                      RS14                1        1          4
+
+N$4                   FADER_BUT_ONLY      LEDA     LEDA       4
+                      RS13                1        1          4
+
+N$5                   FRONT_BUT_SKY       LEDA     LEDA       3
+                      RS5                 1        1          3
+
+N$6                   FADER_CONNECTOR     2        2          1
+                      SV1                 2        2          4
+
+N$7                   C1                  1        1          3
+                      FRONT_SUN           LEDVDD   LEDVDD     3
+                      FRONT_SUN           VDD      VDD        3
+                      R1                  1        1          3
+
+N$8                   EARTH_POT1          P$5      WIPER      2
+                      R10                 1        1          2
+
+N$9                   R7                  1        1          2
+                      SKY_POT1            P$5      WIPER      2
+
+N$10                  FRONT_BUT_SUN       LEDA     LEDA       3
+                      RS3                 1        1          3
+
+N$11                  R6                  1        1          2
+                      SUN_POT1            P$5      WIPER      2
+
+N$12                  FRONT_BUT_SEL       LEDA     LEDA       3
+                      RS1                 1        1          3
+
+N$13                  GRASS_POT1          P$5      WIPER      2
+                      R8                  1        1          2
+
+N$14                  FRONT_GRASS         DI       DI         3
+                      FRONT_SKY           DO       DO         3
+
+N$15                  LINK_1              1        1          5
+                      U2                  1        RO         5
+
+N$16                  C2                  1        1          3
+                      FRONT_SKY           LEDVDD   LEDVDD     3
+                      FRONT_SKY           VDD      VDD        3
+                      R2                  1        1          3
+
+N$17                  FRONT_BUT_EARTH     LEDA     LEDA       3
+                      RS9                 1        1          3
+
+N$19                  C7                  2        2          6
+                      C8                  1        1          6
+
+N$20                  C3                  1        1          3
+                      FRONT_GRASS         LEDVDD   LEDVDD     3
+                      FRONT_GRASS         VDD      VDD        3
+                      R3                  1        1          3
+
+N$21                  POT1                2        A2         6
+                      SJ1                 2        2          6
+
+N$22                  FRONT_SUN           DI       DI         3
+                      FRONT_SUN1          DO       DO         3
+
+N$23                  C4                  1        1          3
+                      FRONT_EARTH         LEDVDD   LEDVDD     3
+                      FRONT_EARTH         VDD      VDD        3
+                      R4                  1        1          3
+
+N$24                  POT1                3        A1         6
+                      SJ2                 2        2          6
+
+N$25                  C5                  1        1          3
+                      FRONT_SUN1          LEDVDD   LEDVDD     3
+                      FRONT_SUN1          VDD      VDD        3
+                      R5                  1        1          3
+
+N$26                  FRONT_EARTH         DI       DI         3
+                      FRONT_GRASS         DO       DO         3
+                      FRONT_SKY           DI       DI         3
+                      FRONT_SUN           DO       DO         3
+
+N$27                  POT1                5        A0         6
+                      SJ3                 2        2          6
+
+N$28                  C10                 2        2          6
+                      C11                 1        1          6
+
+N$29                  POT2                2        A2         6
+                      SJ4                 2        2          6
+
+N$30                  POT2                3        A1         6
+                      SJ5                 2        2          6
+
+N$31                  POT2                5        A0         6
+                      SJ6                 2        2          6
+
+N$40                  FRONT_SUN1          DI       DI         3
+                      R23                 1        1          3
+
+N$41                  C19                 2        2          7
+                      C20                 1        1          7
+
+N$42                  POT5                2        A2         7
+                      SJ13                2        2          7
+
+N$43                  POT5                3        A1         7
+                      SJ14                2        2          7
+
+N$44                  POT5                5        A0         7
+                      SJ15                2        2          7
+
+N$45                  C22                 2        2          7
+                      C23                 1        1          7
+
+N$46                  POT6                2        A2         7
+                      SJ16                2        2          7
+
+N$47                  POT6                3        A1         7
+                      SJ17                2        2          7
+
+N$48                  POT6                5        A0         7
+                      SJ18                2        2          7
+
+POT_A1_IN             POT1                8        H0         6
+                      POT2                8        H0         6
+                      POT5                8        H0         7
+                      POT6                8        H0         7
+
+POT_A1_OUT            POT1                6        W0         6
+                      POT2                6        W0         6
+                      POT5                6        W0         7
+                      POT6                6        W0         7
+
+POT_B1_IN             POT1                10       H1         6
+                      POT2                10       H1         6
+                      POT5                10       H1         7
+                      POT6                10       H1         7
+
+POT_B1_OUT            POT1                11       W          6
+                      POT2                11       W          6
+                      POT5                11       W          7
+                      POT6                11       W          7
+

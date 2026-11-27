@@ -131,11 +131,11 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
     { img: 'M467', name: 'Gate bank · 4 x M467 (master only)', links: [['repo', GH + 'MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module']] },
     { img: 'M462B', name: 'EQ bank · 4 x M462B', links: [['repo', GH + 'MODULES.FILTERS.M462B-Equalizer-Module'], ['KiCad', '../KICAD/M462B_EQ/']] },
     { img: 'M466', name: 'Compressor / de-esser bank · 4 x M466', links: [['repo', GH + 'MODULES.DYNAMICS.M466-Limiter-Compressor-Module'], ['KiCad', '../KICAD/M466_Compressor_Limiter/']] },
-    { img: 'B300', name: 'Send banks · Aux 1-4, Aux 5-8, M 1-4', links: [['encoders p2', PDF + '2'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
-    { img: 'F300', name: 'Fader bank · 4 x F300', links: [['fader p4', PDF + '4'], ['control p1', PDF + '1']] },
+    { img: 'B300', name: 'Send banks · Aux 1-4, Aux 5-8, M 1-4', links: [['firmware', '../SOFTWARE/DCASSP/firmware/TPJ_sketch_mar19a/TPJ_sketch_mar19a.ino'], ['encoders p2', PDF + '2'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
+    { img: 'F300', name: 'Fader bank · 4 x F300', links: [['firmware', '../SOFTWARE/DCASSP/'], ['fader p4', PDF + '4'], ['control p1', PDF + '1']] },
     { img: 'M450', name: 'Sum bank · 4 x M450', links: [['repo', GH + 'MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier'], ['summing p8', PDF + '8']] },
     { img: 'M499', name: 'Insert bank · 4 x M499', links: [['repo', GH + 'MODULES.UNSORTED.M499-Insertion-Switcher']] },
-    { img: 'BIGVU', name: 'Big VU · RD87', links: [['repo', GH + 'PRODUCTS.BigVU'], ['KiCad', '../KICAD/Big_VU_Meter_REV5/']] },
+    { img: 'BIGVU', name: 'Big VU · RD87 (also the quad preamp meters)', links: [['firmware', '../SOFTWARE/BigVU/'], ['repo', GH + 'PRODUCTS.BigVU'], ['KiCad', '../KICAD/Big_VU_Meter_REV5/']] },
   ];
   $('key').innerHTML = KEY.map(k => `<div><img src="${face(k.img)}" alt=""><span><b>${k.name}</b>${k.links.map(([t, u]) => `<a href="${u}" target="_blank">${t}</a>`).join(' · ')}</span></div>`).join('');
 
