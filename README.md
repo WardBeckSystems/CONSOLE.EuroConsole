@@ -13,7 +13,7 @@ EuroConsole turns that prototype into a whole console, built from 3U Eurorack mo
 | **4-input summing console** | 4 × RJ45 QTP inputs summed to 4 buses, each with an insert point |
 | **Processing** | EQ, compressor, de-esser, gate: patch into any insert |
 | **Patch bay** | QTP patch bay module: inserts and buses on RJ45, normalled through |
-| **Big VU Meter** | the console's meter: a stereo Neopixel bar VU and its driver (REV 5, 2021\|54), plus moving-coil VU panels |
+| **Big VU Meter** (RD87) | the console's meter: the RD87 stereo Neopixel LED tower and its driver (REV 5, 2021\|54), plus moving-coil VU panels |
 
 Everything connects with **QTP (Quad Twisted Pair)**: four balanced analog channels on one RJ45 / CAT5e cable, in the colour order **SUN, SKY, GRASS, EARTH**.
 
@@ -112,7 +112,9 @@ The front panels follow the B300/F300 language: encoders with Neopixels and POD 
 
 The **QTP patch bay module** puts every insert send / return and bus on RJ45, normalled through, so processors patch in with one CAT cable per four channels. It starts from **QTP-BITTREE PATCHBAY REV 2.1** (2021|54, Gerbers marked "good to go"): a 34 × 41 mm card with a top-row and bottom-row QTP RJ45, plugging into a Bittree patchbay connector, so a Bittree bay becomes a QTP bay. A sibling, **QTP-NEUTRIK D-hole** (24 × 27 mm), mounts a QTP RJ45 in a standard Neutrik D-hole for panels.
 
-## 6. Metering: the Big VU Meter
+## 6. Metering: the Big VU Meter (RD87)
+
+Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free-standing stereo level tower. Product repo: [PRODUCTS.BigVU](https://github.com/WardBeckSystems/PRODUCTS.BigVU). Page: [WBSps.ca Big VU](https://WBSps.ca/2026/PAGES/Big-VU.html). Simulator: [Big VU](https://WBSps.ca/2026/siumulation.html?plugin=bigvu), with front panel, tutorial, block diagram and firmware trace. In EuroConsole it is the console's meter bridge: one tower per bus pair, fed from the bus outputs.
 
 ![Big VU Meter REV 5](KICAD/Big_VU_Meter_REV5/Big_VU_Meter_REV5.png)
 
