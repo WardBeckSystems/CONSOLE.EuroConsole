@@ -185,7 +185,7 @@
           'Fader Send +': `FS${n2}+`, 'Fader Send -': `FS${n2}-`, 'Fader Return +': `FR${n2}+`, 'Fader Return -': `FR${n2}-`,
           'M1 OUT +': CH(c) + '+', 'M1 OUT -': CH(c) + '-', 'Cue Solo +': 'NC', 'Cue Solo -': 'NC',
           'M2 OUT +': 'NC', 'M2 OUT -': 'NC', 'Aux +': 'NC', 'Aux -': 'NC' };
-        chs.place(P.sym, snap(x + halfW(P.sym) + 12.7), y0, next('U'), `${P.sym} ${mic ? 'mic' : 'line'}`, nets); bankCount(ci, `Preamp bank (4 x ${P.sym})`);
+        chs.place(P.sym, snap(x + halfW(P.sym) + 12.7), y0, next('U'), `${P.sym} ${mic ? 'mic' : 'line'}`, nets); bankCount(ci, `Quad preamp (4 x ${P.sym} preamp + 4 vertical VU)`);
         x = snap(x + 2 * halfW(P.sym) + 25.4 - 104.14);
         x = snap(x + 104.14);
         chain(`FS${pad2(c)}`, `FR${pad2(c)}`);       // inserts + fader in the M480B fader send / return
