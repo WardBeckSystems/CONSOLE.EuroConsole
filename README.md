@@ -1,8 +1,170 @@
 # EuroConsole
 
-Ward-Beck Systems project (console).
+**A modular analog mixing console in Eurorack: Ward-Beck Systems circuits, digitally controlled, wired with Quad Twisted Pair.**
 
-Part of the [Console](https://github.com/WardBeckSystems/Console) index.
+EuroConsole grows out of the 2016|49 *Digitally Controlled Analog Surround Sound Panner* (DCASSP), built at APK audio and Ward-Beck Systems as a Seneca College technology project. That prototype showed one idea: **the audio stays analog, the controls go digital**. Every control a mixer touches (encoders, buttons, faders, LEDs) is read by a microcontroller. The microcontroller sets digitally controlled analog parts, such as the Maxim DS1882 log-taper audio potentiometers, which do the actual work on the signal. Because the panel never carries audio, the controls can move, light up, recall and be driven remotely, and the signal path keeps the sound of the Ward-Beck circuits.
+
+EuroConsole turns that prototype into a whole console, built from 3U Eurorack modules:
+
+| Part | What it is |
+|---|---|
+| **16 × 16 console** | 16 channel strips (B300 Brain + F300 Fader) into 16 outputs |
+| **Input** | M480B input module: the channel's mic/line front end |
+| **4-input summing console** | 4 × RJ45 QTP inputs summed to 4 buses, each with an insert point |
+| **Processing** | EQ, compressor, de-esser, gate: patch into any insert |
+| **Patch bay** | QTP patch bay module: inserts and buses on RJ45, normalled through |
+| **Big VU Meter** | the console's meter: a stereo Neopixel bar VU and its driver (REV 5, 2021\|54), plus moving-coil VU panels |
+
+Everything connects with **QTP (Quad Twisted Pair)**: four balanced analog channels on one RJ45 / CAT5e cable, in the colour order **SUN, SKY, GRASS, EARTH**.
+
+![HUI prototype cross reference (2016|49)](PHOTOS/2016%20-%20HUI%20prototype%20cross%20reference.png)
 
 ---
-© Ward-Beck Systems (Ward-Beck.com - Ward-Beck.ca) · archive by Anthony Peter Kuzub · [WBSps.ca](https://WBSps.ca) · [WBSps.Kuzub.com](https://WBSps.Kuzub.com)
+
+## How it fits together
+
+```mermaid
+flowchart LR
+  subgraph CH["16 × 16 console: 16 channel strips"]
+    direction TB
+    B["B300 Brain<br/>input select · 4 aux · ESP32-S3"] --- F["F300 Fader<br/>POS pan · ONLY · SEL · fader · CH ON"]
+  end
+  IN["16 inputs<br/>(4 × QTP RJ45)"] --> M480["M480B input modules"] --> CH
+  PB["QTP patch bay"] -.-|"normalled inserts and buses"| INS
+  CH -->|"16 outputs = 4 × QTP"| SUM
+  subgraph SUM["4-input summing console"]
+    direction TB
+    Q["4 × RJ45 QTP in"] --> BUS["4 buses<br/>SUN · SKY · GRASS · EARTH"]
+    BUS --> INS["insert point per bus<br/>send / return"]
+  end
+  INS <-->|"QTP send / return"| PROC
+  subgraph PROC["Processing (any insert)"]
+    direction TB
+    EQ["EQ"] ~~~ COMP["Compressor"] ~~~ DES["De-esser"] ~~~ GATE["Gate"]
+  end
+  INS --> OUT["4 bus outputs (QTP)"]
+  OUT --> DRV["Big VU Meter driver<br/>line in · MCU"] --> VU["Big VU Meter<br/>2 × 57 Neopixels"]
+```
+
+### Signal rules
+
+- **Audio is analog and balanced end to end**: THAT 1246 line receivers in, THAT 1646 line drivers out. The 2016|49 prototype used these on every board.
+- **Control is digital**: one ESP32-S3 per channel strip reads the panel and sets the gain parts. The modules talk to each other over I2C on the Eurorack bus, and the console talks to the outside world over the network. The 2016|49 prototype used Ethernet and the HUI protocol, run from an Arduino Mega.
+- **Every interconnect is QTP**: one RJ45 carries four channels, so 16 outputs need only four cables. A QTP pair is also the insert send / return.
+
+---
+
+## 1. The 16 × 16 console: channel strip = B300 + F300
+
+Each channel strip is two 6HP × 3U modules from the *HUI front panel REV 4.1* drawing ([DXF](MECHANICAL/HUI%20front%20panel%20REV%204.1.dxf)):
+
+![B300 and F300 panels](MECHANICAL/HUI%20front%20panel%20REV%204.1.png)
+
+| B300 **Brain** (left) | F300 **Fader** (right) |
+|---|---|
+| INPUT LED and SEL button | **POS** encoder: position in the surround field (L · C · R · Ls · Rs) |
+| SUN / SKY / GRASS / EARTH: four auxiliary controls, each with an encoder, a Neopixel and a push-button | **ONLY**: solo, isolate and cue |
+| carries the channel's microcontroller | **SEL**: select, which draws attention to the channel |
+| | 60 mm linear **fader** (Bourns PTA6043): channel level |
+| | **CH ON**: channel on |
+
+**Panning (from the 2016|49 theory of operation).** The POS encoder indexes a table of DS1882 settings, one per speaker, at 1 dB per step. Each speaker peaks at 63–64 steps, and neighbouring speakers cross at 48 steps (16 dB down):
+
+```
+{64,0,0,0,0} {48,48,0,0,0} {0,63,0,0,0} {0,48,48,0,0} {0,0,63,0,0} {0,0,48,48,0} {0,0,0,64,0} {0,0,0,48,48} {0,0,0,0,63}
+```
+
+The fader scales the looked-up row to a percentage. At power-up, every pot starts at full mute.
+
+**16 × 16.** 16 strips × 12HP = 192HP, which is three rows of 84HP. The 16 outputs leave on four QTP cables, which is exactly what the summing console takes in. *Meaning of the 16 outputs: to be confirmed (16 discrete buses, or 3 × 5.1 surround plus 1).*
+
+---
+
+## 2. The 4-input summing console
+
+Four RJ45 QTP inputs (16 channels) are summed onto four buses, **SUN, SKY, GRASS and EARTH**. Each bus has an **insert point** and leaves on a QTP output.
+
+- **Summing amplifier:** Ward-Beck [M450](https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier) / [M450A](https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450A-Program-Summing-Amplifier) / [M450B](https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450B-Program-Summing-Amplifier) program summing amplifiers (Rodger Beck, 1975|8–1979|12). The 2016|49 prototype summed through 2 × 4 M450A cards. Also [M484 Dual Summing Amplifier](https://github.com/WardBeckSystems/MODULES.SUMMING.M484-Dual-Summing-Amplifier).
+- **QTP backplane:** **QTP-BAC 14.1** (in `KICAD/`) is the four-channel QTP board, with RJ45s, transformers, XLR and BNC for SUN/SKY/GRASS/EARTH. It is the starting point for the summing console's input/output board.
+- **Insert points:** a balanced send and return per bus, switched in or out. The model is the [M499 Insertion Switcher](https://github.com/WardBeckSystems/MODULES.UNSORTED.M499-Insertion-Switcher), plus the 1979|12 *M466N Insert Meter Module* drawing ([M466](https://github.com/WardBeckSystems/MODULES.DYNAMICS.M466-Limiter-Compressor-Module)). *Proposed:* sends on one RJ45 and returns on another, with QTP pairs 1–4 = buses 1–4, so one cable pair inserts a processor into all four buses.
+
+---
+
+## 3. Input: M480B
+
+The [M480B input module](EAGLE/2021-APK/M480B%20Input%20module.sch) is the channel front end ahead of the B300/F300 strip. APK redrew it in Eagle in 2021|54 from the Ward-Beck original: LM201 op-amps, a MAT-01 matched pair and discrete output transistors (255 parts).
+
+## 4. Processing: EQ, compressor, de-esser, gate
+
+Each processor is a Eurorack module with QTP send / return, so it patches into any insert. Each one starts from a Ward-Beck circuit already drawn in this archive. Three already exist as 2021|54 APK Eagle redraws in [EAGLE/2021-APK](EAGLE/2021-APK/):
+
+| Function | Starting from | Eagle (2021\|54 APK) | KiCad in the archive |
+|---|---|---|---|
+| **EQ** | [M462B Effects Equalizer](https://github.com/WardBeckSystems/MODULES.FILTERS.M462B-Equalizer-Module); also [M462](https://github.com/WardBeckSystems/MODULES.FILTERS.M462-Equalizer-Module), [M472](https://github.com/WardBeckSystems/MODULES.FILTERS.M472-Equalizer-Module) / [M472A](https://github.com/WardBeckSystems/MODULES.FILTERS.M472A-Stereo-Equalizer-Module) | `M462B Final.sch` (356 parts) | M462 27 · M462B 10 · M462C 11 · M472 14 · M472A 7 sheets |
+| **Compressor** | [M466 Limiter-Compressor](https://github.com/WardBeckSystems/MODULES.DYNAMICS.M466-Limiter-Compressor-Module) (1976\|9): signal path, 6-106 control amplifier, output amplifier | `M466-compressor-limiter.sch` (315), `M466 - Control amp.sch` (114) | M466 15 · [M466M](https://github.com/WardBeckSystems/MODULES.DYNAMICS.M466M-Compressor-Meter-Module) 3 |
+| **Output amplifier** (EQ and compressor) | the M466 / M462B output stage: LM201 and 4 complementary pairs | `M466 and M462B Output Amplifier.sch` (87) | in M466 |
+| **De-esser** | M466 with a frequency-weighted (high-pass / band-pass) side-chain into its control amplifier | — | new circuit, based on M466 |
+| **Gate** | [M467 Noise Gate and Meter Module](https://github.com/WardBeckSystems/MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module) | — | M467 8 |
+
+The front panels follow the B300/F300 language: encoders with Neopixels and POD buttons. The processor's ESP32-S3 sets its thresholds and gains through digitally controlled parts.
+
+## 5. Patch bay
+
+The **QTP patch bay module** puts every insert send / return and bus on RJ45, normalled through, so processors patch in with one CAT cable per four channels. It starts from **QTP-BITTREE PATCHBAY REV 2.1** (2021|54, Gerbers marked "good to go"): a 34 × 41 mm card with a top-row and bottom-row QTP RJ45, plugging into a Bittree patchbay connector, so a Bittree bay becomes a QTP bay. A sibling, **QTP-NEUTRIK D-hole** (24 × 27 mm), mounts a QTP RJ45 in a standard Neutrik D-hole for panels.
+
+## 6. Metering: the Big VU Meter
+
+![Big VU Meter REV 5](KICAD/Big_VU_Meter_REV5/Big_VU_Meter_REV5.png)
+
+
+- **VU meter driver + meter: Big VU Meter REV 5** (2021|54, 102 × 64 mm). A dual op-amp line input feeds an Arduino Micro, which drives two Neopixel bars of 57 pixels each (left / right). Two WBS 10-080 pots set the ceiling. The firmware ([SOFTWARE/BIG_VU_METERS_arduinopro_mini.ino](SOFTWARE/BIG_VU_METERS_arduinopro_mini.ino), 2015|48) adds a log scale, calibration and two falling peak dots. This is the driver to move to Eurorack and the ESP32-S3.
+- **Moving-coil VU meters**, one per bus, as in the 2016|49 prototype (five WBS meters, each with a 15 dB calibration pad): [M435 VU Meter](https://github.com/WardBeckSystems/MODULES.METER.M435-VU-Meter), driven by an [M405 Extended Range VU Meter](https://github.com/WardBeckSystems/MODULES.METER.M405-Extended-Range-VU-Meter) / [M445](https://github.com/WardBeckSystems/MODULES.METER.M445-Extended-Range-Meter) stage (+4 dBu = 0 VU).
+
+---
+
+## Boards in this repo
+
+`KICAD/` holds KiCad 9 boards converted from the Eagle designs in `EAGLE/` with [`tools/eagle2kicad_pcb.py`](https://github.com/WardBeckSystems/WBSps.ca/blob/main/tools/eagle2kicad_pcb.py). `KICAD/split_boards.py` splits the combined 2016|49 Eagle sheet into one board per module. Each board is placed in its panel's coordinates, with the panel drawing on *User.Drawings*.
+
+| Board | From | Size | Parts | Panel check |
+|---|---|---|---|---|
+| `B300_Front` | 2016\|49 Encoder PCB 17.2 | 30 × 113.6 mm | 37 | all 14 controls within 0.18 mm of their panel holes (4 Neopixels + INPUT LED, 4 encoder holes, 5 buttons) |
+| `F300_Fader` | 2016\|49 Encoder PCB 17.2 | 30 × 113.6 mm, L-shape | 14 | ONLY, SEL and CH ON within 0.01 mm; the fader's 4 mounting pads within 0.02 mm of the panel screws; the POS encoder mounts on the panel above the notch |
+| `B300_Main` | 2016\|49 Encoder PCB 17.2 | 133.8 × 113.4 mm | 27 | perpendicular side board: 4 encoders (WBS 10-081), Arduino Mega, RS-485, DB9, DS1808 |
+| `DS1882_Adapter` | 2016\|49 Encoder PCB 17.2 | 20 × 25 mm | 3 | DS1882 breakout |
+| `QTP-BAC_14.1` | 2016\|49 | 114 × 50 mm | 112 | four-channel QTP backplane: RJ45, transformers, XLR, BNC |
+| `Big_VU_Meter_REV5` | 2021\|54 APK | 102 × 64 mm | 84 | stereo Neopixel VU meter and driver |
+| `QTP-BITTREE_Patchbay_REV2.1` | 2021\|54 APK | 34 × 41 mm | 10 | QTP card for a Bittree patchbay |
+| `QTP-NEUTRIK_D-hole` | 2021\|54 APK | 24 × 27 mm | 7 | QTP RJ45 in a Neutrik D-hole |
+| `Encoder_PCB_17.2` | 2016\|49 | — | 221 | the whole Eagle sheet, kept as the source |
+
+| B300 Front | F300 Fader | Big VU Meter | QTP Bittree patchbay |
+|---|---|---|---|
+| ![B300 front](KICAD/B300_Front/B300_Front.png) | ![F300 fader](KICAD/F300_Fader/F300_Fader.png) | ![Big VU meter](KICAD/Big_VU_Meter_REV5/Big_VU_Meter_REV5.png) | ![QTP Bittree](KICAD/QTP-BITTREE_Patchbay_REV2.1/QTP-BITTREE_Patchbay_REV2.1.png) |
+
+**Schematics.** The Eagle `.sch` files (M480B, M462B, M466, the output amplifier, the VU meter, the patchbay, and the 2016|49 DCASSP sheets) still need KiCad's GUI importer: File → Import → Non-KiCad Schematic. The 2016|49 schematics are also in [MANUALS/2016 - DCASSP schematics V1.pdf](MANUALS/2016%20-%20DCASSP%20schematics%20V1.pdf).
+
+## Roadmap
+
+1. **B300 / F300 for Eurorack**: replace the Arduino Mega side board with an ESP32-S3 on the B300, and connect the F300 by ribbon. Use the Eurorack 16-pin power header (±12 V, regulated to ±7 V for the DS1882 analog rails). Connect modules over I2C.
+2. **Input**: M480B as a Eurorack input module.
+3. **Summing console**: a 4 × QTP input board from QTP-BAC, an M450-style summing amplifier per bus, and an insert send / return per bus.
+4. **Processing**: EQ (M462B), compressor (M466), de-esser (M466 side-chain), gate (M467). Each gets a Eurorack PCB and panel with QTP send / return, sharing the M466/M462B output amplifier.
+5. **Patch bay**: QTP-BITTREE and QTP-NEUTRIK into a Eurorack QTP patch module, normalled.
+6. **Metering**: Big VU Meter onto the ESP32-S3 as the VU meter driver, plus moving-coil VU panels.
+7. **The 16 × 16 frame**: three 84HP rows, the power, the QTP patch, and network control.
+
+## Source material
+
+| Folder | What |
+|---|---|
+| [EAGLE/2016-DCASSP](EAGLE/2016-DCASSP/) | Encoder PCB 17.2, QTP-BAC 14.1, Maxim (DS1882) adapter, VU meter and summing amp, block diagram |
+| [EAGLE/2021-APK](EAGLE/2021-APK/) | M480B, M462B, M466, M466 control amp, M466/M462B output amp, Big VU Meter REV 5, QTP-BITTREE patchbay, QTP-NEUTRIK D-hole |
+| [GERBERS/](GERBERS/) | QTP-BITTREE PATCHBAY REV 2.1 ("good to go") |
+| [SOFTWARE/](SOFTWARE/) | Big VU meter firmware (Arduino, Neopixel) |
+| [MANUALS/](MANUALS/) | 2016\|49 DCASSP final report (TPJ655) and schematics |
+| [MECHANICAL/](MECHANICAL/) | HUI front panel REV 4.1 (DXF and render), Bourns PTA6043 fader |
+| [PHOTOS/](PHOTOS/) | HUI prototype cross reference |
+
+---
+© Ward-Beck Systems (Ward-Beck.com - Ward-Beck.ca) · DCASSP design and archive by Anthony Peter Kuzub · [WBSps.ca](https://WBSps.ca) · [WBSps.Kuzub.com](https://WBSps.Kuzub.com)

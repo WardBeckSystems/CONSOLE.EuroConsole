@@ -1,2 +1,5 @@
 *.kicad_prl
 *-backups/
+__pycache__/
+KICAD/*/*.svg
+fp-info-cache
