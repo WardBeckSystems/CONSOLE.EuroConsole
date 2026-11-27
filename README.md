@@ -166,6 +166,19 @@ The [Boredbrain Music Xcelon](https://www.chicagomusicexchange.com/en-ca/blogs/n
 | Jumpers: pre/post-fader FX and meters, volume VCA mode | send taps are post-fader (in software, settable per bank, **planned**); every level is a DS1882, so a VCA mode is a firmware setting |
 | Expansion ports: channel expanders, direct outs | every bank is a module; every channel already leaves on QTP (direct out) |
 
+## Reference: XAOC Devices Praga
+
+The **XAOC Devices Praga** (*1967 Voltage Controlled Stereo Mixing Console*) is a Eurorack mixer laid out the way EuroConsole lays out every module: **a bank of 4 channels in one module**. From its front panel, each channel has a large VOL knob, an ACTIVE / MODE button with a status LED, PAN, an AUX knob between sends A and B, a **5-segment vertical LED meter**, and jacks for INPUT, VCA OUT and PAN / VOL CV; the shared row carries AUX SEND / RETURN A and B and the STEREO SUM L / R.
+
+| Praga | EuroConsole |
+|---|---|
+| 4 channels per module | every module is a bank of 4 channels (24HP, one QTP in and out) |
+| a vertical LED meter per channel | the quad preamp's vertical VU per channel; Big VU on every bus |
+| PAN and VOL CV per channel | **planned** (see the Xcelon: CV in, read by the bank's ESP32-S3) |
+| AUX knob between sends A and B | the send banks: Aux 1-4, Aux 5-8, M 1-4 |
+| VCA OUT per channel | every channel leaves on QTP (direct out) |
+| stereo sum on the module | summing stays in its own modules: group sums of 8 with their channels, the Σ in the master |
+
 ## Boards in this repo
 
 `KICAD/` holds KiCad 9 boards converted from the Eagle designs in `EAGLE/` with [`tools/eagle2kicad_pcb.py`](https://github.com/WardBeckSystems/WBSps.ca/blob/main/tools/eagle2kicad_pcb.py). `KICAD/split_boards.py` splits the combined 2016|49 Eagle sheet into one board per module. Each board is placed in its panel's coordinates, with the panel drawing on *User.Drawings*.
@@ -190,7 +203,7 @@ The [Boredbrain Music Xcelon](https://www.chicagomusicexchange.com/en-ca/blogs/n
 
 ## Roadmap
 
-- **From the Xcelon:** CV inputs per channel (volume, pan, sends) read by each bank's ESP32-S3; a Eurorack-level input setting on the quad preamp; pan crossfade mode; pre/post-fader sends per bank.
+- **From the Xcelon and the Praga:** CV inputs per channel (volume, pan, sends) read by each bank's ESP32-S3; a Eurorack-level input setting on the quad preamp; pan crossfade mode; pre/post-fader sends per bank.
 
 1. **B300 / F300 for Eurorack**: replace the Arduino Mega side board with an ESP32-S3 on the B300, and connect the F300 by ribbon. Use the Eurorack 16-pin power header (±12 V, regulated to ±7 V for the DS1882 analog rails). Connect modules over I2C.
 2. **Input**: M480B as a Eurorack input module.
