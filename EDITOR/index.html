@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EuroConsole Editor</title>
+<style>
+:root {
+  --bg: #f4f1ea; --panel: #fffdf8; --ink: #1f1e1c; --muted: #6d6a63; --line: #d9d3c5; --accent: #1f3f6b;
+  --sum: #e9c46a; --ins: #8ecae6; --patch: #a3b18a; --vu: #e76f51; --proc: #b8a1d9; --empty: #e5e1d8; --strip: #cfd8dc;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8;
+  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --strip: #4a555a; } }
+:root[data-theme="dark"] {
+  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8;
+  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --strip: #4a555a; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+h1 { font-size: 30px; margin: 0; letter-spacing: .02em; }
+h1 small { font-size: 15px; font-weight: 400; color: var(--muted); margin-left: 8px; }
+h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 8px; }
+.top { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; }
+label { display: inline-flex; gap: 6px; align-items: center; }
+select, input[type=text], input[type=number] { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
+input[type=number] { width: 4.5em; }
+button { font: inherit; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); border-radius: 7px; padding: 8px 14px; cursor: pointer; }
+button.ghost { background: transparent; color: var(--accent); }
+.rack { display: grid; gap: 8px; }
+.row { display: grid; grid-template-columns: 42px repeat(var(--n), minmax(0, 1fr)); gap: 6px; align-items: stretch; }
+.rowname { font-size: 12px; color: var(--muted); align-self: center; }
+.slot { appearance: none; -webkit-appearance: none; border-radius: 6px; border: 1px solid var(--line); padding: 14px 4px; text-align: center; text-align-last: center;
+  font-size: 13px; font-weight: 600; color: #1f1e1c; cursor: pointer; min-height: 58px; }
+.slot[data-t=SUM] { background: var(--sum); } .slot[data-t=INSERT] { background: var(--ins); } .slot[data-t=PATCH] { background: var(--patch); }
+.slot[data-t=BIGVU] { background: var(--vu); } .slot[data-t=EQ], .slot[data-t=COMP], .slot[data-t=DEESS], .slot[data-t=GATE] { background: var(--proc); }
+.slot[data-t=EMPTY] { background: var(--empty); color: var(--muted); font-weight: 400; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slot { color: #f4f1ea; } }
+:root[data-theme="dark"] .slot { color: #f4f1ea; }
+.strips { display: flex; flex-wrap: wrap; gap: 3px; }
+.strip { width: 18px; height: 46px; border-radius: 3px; background: var(--strip); position: relative; }
+.strip::after { content: ""; position: absolute; left: 8px; top: 12px; width: 2px; height: 26px; background: var(--muted); border-radius: 1px; }
+.grid2 { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } .row { grid-template-columns: 30px repeat(var(--n), minmax(0, 1fr)); } .slot { font-size: 11px; padding: 10px 2px; } }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+td { padding: 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; } td.n { text-align: right; padding-right: 10px; font-variant-numeric: tabular-nums; width: 3.5em; color: var(--accent); font-weight: 600; }
+.muted { color: var(--muted); } .small { font-size: 13px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+a { color: var(--accent); }
+code { font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <h1 id="name">C1616<small id="sub"></small></h1>
+    <span class="small muted">EuroConsole · KiCad 9 schematic from a console configuration</span>
+  </div>
+
+  <h2>Inputs</h2>
+  <div class="card">
+    <div class="controls">
+      <label>Channels <input id="inputs" type="number" min="4" max="32" step="4" value="16"></label>
+      <label><input id="inmod" type="checkbox" checked> M480B input module</label>
+      <label><input id="resist" type="checkbox" checked> Summing resistors <input id="rval" type="text" value="10k" size="4"></label>
+    </div>
+    <div class="strips" id="strips" style="margin-top:12px" title="B300 + F300 channel strips"></div>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h2>Summing rows</h2>
+      <div class="card">
+        <div class="controls" style="margin-bottom:12px">
+          <label>Rows <input id="rows" type="number" min="1" max="8" value="4"></label>
+          <label>Slots per row <input id="slots" type="number" min="2" max="8" value="6"></label>
+          <button class="ghost" id="same">Copy row 1 to all</button>
+          <button class="ghost" id="reset">C1616</button>
+        </div>
+        <div class="rack" id="rack"></div>
+      </div>
+    </div>
+    <div>
+      <h2>Parts</h2>
+      <div class="card">
+        <table id="bom"></table>
+        <div class="actions">
+          <button id="dl">Download KiCad project</button>
+          <label class="ghost" style="cursor:pointer;color:var(--accent)">Load config<input id="load" type="file" accept=".json" hidden></label>
+        </div>
+        <p class="small muted" id="files"></p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Signal flow</h2>
+  <div class="card small" id="flow"></div>
+</main>
+
+<script src="symbols.js"></script>
+<script src="generator.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  let cfg = EC.defaultConfig();
+  try { const s = JSON.parse(localStorage.getItem('ec-config')); if (s && s.rows) cfg = s; } catch (e) {}
+
+  const slotsPerRow = () => Math.max(...cfg.rows.map(r => r.length));
+  function resize() {
+    const R = +$('rows').value, S = +$('slots').value;
+    while (cfg.rows.length < R) cfg.rows.push(cfg.rows[cfg.rows.length - 1].slice());
+    cfg.rows.length = R;
+    cfg.rows = cfg.rows.map(r => { r = r.slice(0, S); while (r.length < S) r.push('EMPTY'); return r; });
+  }
+  function render() {
+    $('inputs').value = cfg.inputs; $('inmod').checked = cfg.inputModule; $('resist').checked = cfg.resistors; $('rval').value = cfg.rValue;
+    $('rows').value = cfg.rows.length; $('slots').value = slotsPerRow();
+    const name = EC.consoleName(cfg), buses = EC.busCount(cfg);
+    $('name').firstChild.nodeValue = name;
+    $('sub').textContent = `${cfg.inputs} inputs × ${buses} summing amps`;
+    $('strips').innerHTML = Array.from({ length: cfg.inputs }, (_, i) => `<div class="strip" title="CH ${i + 1}"></div>`).join('');
+    const SHORT = { SUM: 'Sum', INSERT: 'Insert', PATCH: 'Patch', BIGVU: 'Big VU', EQ: 'EQ', COMP: 'Comp', DEESS: 'De-ess', GATE: 'Gate', EMPTY: 'Blank' };
+    const opts = Object.entries(EC.SLOTS).map(([k, v]) => `<option value="${k}">${SHORT[k] || v.label}</option>`).join('');
+    $('rack').innerHTML = cfg.rows.map((r, ri) => `<div class="row" style="--n:${r.length}"><div class="rowname">R${ri + 1}</div>` +
+      r.map((s, si) => `<select class="slot" data-t="${s}" data-r="${ri}" data-s="${si}" title="${EC.SLOTS[s].note}">${opts}</select>`).join('') + '</div>').join('');
+    $('rack').querySelectorAll('select').forEach(el => { el.value = el.dataset.t; });
+    const d = EC.build(cfg);
+    $('bom').innerHTML = Object.entries(d.bom).map(([k, v]) => `<tr><td class="n">${v}</td><td>${k}</td></tr>`).join('');
+    $('files').textContent = `${d.sheets.length + 1} sheets: root, channels, ${cfg.rows.length} summing row${cfg.rows.length > 1 ? 's' : ''}. Unzip and open ${name}.kicad_pro in KiCad 9.`;
+    let b = 0;
+    const rowsTxt = cfg.rows.map((r, i) => { const n = r.filter(s => s === 'SUM').length; const t = n ? `buses ${b + 1}–${b + n}` : 'no buses'; b += n; return `<li>Row ${i + 1}: ${t}${r.includes('INSERT') ? ', insert per bus' : ''}${r.includes('PATCH') ? ', QTP patch bay' : ''}${r.includes('BIGVU') ? ', Big VU' : ''}</li>`; }).join('');
+    $('flow').innerHTML = `<p>XLR → ${cfg.inputModule ? 'M480B (fader send / return through the B300/F300 strip)' : 'B300/F300 strip'} → <b>CH01–CH${String(cfg.inputs).padStart(2, '0')}</b> on QTP (SUN · SKY · GRASS · EARTH) → every row.
+      Each summing amp is an M450${cfg.resistors ? ` fed by one ${cfg.rValue} resistor per channel per leg` : ''}. Processors patch in through their own QTP.</p><ul>${rowsTxt}</ul>`;
+    try { localStorage.setItem('ec-config', JSON.stringify(cfg)); } catch (e) {}
+  }
+
+  $('rack').addEventListener('change', e => { const el = e.target; cfg.rows[+el.dataset.r][+el.dataset.s] = el.value; render(); });
+  $('inputs').addEventListener('change', () => { cfg.inputs = Math.max(4, Math.min(32, Math.round(+$('inputs').value / 4) * 4 || 4)); render(); });
+  $('inmod').addEventListener('change', () => { cfg.inputModule = $('inmod').checked; render(); });
+  $('resist').addEventListener('change', () => { cfg.resistors = $('resist').checked; render(); });
+  $('rval').addEventListener('change', () => { cfg.rValue = $('rval').value.trim() || '10k'; render(); });
+  $('rows').addEventListener('change', () => { resize(); render(); });
+  $('slots').addEventListener('change', () => { resize(); render(); });
+  $('same').addEventListener('click', () => { cfg.rows = cfg.rows.map(() => cfg.rows[0].slice()); render(); });
+  $('reset').addEventListener('click', () => { cfg = EC.defaultConfig(); render(); });
+  $('dl').addEventListener('click', () => {
+    const d = EC.build(cfg), files = EC.serialize(d), blob = EC.zip(files, d.name);
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = d.name + '.zip';
+    document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  });
+  $('load').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try { const c = JSON.parse(await f.text()); if (c.rows && c.inputs) { cfg = c; render(); } } catch (err) { alert('Not a console config: ' + err.message); }
+  });
+  render();
+})();
+</script>
+</body>
+</html>

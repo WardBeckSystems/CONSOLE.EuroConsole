@@ -134,6 +134,18 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 
 ---
 
+## Console editor: configuration → KiCad schematic
+
+[`EDITOR/index.html`](EDITOR/index.html) is an interactive page that builds a specific console and writes its KiCad 9 schematic. Open it in a browser; it works offline from the file.
+
+![Console editor](EDITOR/editor.png)
+
+- **Set:** the number of channels (4–32, in fours), whether each has an M480B input module, the summing resistors, the number of rows and slots, and each slot's module: summing amp · insert · patch bay · Big VU · EQ · compressor · de-esser · gate · blank. The name follows the configuration: 16 inputs × 16 summing amps = **C1616**.
+- **Download:** a zip of a hierarchical KiCad 9 project: a root sheet, a channels sheet and one sheet per summing row. It includes `EuroConsole.kicad_sym` and `sym-lib-table`, plus the configuration (JSON, which *Load config* reads back) and a parts list (CSV).
+- **Symbols:** the Ward-Beck modules use the archive's own symbols (`2026/Engineering/KICAD`: M480B, M450, M499, M462B, M466, M467), with their real card-edge pins. QTP RJ45, XLR, the B300/F300 strip and the RD87 Big VU are EuroConsole parts. Run `python3 EDITOR/build_symbols.py` to refresh `symbols.js`.
+- **Nets** are global labels shared by every sheet: `IN` (XLR), `FS`/`FR` (M480B fader send / return through the strip), `CH` (channels on QTP), `SUMN` (summing nodes), `SEND`/`RET` (inserts), `BUS` (bus outputs) and `P<ref>_` (processor patch points). QTP pairs are SUN 2/1 · SKY 4/5 · GRASS 6/3 · EARTH 8/7, with the shell to GND.
+- **Tested:** `node EDITOR/test_generator.js` generates the C1616, has `kicad-cli` load it, and checks the netlist. Each summing node has its 16 resistors plus the M450 input; each channel reaches its 16 resistors and all four rows. ERC leaves only "power pin not driven" (the schematic has no supply). The archive's M462B, M466 and M467 symbols give left and right the same pin numbers, so ERC reports duplicate pins when those modules are placed.
+
 ## Boards in this repo
 
 `KICAD/` holds KiCad 9 boards converted from the Eagle designs in `EAGLE/` with [`tools/eagle2kicad_pcb.py`](https://github.com/WardBeckSystems/WBSps.ca/blob/main/tools/eagle2kicad_pcb.py). `KICAD/split_boards.py` splits the combined 2016|49 Eagle sheet into one board per module. Each board is placed in its panel's coordinates, with the panel drawing on *User.Drawings*.
