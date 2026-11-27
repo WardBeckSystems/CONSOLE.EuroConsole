@@ -149,6 +149,23 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 - **Nets** are global labels shared by every sheet: `IN` (XLR), `FS`/`FR` (M480B fader send / return through the strip), `CH` (channels on QTP), `SUMN` (summing nodes), `SEND`/`RET` (inserts), `BUS` (bus outputs) and `P<ref>_` (processor patch points). QTP pairs are SUN 2/1 · SKY 4/5 · GRASS 6/3 · EARTH 8/7, with the shell to GND.
 - **Tested:** `node EDITOR/test_generator.js` generates the C1616, has `kicad-cli` load it, and checks the netlist. Each summing node has its 16 resistors plus the M450 input; each channel reaches its 16 resistors and all four rows. ERC leaves only "power pin not driven" (the schematic has no supply). The archive's M462B, M466 and M467 symbols give left and right the same pin numbers, so ERC reports duplicate pins when those modules are placed.
 
+## Reference: Boredbrain Xcelon
+
+The [Boredbrain Music Xcelon](https://www.chicagomusicexchange.com/en-ca/blogs/news/boredbrain-music-xcelon-eurorack) (CA$1,372) is the closest commercial Eurorack mixer: an all-analog six-channel stereo mixer in one module. Its features, against EuroConsole:
+
+| Xcelon | EuroConsole |
+|---|---|
+| Six stereo / dual-mono channels, low-noise analog | banks of 4 mono channels per module; balanced +4 dBu on QTP; Ward-Beck circuits |
+| Two stereo FX sends, two FX returns | Aux 1-4 and Aux 5-8 send banks (8 sends); returns through the insert / patch bay |
+| Two stereo mix buses, selectable per channel | M 1-4 send bank onto the M1-M4 masters; direct sums |
+| Variable input gain for modular and line-level sources | quad preamp (M480 / M460 / M470 / M441): mic or line; **planned:** a Eurorack-level input setting |
+| Long-travel faders with CV-responsive LEDs | F300 fader bank (60 mm Bourns) with Neopixels |
+| Balance with pan law; dual-mono crossfade mode | F300 POS pan on the DS1882 pan-law table; **planned:** crossfade mode |
+| Clickless mutes, VU meters on all channels | CH ON; the DS1882's zero-crossing detector switches without clicks; quad preamp meters and Big VU on every bus |
+| 26 CV inputs | **planned:** CV in per channel (volume 0 to +5 V, pan ±5 V, sends), read by the bank's ESP32-S3 |
+| Jumpers: pre/post-fader FX and meters, volume VCA mode | send taps are post-fader (in software, settable per bank, **planned**); every level is a DS1882, so a VCA mode is a firmware setting |
+| Expansion ports: channel expanders, direct outs | every bank is a module; every channel already leaves on QTP (direct out) |
+
 ## Boards in this repo
 
 `KICAD/` holds KiCad 9 boards converted from the Eagle designs in `EAGLE/` with [`tools/eagle2kicad_pcb.py`](https://github.com/WardBeckSystems/WBSps.ca/blob/main/tools/eagle2kicad_pcb.py). `KICAD/split_boards.py` splits the combined 2016|49 Eagle sheet into one board per module. Each board is placed in its panel's coordinates, with the panel drawing on *User.Drawings*.
@@ -172,6 +189,8 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 **Schematics.** The Eagle `.sch` files (M480B, M462B, M466, the output amplifier, the VU meter, the patchbay, and the 2016|49 DCASSP sheets) still need KiCad's GUI importer: File → Import → Non-KiCad Schematic. The 2016|49 schematics are also in [MANUALS/2016 - DCASSP schematics V1.pdf](MANUALS/2016%20-%20DCASSP%20schematics%20V1.pdf).
 
 ## Roadmap
+
+- **From the Xcelon:** CV inputs per channel (volume, pan, sends) read by each bank's ESP32-S3; a Eurorack-level input setting on the quad preamp; pan crossfade mode; pre/post-fader sends per bank.
 
 1. **B300 / F300 for Eurorack**: replace the Arduino Mega side board with an ESP32-S3 on the B300, and connect the F300 by ribbon. Use the Eurorack 16-pin power header (±12 V, regulated to ±7 V for the DS1882 analog rails). Connect modules over I2C.
 2. **Input**: M480B as a Eurorack input module.
