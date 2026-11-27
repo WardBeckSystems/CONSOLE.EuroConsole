@@ -8,9 +8,9 @@ EuroConsole turns that prototype into a whole console, built from 3U Eurorack mo
 
 | Part | What it is |
 |---|---|
-| **16 × 16 console** | 16 channel strips (B300 Brain + F300 Fader) into 16 outputs |
+| **16 × 16 console** | 16 input channels (B300 Brain + F300 Fader strips) feeding **16 summing amplifiers**, in 4 rows of 6 modules |
 | **Input** | M480B input module: the channel's mic/line front end |
-| **4-input summing console** | 4 × RJ45 QTP inputs summed to 4 buses, each with an insert point |
+| **4-input summing console** | one row: 4 × RJ45 QTP in (all 16 channels) → 4 summing amps, each with an insert point |
 | **Processing** | EQ, compressor, de-esser, gate: patch into any insert |
 | **Patch bay** | QTP patch bay module: inserts and buses on RJ45, normalled through |
 | **Big VU Meter** (RD87) | the console's meter: the RD87 stereo Neopixel LED tower and its driver (REV 5, 2021\|54), plus moving-coil VU panels |
@@ -31,10 +31,10 @@ flowchart LR
   end
   IN["16 inputs<br/>(4 × QTP RJ45)"] --> M480["M480B input modules"] --> CH
   PB["QTP patch bay"] -.-|"normalled inserts and buses"| INS
-  CH -->|"16 outputs = 4 × QTP"| SUM
-  subgraph SUM["4-input summing console"]
+  CH -->|"16 channels = 4 × QTP, to every row"| SUM
+  subgraph SUM["Summing: 4 rows × (4 summing amps + insert + Big VU) = 16 summing amps"]
     direction TB
-    Q["4 × RJ45 QTP in"] --> BUS["4 buses<br/>SUN · SKY · GRASS · EARTH"]
+    Q["each row: 4 × RJ45 QTP in"] --> BUS["4 summing amps per row<br/>SUN · SKY · GRASS · EARTH"]
     BUS --> INS["insert point per bus<br/>send / return"]
   end
   INS <-->|"QTP send / return"| PROC
@@ -76,13 +76,21 @@ Each channel strip is two 6HP × 3U modules from the *HUI front panel REV 4.1* d
 
 The fader scales the looked-up row to a percentage. At power-up, every pot starts at full mute.
 
-**16 × 16.** 16 strips × 12HP = 192HP, which is three rows of 84HP. The 16 outputs leave on four QTP cables, which is exactly what the summing console takes in. *Meaning of the 16 outputs: to be confirmed (16 discrete buses, or 3 × 5.1 surround plus 1).*
+**16 × 16.** 16 input channels feed 16 summing amplifiers. The 16 channels leave the strips on four QTP cables (4 channels each), and every summing row receives all four. 16 strips × 12HP = 192HP, which is three rows of 84HP.
 
 ---
 
-## 2. The 4-input summing console
+## 2. Summing: 4 rows of 6 = 16 summing amplifiers
 
-Four RJ45 QTP inputs (16 channels) are summed onto four buses, **SUN, SKY, GRASS and EARTH**. Each bus has an **insert point** and leaves on a QTP output.
+The summing side is **4 rows of 6 modules**. Each row is one **4-input summing console**:
+
+| Slot | Module |
+|---|---|
+| 1–4 | **summing amplifiers**: the row's four buses, SUN · SKY · GRASS · EARTH. All 16 channels arrive on the row's 4 × RJ45 QTP inputs |
+| 5 | **insert / patch**: an insert send / return for each of the row's four buses (QTP) |
+| 6 | **Big VU (RD87)**: meters the row's four buses |
+
+4 rows × 4 = **16 summing amplifiers**: 16 inputs × 16 summing buses. Each bus has an **insert point** and leaves on a QTP output. *Slots 5 and 6 are provisional; the layout of 4 summing amps + 2 per row is set.* Big VU REV 5 shows two bars, so the row needs a 4-bar version, or two towers.
 
 - **Summing amplifier:** Ward-Beck [M450](https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier) / [M450A](https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450A-Program-Summing-Amplifier) / [M450B](https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450B-Program-Summing-Amplifier) program summing amplifiers (Rodger Beck, 1975|8–1979|12). The 2016|49 prototype summed through 2 × 4 M450A cards. Also [M484 Dual Summing Amplifier](https://github.com/WardBeckSystems/MODULES.SUMMING.M484-Dual-Summing-Amplifier).
 - **QTP backplane:** **QTP-BAC 14.1** (in `KICAD/`) is the four-channel QTP board, with RJ45s, transformers, XLR and BNC for SUN/SKY/GRASS/EARTH. It is the starting point for the summing console's input/output board.
