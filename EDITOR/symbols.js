@@ -798,6 +798,692 @@ var EC_SYMBOLS = {
 "source": "2026/Engineering/KICAD/M460.kicad_sym",
 "desc": "M460 - M460 (INPUT-PRE-AMPS). -25 V, +24 V, +25 V."
 },
+"M470": {
+"sexpr": "(symbol \"M470\" (pin_names (offset 1.016)) (exclude_from_sim yes) (in_bom yes) (on_board yes)\n    (property \"Reference\" \"U\" (at 0 71.12 0) (effects (font (size 1.27 1.27))))\n    (property \"Value\" \"M470\" (at 0 -71.12 0) (effects (font (size 1.27 1.27))))\n    (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Datasheet\" \"https://wbsps.ca/PAGES/M470.html\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Description\" \"M470: Input Channels The M471C Stereo Input Module has been designed replace the M470 series mono input module used in WBS \\\"L Series Audio Consoles has been determined that the opt imum ...\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"ki_keywords\" \"Ward-Beck WBS audio broadcast INPUT-PRE-AMPS L-PRE M470\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"ki_description\" \"M470: Input Channels The M471C Stereo Input Module has been designed replace the M470 series mono input module used in WBS \\\"L Series Audio Consoles has been determined that the opt imum ...\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Manufacturer\" \"Ward-Beck Systems Ltd.\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Category\" \"INPUT-PRE-AMPS\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Year\" \"1977\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Power\" \"VEE-AUDIO -25V, VCC-AUDIO +25V, VCC-LOGIC +24V\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Impedance\" \"Line in: 600\u03a9, Out: 600\u03a9\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Title\" \"Input Module\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Series\" \"L-PRE\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Connector\" \"Card-edge\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Verified\" \"Archive technical documentation\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (symbol \"M470_0_1\" (rectangle (start -43.18 66.04) (end 43.18 -66.04) (stroke (width 0.254) (type default)) (fill (type background))))\n    (symbol \"M470_1_1\"\n      (pin input line (at -48.26 63.50 0) (length 5.08) (name \"LINE-IN +\" (effects (font (size 1.27 1.27)))) (number \"P2-1\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 60.96 0) (length 5.08) (name \"LINE-IN -\" (effects (font (size 1.27 1.27)))) (number \"P2-A\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 55.88 0) (length 5.08) (name \"MIC-IN-1 +\" (effects (font (size 1.27 1.27)))) (number \"P1-19\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 53.34 0) (length 5.08) (name \"MIC-IN-1 -\" (effects (font (size 1.27 1.27)))) (number \"P1-W\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 48.26 0) (length 5.08) (name \"INSERT-RETURN +\" (effects (font (size 1.27 1.27)))) (number \"P2-6\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 45.72 0) (length 5.08) (name \"INSERT-RETURN -\" (effects (font (size 1.27 1.27)))) (number \"P2-F\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 40.64 0) (length 5.08) (name \"FADER-RETURN +\" (effects (font (size 1.27 1.27)))) (number \"P2-5\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -48.26 38.10 0) (length 5.08) (name \"FADER-RETURN -\" (effects (font (size 1.27 1.27)))) (number \"P2-E\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 33.02 0) (length 5.08) (name \"JMP.Z.W (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-Z\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 30.48 0) (length 5.08) (name \"JMP.Z.W (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-W\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 27.94 0) (length 5.08) (name \"JMP.2 (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-W\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 25.40 0) (length 5.08) (name \"JMP.2 (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-18\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 22.86 0) (length 5.08) (name \"JMP.Y.21 (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-Y\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 20.32 0) (length 5.08) (name \"JMP.Y.21 (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-21\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 17.78 0) (length 5.08) (name \"JMP.20.18 (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-20\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 15.24 0) (length 5.08) (name \"JMP.20.18 (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-18\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at -48.26 12.70 0) (length 5.08) (name \"JMP.8.6 (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-8\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 63.50 180) (length 5.08) (name \"M2-OUT +\" (effects (font (size 1.27 1.27)))) (number \"P1-1\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 60.96 180) (length 5.08) (name \"M2-OUT -\" (effects (font (size 1.27 1.27)))) (number \"P1-A\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 55.88 180) (length 5.08) (name \"DIRECT OUT +\" (effects (font (size 1.27 1.27)))) (number \"P2-3\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 53.34 180) (length 5.08) (name \"DIRECT OUT -\" (effects (font (size 1.27 1.27)))) (number \"P2-C\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 48.26 180) (length 5.08) (name \"INSERT-OUT +\" (effects (font (size 1.27 1.27)))) (number \"P2-8\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 45.72 180) (length 5.08) (name \"INSERT-OUT -\" (effects (font (size 1.27 1.27)))) (number \"P2-J\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 40.64 180) (length 5.08) (name \"CH-ON-SWITCH OUT +\" (effects (font (size 1.27 1.27)))) (number \"P2-7\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 38.10 180) (length 5.08) (name \"CH-ON-SWITCH OUT -\" (effects (font (size 1.27 1.27)))) (number \"P2-H\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 33.02 180) (length 5.08) (name \"BUS-LEFT-OUT +\" (effects (font (size 1.27 1.27)))) (number \"P1-5\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 30.48 180) (length 5.08) (name \"BUS-LEFT-OUT -\" (effects (font (size 1.27 1.27)))) (number \"P1-E\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 27.94 180) (length 5.08) (name \"BUS-RIGHT-OUT +\" (effects (font (size 1.27 1.27)))) (number \"P1-1\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 25.40 180) (length 5.08) (name \"BUS-RIGHT-OUT -\" (effects (font (size 1.27 1.27)))) (number \"P1-A\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 22.86 180) (length 5.08) (name \"BUS-SUB1 +\" (effects (font (size 1.27 1.27)))) (number \"P1-8\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 20.32 180) (length 5.08) (name \"BUS-SUB1 -\" (effects (font (size 1.27 1.27)))) (number \"P1-J\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 17.78 180) (length 5.08) (name \"BUS-SUB2 +\" (effects (font (size 1.27 1.27)))) (number \"P1-4\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 15.24 180) (length 5.08) (name \"BUS-SUB2 -\" (effects (font (size 1.27 1.27)))) (number \"P1-D\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 12.70 180) (length 5.08) (name \"BUS-SUB3 +\" (effects (font (size 1.27 1.27)))) (number \"P1-7\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 10.16 180) (length 5.08) (name \"BUS-SUB3 -\" (effects (font (size 1.27 1.27)))) (number \"P1-H\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 7.62 180) (length 5.08) (name \"BUS-SUB4 +\" (effects (font (size 1.27 1.27)))) (number \"P1-3\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 5.08 180) (length 5.08) (name \"BUS-SUB4 -\" (effects (font (size 1.27 1.27)))) (number \"P1-C\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 2.54 180) (length 5.08) (name \"BUS-SUB5 +\" (effects (font (size 1.27 1.27)))) (number \"P1-6\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 0.00 180) (length 5.08) (name \"BUS-SUB5 -\" (effects (font (size 1.27 1.27)))) (number \"P1-F\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -2.54 180) (length 5.08) (name \"BUS-SUB6 +\" (effects (font (size 1.27 1.27)))) (number \"P1-2\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -5.08 180) (length 5.08) (name \"BUS-SUB6 -\" (effects (font (size 1.27 1.27)))) (number \"P1-B\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -7.62 180) (length 5.08) (name \"BUS-AUX1 +\" (effects (font (size 1.27 1.27)))) (number \"P1-12\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -10.16 180) (length 5.08) (name \"BUS-AUX1 -\" (effects (font (size 1.27 1.27)))) (number \"P1-N\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -12.70 180) (length 5.08) (name \"BUS-AUX2 +\" (effects (font (size 1.27 1.27)))) (number \"P1-11\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -15.24 180) (length 5.08) (name \"BUS-AUX2 -\" (effects (font (size 1.27 1.27)))) (number \"P1-M\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -17.78 180) (length 5.08) (name \"BUS-AUX3 +\" (effects (font (size 1.27 1.27)))) (number \"P1-10\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -20.32 180) (length 5.08) (name \"BUS-AUX3 -\" (effects (font (size 1.27 1.27)))) (number \"P1-L\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -22.86 180) (length 5.08) (name \"BUS-AUX4 +\" (effects (font (size 1.27 1.27)))) (number \"P1-9\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -25.40 180) (length 5.08) (name \"BUS-AUX4 -\" (effects (font (size 1.27 1.27)))) (number \"P1-K\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -27.94 180) (length 5.08) (name \"BUS-SOLO-CUE-OUT +\" (effects (font (size 1.27 1.27)))) (number \"P1-14\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -30.48 180) (length 5.08) (name \"BUS-SOLO-CUE-OUT -\" (effects (font (size 1.27 1.27)))) (number \"P1-R\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -33.02 180) (length 5.08) (name \"BUS-PFL +\" (effects (font (size 1.27 1.27)))) (number \"P1-13\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 48.26 -35.56 180) (length 5.08) (name \"BUS-PFL -\" (effects (font (size 1.27 1.27)))) (number \"P1-P\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -40.64 180) (length 5.08) (name \"JMP.8.6 (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-6\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -43.18 180) (length 5.08) (name \"JMP.J.F (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-J\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -45.72 180) (length 5.08) (name \"JMP.J.F (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-F\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -48.26 180) (length 5.08) (name \"JMP.7.5 (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-7\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -50.80 180) (length 5.08) (name \"JMP.7.5 (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-5\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -53.34 180) (length 5.08) (name \"JMP.H.E (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P2-H\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -55.88 180) (length 5.08) (name \"JMP.H.E (TO)\" (effects (font (size 1.27 1.27)))) (number \"P2-E\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -58.42 180) (length 5.08) (name \"JMP.Z.22 (FROM)\" (effects (font (size 1.27 1.27)))) (number \"P1-Z\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 48.26 -60.96 180) (length 5.08) (name \"JMP.Z.22 (TO)\" (effects (font (size 1.27 1.27)))) (number \"P1-22\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at -5.08 71.12 270) (length 5.08) (name \"VEE-AUDIO -25V (0.2A)\" (effects (font (size 1.27 1.27)))) (number \"P2-19\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 0.00 71.12 270) (length 5.08) (name \"VCC-AUDIO +25V (0.2A)\" (effects (font (size 1.27 1.27)))) (number \"P2-21\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 5.08 71.12 270) (length 5.08) (name \"VCC-LOGIC +24V (0.2A)\" (effects (font (size 1.27 1.27)))) (number \"P2-Y\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at -2.54 -71.12 90) (length 5.08) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"P2-20\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 2.54 -71.12 90) (length 5.08) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"P2-18\" (effects (font (size 1.27 1.27)))))\n    )\n  )",
+"pins": [
+{
+"type": "input",
+"x": -48.26,
+"y": 63.5,
+"a": 0,
+"name": "LINE-IN +",
+"num": "P2-1"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 60.96,
+"a": 0,
+"name": "LINE-IN -",
+"num": "P2-A"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 55.88,
+"a": 0,
+"name": "MIC-IN-1 +",
+"num": "P1-19"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 53.34,
+"a": 0,
+"name": "MIC-IN-1 -",
+"num": "P1-W"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 48.26,
+"a": 0,
+"name": "INSERT-RETURN +",
+"num": "P2-6"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 45.72,
+"a": 0,
+"name": "INSERT-RETURN -",
+"num": "P2-F"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 40.64,
+"a": 0,
+"name": "FADER-RETURN +",
+"num": "P2-5"
+},
+{
+"type": "input",
+"x": -48.26,
+"y": 38.1,
+"a": 0,
+"name": "FADER-RETURN -",
+"num": "P2-E"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 33.02,
+"a": 0,
+"name": "JMP.Z.W (FROM)",
+"num": "P2-Z"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 30.48,
+"a": 0,
+"name": "JMP.Z.W (TO)",
+"num": "P2-W"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 27.94,
+"a": 0,
+"name": "JMP.2 (FROM)",
+"num": "P2-W"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 25.4,
+"a": 0,
+"name": "JMP.2 (TO)",
+"num": "P2-18"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 22.86,
+"a": 0,
+"name": "JMP.Y.21 (FROM)",
+"num": "P2-Y"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 20.32,
+"a": 0,
+"name": "JMP.Y.21 (TO)",
+"num": "P2-21"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 17.78,
+"a": 0,
+"name": "JMP.20.18 (FROM)",
+"num": "P2-20"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 15.24,
+"a": 0,
+"name": "JMP.20.18 (TO)",
+"num": "P2-18"
+},
+{
+"type": "passive",
+"x": -48.26,
+"y": 12.7,
+"a": 0,
+"name": "JMP.8.6 (FROM)",
+"num": "P2-8"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 63.5,
+"a": 180,
+"name": "M2-OUT +",
+"num": "P1-1"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 60.96,
+"a": 180,
+"name": "M2-OUT -",
+"num": "P1-A"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 55.88,
+"a": 180,
+"name": "DIRECT OUT +",
+"num": "P2-3"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 53.34,
+"a": 180,
+"name": "DIRECT OUT -",
+"num": "P2-C"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 48.26,
+"a": 180,
+"name": "INSERT-OUT +",
+"num": "P2-8"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 45.72,
+"a": 180,
+"name": "INSERT-OUT -",
+"num": "P2-J"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 40.64,
+"a": 180,
+"name": "CH-ON-SWITCH OUT +",
+"num": "P2-7"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 38.1,
+"a": 180,
+"name": "CH-ON-SWITCH OUT -",
+"num": "P2-H"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 33.02,
+"a": 180,
+"name": "BUS-LEFT-OUT +",
+"num": "P1-5"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 30.48,
+"a": 180,
+"name": "BUS-LEFT-OUT -",
+"num": "P1-E"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 27.94,
+"a": 180,
+"name": "BUS-RIGHT-OUT +",
+"num": "P1-1"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 25.4,
+"a": 180,
+"name": "BUS-RIGHT-OUT -",
+"num": "P1-A"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 22.86,
+"a": 180,
+"name": "BUS-SUB1 +",
+"num": "P1-8"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 20.32,
+"a": 180,
+"name": "BUS-SUB1 -",
+"num": "P1-J"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 17.78,
+"a": 180,
+"name": "BUS-SUB2 +",
+"num": "P1-4"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 15.24,
+"a": 180,
+"name": "BUS-SUB2 -",
+"num": "P1-D"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 12.7,
+"a": 180,
+"name": "BUS-SUB3 +",
+"num": "P1-7"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 10.16,
+"a": 180,
+"name": "BUS-SUB3 -",
+"num": "P1-H"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 7.62,
+"a": 180,
+"name": "BUS-SUB4 +",
+"num": "P1-3"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 5.08,
+"a": 180,
+"name": "BUS-SUB4 -",
+"num": "P1-C"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 2.54,
+"a": 180,
+"name": "BUS-SUB5 +",
+"num": "P1-6"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": 0.0,
+"a": 180,
+"name": "BUS-SUB5 -",
+"num": "P1-F"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -2.54,
+"a": 180,
+"name": "BUS-SUB6 +",
+"num": "P1-2"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -5.08,
+"a": 180,
+"name": "BUS-SUB6 -",
+"num": "P1-B"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -7.62,
+"a": 180,
+"name": "BUS-AUX1 +",
+"num": "P1-12"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -10.16,
+"a": 180,
+"name": "BUS-AUX1 -",
+"num": "P1-N"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -12.7,
+"a": 180,
+"name": "BUS-AUX2 +",
+"num": "P1-11"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -15.24,
+"a": 180,
+"name": "BUS-AUX2 -",
+"num": "P1-M"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -17.78,
+"a": 180,
+"name": "BUS-AUX3 +",
+"num": "P1-10"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -20.32,
+"a": 180,
+"name": "BUS-AUX3 -",
+"num": "P1-L"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -22.86,
+"a": 180,
+"name": "BUS-AUX4 +",
+"num": "P1-9"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -25.4,
+"a": 180,
+"name": "BUS-AUX4 -",
+"num": "P1-K"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -27.94,
+"a": 180,
+"name": "BUS-SOLO-CUE-OUT +",
+"num": "P1-14"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -30.48,
+"a": 180,
+"name": "BUS-SOLO-CUE-OUT -",
+"num": "P1-R"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -33.02,
+"a": 180,
+"name": "BUS-PFL +",
+"num": "P1-13"
+},
+{
+"type": "output",
+"x": 48.26,
+"y": -35.56,
+"a": 180,
+"name": "BUS-PFL -",
+"num": "P1-P"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -40.64,
+"a": 180,
+"name": "JMP.8.6 (TO)",
+"num": "P2-6"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -43.18,
+"a": 180,
+"name": "JMP.J.F (FROM)",
+"num": "P2-J"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -45.72,
+"a": 180,
+"name": "JMP.J.F (TO)",
+"num": "P2-F"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -48.26,
+"a": 180,
+"name": "JMP.7.5 (FROM)",
+"num": "P2-7"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -50.8,
+"a": 180,
+"name": "JMP.7.5 (TO)",
+"num": "P2-5"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -53.34,
+"a": 180,
+"name": "JMP.H.E (FROM)",
+"num": "P2-H"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -55.88,
+"a": 180,
+"name": "JMP.H.E (TO)",
+"num": "P2-E"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -58.42,
+"a": 180,
+"name": "JMP.Z.22 (FROM)",
+"num": "P1-Z"
+},
+{
+"type": "passive",
+"x": 48.26,
+"y": -60.96,
+"a": 180,
+"name": "JMP.Z.22 (TO)",
+"num": "P1-22"
+},
+{
+"type": "power_in",
+"x": -5.08,
+"y": 71.12,
+"a": 270,
+"name": "VEE-AUDIO -25V (0.2A)",
+"num": "P2-19"
+},
+{
+"type": "power_in",
+"x": 0.0,
+"y": 71.12,
+"a": 270,
+"name": "VCC-AUDIO +25V (0.2A)",
+"num": "P2-21"
+},
+{
+"type": "power_in",
+"x": 5.08,
+"y": 71.12,
+"a": 270,
+"name": "VCC-LOGIC +24V (0.2A)",
+"num": "P2-Y"
+},
+{
+"type": "power_in",
+"x": -2.54,
+"y": -71.12,
+"a": 90,
+"name": "GND",
+"num": "P2-20"
+},
+{
+"type": "power_in",
+"x": 2.54,
+"y": -71.12,
+"a": 90,
+"name": "GND",
+"num": "P2-18"
+}
+],
+"source": "2026/Engineering/KICAD/M470.kicad_sym",
+"desc": "M470: Input Channels The M471C Stereo Input Module has been designed replace the M470 series mono input module used in WBS \\"
+},
+"M441": {
+"sexpr": "(symbol \"M441\" (pin_names (offset 1.016)) (exclude_from_sim yes) (in_bom yes) (on_board yes)\n    (property \"Reference\" \"U\" (at 0 17.78 0) (effects (font (size 1.27 1.27))))\n    (property \"Value\" \"M441\" (at 0 -17.78 0) (effects (font (size 1.27 1.27))))\n    (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Datasheet\" \"https://wbsps.ca/PAGES/M441.html\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Description\" \"M441 - M441 (INPUT-PRE-AMPS). +24 V, +48 V.\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"ki_keywords\" \"Ward-Beck WBS audio broadcast INPUT-PRE-AMPS  M441\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"ki_description\" \"M441 - M441 (INPUT-PRE-AMPS). +24 V, +48 V.\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Manufacturer\" \"Ward-Beck Systems Ltd.\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Category\" \"INPUT-PRE-AMPS\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Year\" \"1971\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Power\" \"+24 V, +48 V\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Impedance\" \"Standard 600\u03a9\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Title\" \"M441\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Series\" \"Standard\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Connector\" \"Card-edge\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Verified\" \"Archive technical documentation\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (symbol \"M441_0_1\" (rectangle (start -40.64 12.70) (end 40.64 -12.70) (stroke (width 0.254) (type default)) (fill (type background))))\n    (symbol \"M441_1_1\"\n      (pin input line (at -45.72 10.16 0) (length 5.08) (name \"MIC IN\" (effects (font (size 1.27 1.27)))) (number \"A\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -45.72 7.62 0) (length 5.08) (name \"MIC IN\" (effects (font (size 1.27 1.27)))) (number \"1\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -45.72 2.54 0) (length 5.08) (name \"LINE IN\" (effects (font (size 1.27 1.27)))) (number \"E\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -45.72 0.00 0) (length 5.08) (name \"LINE IN\" (effects (font (size 1.27 1.27)))) (number \"5\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -45.72 -5.08 0) (length 5.08) (name \"BOOSTER AMP IN\" (effects (font (size 1.27 1.27)))) (number \"J\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -45.72 -7.62 0) (length 5.08) (name \"BOOSTER AMP IN\" (effects (font (size 1.27 1.27)))) (number \"8\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 45.72 10.16 180) (length 5.08) (name \"PREAMP OUT\" (effects (font (size 1.27 1.27)))) (number \"D\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 45.72 7.62 180) (length 5.08) (name \"PREAMP OUT\" (effects (font (size 1.27 1.27)))) (number \"4\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 45.72 2.54 180) (length 5.08) (name \"FOLDBACK OUT\" (effects (font (size 1.27 1.27)))) (number \"L\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 45.72 0.00 180) (length 5.08) (name \"FOLDBACK OUT\" (effects (font (size 1.27 1.27)))) (number \"10\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 45.72 -5.08 180) (length 5.08) (name \"SWITCHED CH ON OUT\" (effects (font (size 1.27 1.27)))) (number \"T\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 45.72 -7.62 180) (length 5.08) (name \"SWITCHED CH ON OUT\" (effects (font (size 1.27 1.27)))) (number \"16\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at -2.54 17.78 270) (length 5.08) (name \"+24 V\" (effects (font (size 1.27 1.27)))) (number \"20\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 2.54 17.78 270) (length 5.08) (name \"+48 V\" (effects (font (size 1.27 1.27)))) (number \"22\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at -5.08 -17.78 90) (length 5.08) (name \"COMMON\" (effects (font (size 1.27 1.27)))) (number \"V\" (effects (font (size 1.27 1.27)))))\n      (pin passive line (at 0.00 -17.78 90) (length 5.08) (name \"CHASSIS\" (effects (font (size 1.27 1.27)))) (number \"19\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 5.08 -17.78 90) (length 5.08) (name \"COMMON\" (effects (font (size 1.27 1.27)))) (number \"Y\" (effects (font (size 1.27 1.27)))))\n    )\n  )",
+"pins": [
+{
+"type": "input",
+"x": -45.72,
+"y": 10.16,
+"a": 0,
+"name": "MIC IN",
+"num": "A"
+},
+{
+"type": "input",
+"x": -45.72,
+"y": 7.62,
+"a": 0,
+"name": "MIC IN",
+"num": "1"
+},
+{
+"type": "input",
+"x": -45.72,
+"y": 2.54,
+"a": 0,
+"name": "LINE IN",
+"num": "E"
+},
+{
+"type": "input",
+"x": -45.72,
+"y": 0.0,
+"a": 0,
+"name": "LINE IN",
+"num": "5"
+},
+{
+"type": "input",
+"x": -45.72,
+"y": -5.08,
+"a": 0,
+"name": "BOOSTER AMP IN",
+"num": "J"
+},
+{
+"type": "input",
+"x": -45.72,
+"y": -7.62,
+"a": 0,
+"name": "BOOSTER AMP IN",
+"num": "8"
+},
+{
+"type": "output",
+"x": 45.72,
+"y": 10.16,
+"a": 180,
+"name": "PREAMP OUT",
+"num": "D"
+},
+{
+"type": "output",
+"x": 45.72,
+"y": 7.62,
+"a": 180,
+"name": "PREAMP OUT",
+"num": "4"
+},
+{
+"type": "output",
+"x": 45.72,
+"y": 2.54,
+"a": 180,
+"name": "FOLDBACK OUT",
+"num": "L"
+},
+{
+"type": "output",
+"x": 45.72,
+"y": 0.0,
+"a": 180,
+"name": "FOLDBACK OUT",
+"num": "10"
+},
+{
+"type": "output",
+"x": 45.72,
+"y": -5.08,
+"a": 180,
+"name": "SWITCHED CH ON OUT",
+"num": "T"
+},
+{
+"type": "output",
+"x": 45.72,
+"y": -7.62,
+"a": 180,
+"name": "SWITCHED CH ON OUT",
+"num": "16"
+},
+{
+"type": "power_in",
+"x": -2.54,
+"y": 17.78,
+"a": 270,
+"name": "+24 V",
+"num": "20"
+},
+{
+"type": "power_in",
+"x": 2.54,
+"y": 17.78,
+"a": 270,
+"name": "+48 V",
+"num": "22"
+},
+{
+"type": "power_in",
+"x": -5.08,
+"y": -17.78,
+"a": 90,
+"name": "COMMON",
+"num": "V"
+},
+{
+"type": "passive",
+"x": 0.0,
+"y": -17.78,
+"a": 90,
+"name": "CHASSIS",
+"num": "19"
+},
+{
+"type": "power_in",
+"x": 5.08,
+"y": -17.78,
+"a": 90,
+"name": "COMMON",
+"num": "Y"
+}
+],
+"source": "2026/Engineering/KICAD/M441.kicad_sym",
+"desc": "M441 - M441 (INPUT-PRE-AMPS). +24 V, +48 V."
+},
 "M480B": {
 "sexpr": "(symbol \"M480B\" (pin_names (offset 1.016)) (exclude_from_sim yes) (in_bom yes) (on_board yes)\n    (property \"Reference\" \"U\" (at 0 20.32 0) (effects (font (size 1.27 1.27))))\n    (property \"Value\" \"M480B\" (at 0 -20.32 0) (effects (font (size 1.27 1.27))))\n    (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Datasheet\" \"https://wbsps.ca/PAGES/M480B.html\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Description\" \"M480B: M48OB INPUT MODULE The M48OB input module provides the necessary input selection equalization and output assignment for the operation of smal mixing console, primarily the T1202 tr...\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"ki_keywords\" \"Ward-Beck WBS audio broadcast INPUT-PRE-AMPS  M480B\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"ki_description\" \"M480B: M48OB INPUT MODULE The M48OB input module provides the necessary input selection equalization and output assignment for the operation of smal mixing console, primarily the T1202 tr...\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Manufacturer\" \"Ward-Beck Systems Ltd.\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Category\" \"INPUT-PRE-AMPS\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Year\" \"1980\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Power\" \"VEE-AUDIO -25V, VCC-AUDIO +25V\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Impedance\" \"Standard 600\u03a9\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Title\" \"Input Module Schematic\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Series\" \"Standard\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Connector\" \"Card-edge\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (property \"Verified\" \"Archive technical documentation\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n    (symbol \"M480B_0_1\" (rectangle (start -33.02 15.24) (end 33.02 -15.24) (stroke (width 0.254) (type default)) (fill (type background))))\n    (symbol \"M480B_1_1\"\n      (pin input line (at -38.10 12.70 0) (length 5.08) (name \"MIC-IN-B +\" (effects (font (size 1.27 1.27)))) (number \"1\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 10.16 0) (length 5.08) (name \"MIC-IN-B -\" (effects (font (size 1.27 1.27)))) (number \"A\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 5.08 0) (length 5.08) (name \"Line IN-B +\" (effects (font (size 1.27 1.27)))) (number \"13\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 2.54 0) (length 5.08) (name \"Line IN-B -\" (effects (font (size 1.27 1.27)))) (number \"P\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 -2.54 0) (length 5.08) (name \"Fader Return +\" (effects (font (size 1.27 1.27)))) (number \"L\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 -5.08 0) (length 5.08) (name \"Fader Return -\" (effects (font (size 1.27 1.27)))) (number \"10\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 -10.16 0) (length 5.08) (name \"Cue Solo +\" (effects (font (size 1.27 1.27)))) (number \"5\" (effects (font (size 1.27 1.27)))))\n      (pin input line (at -38.10 -12.70 0) (length 5.08) (name \"Cue Solo -\" (effects (font (size 1.27 1.27)))) (number \"E\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 38.10 12.70 180) (length 5.08) (name \"M1 OUT +\" (effects (font (size 1.27 1.27)))) (number \"6\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 38.10 10.16 180) (length 5.08) (name \"M1 OUT -\" (effects (font (size 1.27 1.27)))) (number \"F\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 38.10 5.08 180) (length 5.08) (name \"M2 OUT +\" (effects (font (size 1.27 1.27)))) (number \"7\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 38.10 2.54 180) (length 5.08) (name \"M2 OUT -\" (effects (font (size 1.27 1.27)))) (number \"H\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 38.10 -2.54 180) (length 5.08) (name \"Fader Send +\" (effects (font (size 1.27 1.27)))) (number \"T\" (effects (font (size 1.27 1.27)))))\n      (pin output line (at 38.10 -5.08 180) (length 5.08) (name \"Fader Send -\" (effects (font (size 1.27 1.27)))) (number \"16\" (effects (font (size 1.27 1.27)))))\n      (pin bidirectional line (at 38.10 -10.16 180) (length 5.08) (name \"Aux +\" (effects (font (size 1.27 1.27)))) (number \"4\" (effects (font (size 1.27 1.27)))))\n      (pin bidirectional line (at 38.10 -12.70 180) (length 5.08) (name \"Aux -\" (effects (font (size 1.27 1.27)))) (number \"D\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at -2.54 20.32 270) (length 5.08) (name \"VEE-AUDIO -25V (0.2A)\" (effects (font (size 1.27 1.27)))) (number \"19\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 2.54 20.32 270) (length 5.08) (name \"VCC-AUDIO +25V (0.2A)\" (effects (font (size 1.27 1.27)))) (number \"21\" (effects (font (size 1.27 1.27)))))\n      (pin power_in line (at 0.00 -20.32 90) (length 5.08) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"20\" (effects (font (size 1.27 1.27)))))\n    )\n  )",
 "pins": [

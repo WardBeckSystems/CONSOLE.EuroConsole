@@ -34,6 +34,8 @@
     M480:  { label: 'M480 input module', sym: 'M480' },
     M480B: { label: 'M480B input module', sym: 'M480B' },
     M460:  { label: 'M460 input module', sym: 'M460' },
+    M470:  { label: 'M470 input module', sym: 'M470' },
+    M441:  { label: 'M441 input module', sym: 'M441' },
   };
   /* inserts, in strip order; one module per channel, left leg */
   const CHAIN = {
@@ -168,11 +170,16 @@
       if (sp.in !== 'DIRECT') {
         const mic = sp.in === 'MIC', P = PREAMPS[cfg.preamp] || PREAMPS.M480, n2 = pad2(c);
         let nets;
-        if (P.sym === 'M460') {                       // pins come in pairs of one name: first +, second -
-          const pair = { 'MIC IN': mic ? `IN${n2}` : null, 'LINE IN': mic ? null : `IN${n2}`, 'INSERT OUT': `FS${n2}`, 'INSERT RETURN': `FR${n2}`, 'DIRECT OUT': CH(c) };
+        if (P.sym === 'M460' || P.sym === 'M441') {   // pins come in pairs of one name: first +, second -
+          const pair = P.sym === 'M460'
+            ? { 'MIC IN': mic ? `IN${n2}` : null, 'LINE IN': mic ? null : `IN${n2}`, 'INSERT OUT': `FS${n2}`, 'INSERT RETURN': `FR${n2}`, 'DIRECT OUT': CH(c) }
+            : { 'MIC IN': mic ? `IN${n2}` : null, 'LINE IN': mic ? null : `IN${n2}`, 'PREAMP OUT': `FS${n2}`, 'BOOSTER AMP IN': `FR${n2}`, 'SWITCHED CH ON OUT': CH(c) };
           const seen = {}; nets = {};
-          SYM.M460.pins.forEach((p, i) => { if (p.name in pair) { const k = seen[p.name] = (seen[p.name] || 0) + 1; nets[i] = pair[p.name] ? pair[p.name] + (k === 1 ? '+' : '-') : 'NC'; } });
-        } else nets = {
+          SYM[P.sym].pins.forEach((p, i) => { if (p.name in pair) { const k = seen[p.name] = (seen[p.name] || 0) + 1; nets[i] = pair[p.name] ? pair[p.name] + (k === 1 ? '+' : '-') : 'NC'; } });
+        } else if (P.sym === 'M470') nets = {
+          'MIC-IN-1 +': mic ? `IN${n2}+` : 'NC', 'MIC-IN-1 -': mic ? `IN${n2}-` : 'NC', 'LINE-IN +': mic ? 'NC' : `IN${n2}+`, 'LINE-IN -': mic ? 'NC' : `IN${n2}-`,
+          'INSERT-OUT +': `FS${n2}+`, 'INSERT-OUT -': `FS${n2}-`, 'INSERT-RETURN +': `FR${n2}+`, 'INSERT-RETURN -': `FR${n2}-`, 'DIRECT OUT +': CH(c) + '+', 'DIRECT OUT -': CH(c) + '-' };
+        else nets = {
           'MIC-IN-B +': mic ? `IN${n2}+` : 'NC', 'MIC-IN-B -': mic ? `IN${n2}-` : 'NC',
           'Line IN-B +': mic ? 'NC' : `IN${n2}+`, 'Line IN-B -': mic ? 'NC' : `IN${n2}-`,
           'Fader Send +': `FS${n2}+`, 'Fader Send -': `FS${n2}-`, 'Fader Return +': `FR${n2}+`, 'Fader Return -': `FR${n2}-`,
@@ -247,10 +254,16 @@
           'OUTPUT +': outNet + '+', 'OUTPUT -': outNet + '-', 'INPUT SHIELD': 'GND', COMMON: 'GND', GND: 'GND' }); count('M450 summing amplifier');
       };
       rb.forEach(bus => {
-        let src = CHS.map((sp, ci) => (!bus.send ? CH(ci + 1) : sp.sends.includes(bus.send) ? sendNet(ci + 1, bus.name) : null)).filter(Boolean);
-        let level = 0;
-        while (src.length > MAXIN) {                 // sum groups of 8, then sum the groups
-          src = groupsOf(src, MAXIN).map((g, gi) => { const o = `${bus.name}_${level ? 'L' + level : ''}G${gi + 1}`; ampBlock(`${bus.name} group ${gi + 1}`, g, `SUMN_${o}`, o, `M450 ${o}`); return o; });
+        const feed = CHS.map((sp, ci) => ({ ci, net: !bus.send ? CH(ci + 1) : sp.sends.includes(bus.send) ? sendNet(ci + 1, bus.name) : null })).filter(x => x.net);
+        let src = feed.map(x => x.net), level = 0;
+        if (src.length > MAXIN) {                    // first level: one group per 8 channels by position (CH 1-8, 9-16 ...): it sits with those channels
+          const byPos = {}; feed.forEach(x => (byPos[Math.floor(x.ci / MAXIN)] = byPos[Math.floor(x.ci / MAXIN)] || []).push(x.net));
+          src = Object.keys(byPos).map(Number).sort((a, b) => a - b).map(g => { const o = `${bus.name}_G${g + 1}`;
+            ampBlock(`${bus.name} CH ${pad2(g * MAXIN + 1)}-${pad2(Math.min(g * MAXIN + MAXIN, N))}`, byPos[g], `SUMN_${o}`, o, `M450 ${o}`); return o; });
+          level = 1;
+        }
+        while (src.length > MAXIN) {                 // more than 8 groups: sum the groups in eights again
+          src = groupsOf(src, MAXIN).map((g, gi) => { const o = `${bus.name}_L${level}G${gi + 1}`; ampBlock(`${bus.name} groups, set ${gi + 1}`, g, `SUMN_${o}`, o, `M450 ${o}`); return o; });
           level++;
         }
         ampBlock(level ? `${bus.name} = sum of ${src.length} groups` : bus.name, src, `SUMN_${bus.name}`, sn(bus, 0), `M450 ${bus.name}`);
