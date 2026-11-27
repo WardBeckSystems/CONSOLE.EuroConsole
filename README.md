@@ -199,6 +199,33 @@ The **WMD Performance Mixer MKII** (US$2,205; PM Channels MKII US$955, PM DB25 M
 | Replaceable channel strips; patchbay, power and master as separate assemblies | every bank module is replaceable by itself |
 | Expansion headers 2.0 mm shrouded, cannot be plugged into power | **planned:** keyed inter-module connectors that cannot meet the Eurorack 16-pin power |
 
+**From the manual** (WMD, *Performance Mixer MKII*):
+
+| | Performance Mixer MKII | PM Channels MKII (4 ch) | DB25 MKII |
+|---|---|---|---|
+| Width | 52HP | **24HP** | 4HP |
+| Power | +620 / −560 mA (to ±750 mA when distorting) | +320 / −280 mA (to ±350 mA) | ±150 mA |
+| Inputs | 20 kΩ; HPF −3 dB at 10 Hz; gain −12 to +20 dB | same | — |
+| Faders / aux | −100 to +5 dB; level / aux CV 0 to 5 V (100 kΩ); pan CV ±5 V (200 kΩ) | same | — |
+| Outputs | master balanced 3.5 mm TRS, 600 Ω, DRV135; others 1 kΩ modular level | 1 kΩ modular level | 16 × DRV135, balanced 600 Ω, **+4 dBu nominal**, THD+N < 0.1 %, TASCAM DB25 |
+| Pan law | −3 dB centre, −100 / 0 dB hard pan | same | — |
+| Response | ±0.5 dB 20 Hz–20 kHz; L/R within ±0.5 dB; every point phase-correct | same | — |
+
+Also from the manual:
+- Each OUTS header is 2 mm, 16-pin: four stereo channels, signal on the even pins and ground on every odd pin.
+- Each INSERT header is 8-pin: send / return left and right, post-gain and pre-fader, with jumpers when unused.
+- MIDI: CC 32 upward, 4 per strip (level, pan, aux 1, aux 2).
+- 8 group snapshots of mute, bus and cue.
+- Firmware loads from an SD card.
+
+**What it tells EuroConsole:**
+- **Width:** a bank of 4 at 24HP is what WMD ships for 4 channels (PM Channels MKII).
+- **Power:** about +320 / −280 mA per 4-channel module is a realistic budget to check our banks against on ±12 V.
+- **Balanced outs:** WMD's DB25 uses DRV135 drivers at +4 dBu. Our THAT 1646 drivers do the same job on QTP.
+- **Internal ribbons:** ground on every other conductor between modules.
+- **Inserts:** an insert point on every channel, post-gain and pre-fader, beside the master insert.
+- **Firmware:** the ESP32-S3s can send the same kind of MIDI CC overlay for DAW automation, and keep group snapshots.
+
 ## Boards in this repo
 
 `KICAD/` holds KiCad 9 boards converted from the Eagle designs in `EAGLE/` with [`tools/eagle2kicad_pcb.py`](https://github.com/WardBeckSystems/WBSps.ca/blob/main/tools/eagle2kicad_pcb.py). `KICAD/split_boards.py` splits the combined 2016|49 Eagle sheet into one board per module. Each board is placed in its panel's coordinates, with the panel drawing on *User.Drawings*.
