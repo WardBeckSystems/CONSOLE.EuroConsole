@@ -179,6 +179,26 @@ The **XAOC Devices Praga** (*1967 Voltage Controlled Stereo Mixing Console*) is 
 | VCA OUT per channel | every channel leaves on QTP (direct out) |
 | stereo sum on the module | summing stays in its own modules: group sums of 8 with their channels, the Σ in the master |
 
+## Reference: WMD Performance Mixer MKII
+
+The **WMD Performance Mixer MKII** (US$2,205; PM Channels MKII US$955, PM DB25 MKII US$440, PM MKII Returns US$205) is the most console-like of the three: eight stereo channels, expanding **four channels at a time** up to 24.
+
+| Performance Mixer MKII | EuroConsole |
+|---|---|
+| Expands 4 channels at a time (PM Channels MKII), up to 24 | every module is a bank of 4; channels in fours, 4 to 64 |
+| DB25 MKII: balanced line-level outs, pre- or post-fader, per 4 channels | every bank leaves on QTP (4 balanced channels per RJ45); **planned:** pre / post choice |
+| Gain −12 to +20 dB, clip LED 1 dB before clipping | quad preamp gain; **planned:** a clip LED per channel |
+| Soft mute (no click) | CH ON through the DS1882's zero-crossing switch |
+| Pan or crossfade per channel; CV sums with the pot | F300 POS pan; **planned:** crossfade mode and CV in |
+| Faders as VCAs (Level CV in VCA mode) | every level is a DS1882 set by the ESP32-S3: a VCA mode is firmware |
+| AUX1 post, AUX2 pre or post | Aux 1-4 / Aux 5-8 send banks, post-fader; **planned:** pre / post per bank |
+| Cue and Bus: master only, master + bus, bus only | ONLY (solo / cue) on the F300; M 1-4 send bank onto the M1-M4 masters |
+| Groups: 8 mute / bus / cue snapshots recalled with one hand | **planned:** snapshots in the ESP32-S3s (the controls are all digital already) |
+| Master insert; Mix In after the insert; Aux returns before it | insert on every master bus (M499 + QTP send / return); **planned:** a Mix In after the master insert |
+| Balanced stereo master out, LED VU | QTP bus outs; Big VU on every bus |
+| Replaceable channel strips; patchbay, power and master as separate assemblies | every bank module is replaceable by itself |
+| Expansion headers 2.0 mm shrouded, cannot be plugged into power | **planned:** keyed inter-module connectors that cannot meet the Eurorack 16-pin power |
+
 ## Boards in this repo
 
 `KICAD/` holds KiCad 9 boards converted from the Eagle designs in `EAGLE/` with [`tools/eagle2kicad_pcb.py`](https://github.com/WardBeckSystems/WBSps.ca/blob/main/tools/eagle2kicad_pcb.py). `KICAD/split_boards.py` splits the combined 2016|49 Eagle sheet into one board per module. Each board is placed in its panel's coordinates, with the panel drawing on *User.Drawings*.
@@ -203,7 +223,7 @@ The **XAOC Devices Praga** (*1967 Voltage Controlled Stereo Mixing Console*) is 
 
 ## Roadmap
 
-- **From the Xcelon and the Praga:** CV inputs per channel (volume, pan, sends) read by each bank's ESP32-S3; a Eurorack-level input setting on the quad preamp; pan crossfade mode; pre/post-fader sends per bank.
+- **From the Xcelon, the Praga and the WMD Performance Mixer MKII:** CV inputs per channel (volume, pan, sends) read by each bank's ESP32-S3; a Eurorack-level input setting and a clip LED per channel on the quad preamp; pan crossfade mode; pre / post-fader sends and direct outs per bank; mute / bus / cue snapshots; a Mix In after the master insert; keyed inter-module connectors that cannot meet power.
 
 1. **B300 / F300 for Eurorack**: replace the Arduino Mega side board with an ESP32-S3 on the B300, and connect the F300 by ribbon. Use the Eurorack 16-pin power header (±12 V, regulated to ±7 V for the DS1882 analog rails). Connect modules over I2C.
 2. **Input**: M480B as a Eurorack input module.
