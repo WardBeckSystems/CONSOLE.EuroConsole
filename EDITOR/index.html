@@ -6,67 +6,89 @@
 <title>EuroConsole Editor</title>
 <style>
 :root {
-  --bg: #f4f1ea; --panel: #fffdf8; --ink: #1f1e1c; --muted: #6d6a63; --line: #d9d3c5; --accent: #1f3f6b;
-  --sum: #e9c46a; --ins: #8ecae6; --patch: #a3b18a; --vu: #e76f51; --proc: #b8a1d9; --empty: #e5e1d8; --strip: #cfd8dc;
+  --bg: #f4f1ea; --panel: #fffdf8; --ink: #1f1e1c; --muted: #6d6a63; --line: #d9d3c5; --accent: #1f3f6b; --glow: #2fa84a;
+  --sum: #e9c46a; --ins: #8ecae6; --patch: #a3b18a; --vu: #e76f51; --proc: #b8a1d9; --empty: #e5e1d8; --face: #ffffff;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8;
-  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --strip: #4a555a; } }
+  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8; --glow: #5fd37a;
+  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --face: #e9e6df; } }
 :root[data-theme="dark"] {
-  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8;
-  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --strip: #4a555a; }
+  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8; --glow: #5fd37a;
+  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --face: #e9e6df; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
-main { max-width: 1180px; margin: 0 auto; padding: 20px 16px 48px; }
+main { max-width: 1240px; margin: 0 auto; padding: 20px 16px 48px; }
 h1 { font-size: 30px; margin: 0; letter-spacing: .02em; }
 h1 small { font-size: 15px; font-weight: 400; color: var(--muted); margin-left: 8px; }
 h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 8px; }
 .top { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-.controls { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
 label { display: inline-flex; gap: 6px; align-items: center; }
 select, input[type=text], input[type=number] { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
 input[type=number] { width: 4.5em; }
 button { font: inherit; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); border-radius: 7px; padding: 8px 14px; cursor: pointer; }
 button.ghost { background: transparent; color: var(--accent); }
+.chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); }
+.chip.on { border-color: var(--glow); color: var(--glow); box-shadow: 0 0 0 1px var(--glow) inset; }
+.chip.part { border-color: var(--glow); color: var(--ink); border-style: dashed; }
+/* channels: each channel is a row of module faces, as in the rack */
+.chans { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; margin-top: 12px; }
+.chan { border: 1px solid var(--line); border-radius: 8px; padding: 8px 8px 6px; background: var(--bg); }
+.chan h3 { margin: 0 0 6px; font-size: 13px; display: flex; justify-content: space-between; color: var(--muted); font-weight: 600; }
+.chan h3 b { color: var(--ink); }
+.faces { display: flex; gap: 3px; align-items: flex-end; }
+.mod { width: 34px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; background: none; border: 0; padding: 0; color: var(--muted); }
+.mod .face { width: 34px; height: 132px; border-radius: 3px; background: var(--face); overflow: hidden; display: grid; place-items: center; outline: 2px solid transparent; }
+.mod .face img { height: 100%; width: 100%; object-fit: contain; }
+.mod.on .face { outline-color: var(--glow); }
+.mod.off .face { background: transparent; border: 1px dashed var(--line); }
+.mod.off .face img { opacity: .12; }
+.mod span { font-size: 10px; line-height: 1.1; text-align: center; white-space: nowrap; }
+.mod.on span { color: var(--ink); }
+.mod.fixed { cursor: default; }
+.key { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 14px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.key div { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.key img { width: 18px; height: 70px; object-fit: contain; background: var(--face); border-radius: 2px; flex: none; }
+.key b { display: block; }
 .rack { display: grid; gap: 8px; }
 .row { display: grid; grid-template-columns: 42px repeat(var(--n), minmax(0, 1fr)); gap: 6px; align-items: stretch; }
 .rowname { font-size: 12px; color: var(--muted); align-self: center; }
-.slot { appearance: none; -webkit-appearance: none; border-radius: 6px; border: 1px solid var(--line); padding: 14px 4px; text-align: center; text-align-last: center;
-  font-size: 13px; font-weight: 600; color: #1f1e1c; cursor: pointer; min-height: 58px; }
+.slotwrap { position: relative; }
+.slot { appearance: none; -webkit-appearance: none; width: 100%; border-radius: 6px; border: 1px solid var(--line); padding: 20px 4px 10px; text-align: center; text-align-last: center;
+  font-size: 13px; font-weight: 600; color: #1f1e1c; cursor: pointer; min-height: 60px; }
+.slotwrap em { position: absolute; top: 5px; left: 0; right: 0; text-align: center; font-size: 11px; font-style: normal; pointer-events: none; color: #1f1e1c; opacity: .75; font-weight: 700; }
 .slot[data-t=SUM] { background: var(--sum); } .slot[data-t=INSERT] { background: var(--ins); } .slot[data-t=PATCH] { background: var(--patch); }
 .slot[data-t=BIGVU] { background: var(--vu); } .slot[data-t=EQ], .slot[data-t=COMP], .slot[data-t=DEESS], .slot[data-t=GATE] { background: var(--proc); }
 .slot[data-t=EMPTY] { background: var(--empty); color: var(--muted); font-weight: 400; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slot { color: #f4f1ea; } }
-:root[data-theme="dark"] .slot { color: #f4f1ea; }
-.strips { display: flex; flex-wrap: wrap; gap: 3px; }
-.strip { width: 18px; height: 46px; border-radius: 3px; background: var(--strip); position: relative; }
-.strip::after { content: ""; position: absolute; left: 8px; top: 12px; width: 2px; height: 26px; background: var(--muted); border-radius: 1px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slot, :root:not([data-theme="light"]) .slotwrap em { color: #f4f1ea; } }
+:root[data-theme="dark"] .slot, :root[data-theme="dark"] .slotwrap em { color: #f4f1ea; }
 .grid2 { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
-@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } .row { grid-template-columns: 30px repeat(var(--n), minmax(0, 1fr)); } .slot { font-size: 11px; padding: 10px 2px; } }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } .row { grid-template-columns: 30px repeat(var(--n), minmax(0, 1fr)); } .slot { font-size: 11px; padding: 18px 2px 8px; } }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 td { padding: 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; } td.n { text-align: right; padding-right: 10px; font-variant-numeric: tabular-nums; width: 3.5em; color: var(--accent); font-weight: 600; }
 .muted { color: var(--muted); } .small { font-size: 13px; }
-.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: center; }
 a { color: var(--accent); }
-code { font-size: 13px; }
 </style>
 </head>
 <body>
 <main>
   <div class="top">
     <h1 id="name">C1616<small id="sub"></small></h1>
-    <span class="small muted">EuroConsole · KiCad 9 schematic from a console configuration</span>
+    <span class="small muted"><a href="../index.html">EuroConsole guide</a> · KiCad 9 schematic from a console configuration</span>
   </div>
 
-  <h2>Inputs</h2>
+  <h2>Channels</h2>
   <div class="card">
     <div class="controls">
       <label>Channels <input id="inputs" type="number" min="4" max="32" step="4" value="16"></label>
-      <label><input id="inmod" type="checkbox" checked> M480B input module</label>
-      <label><input id="resist" type="checkbox" checked> Summing resistors <input id="rval" type="text" value="10k" size="4"></label>
+      <span class="small muted">All channels:</span>
+      <span id="bulk" class="controls" style="gap:6px"></span>
     </div>
-    <div class="strips" id="strips" style="margin-top:12px" title="B300 + F300 channel strips"></div>
+    <div class="chans" id="chans"></div>
+    <div class="key" id="key"></div>
+    <p class="small muted" style="margin:10px 0 0">Click the preamp for Mic, Line or Direct; click any other module to add or remove it. Inserts and fader sit in the M480B fader send / return; the sends are post-fader, each on one QTP.</p>
   </div>
 
   <div class="grid2">
@@ -76,6 +98,7 @@ code { font-size: 13px; }
         <div class="controls" style="margin-bottom:12px">
           <label>Rows <input id="rows" type="number" min="1" max="8" value="4"></label>
           <label>Slots per row <input id="slots" type="number" min="2" max="8" value="6"></label>
+          <label><input id="resist" type="checkbox" checked> Summing resistors <input id="rval" type="text" value="10k" size="4"></label>
           <button class="ghost" id="same">Copy row 1 to all</button>
           <button class="ghost" id="reset">C1616</button>
         </div>
@@ -88,15 +111,12 @@ code { font-size: 13px; }
         <table id="bom"></table>
         <div class="actions">
           <button id="dl">Download KiCad project</button>
-          <label class="ghost" style="cursor:pointer;color:var(--accent)">Load config<input id="load" type="file" accept=".json" hidden></label>
+          <label style="cursor:pointer;color:var(--accent)">Load config<input id="load" type="file" accept=".json" hidden></label>
         </div>
         <p class="small muted" id="files"></p>
       </div>
     </div>
   </div>
-
-  <h2>Signal flow</h2>
-  <div class="card small" id="flow"></div>
 </main>
 
 <script src="symbols.js"></script>
@@ -104,9 +124,37 @@ code { font-size: 13px; }
 <script>
 (function () {
   const $ = id => document.getElementById(id);
+  /* the strip, left to right, as modules in the rack */
+  const STRIP = [
+    { key: 'PRE', label: 'Preamp', img: 'M480B' },
+    { key: 'GATE', label: 'Gate', img: 'M467', kind: 'fx' },
+    { key: 'EQ', label: 'EQ', img: 'M462B', kind: 'fx' },
+    { key: 'COMP', label: 'Comp', img: 'M466', kind: 'fx' },
+    { key: 'DEESS', label: 'De-ess', img: 'M466', kind: 'fx' },
+    { key: 'A14', label: 'Aux 1-4', img: 'B300', kind: 'sends' },
+    { key: 'A58', label: 'Aux 5-8', img: 'B300', kind: 'sends' },
+    { key: 'M14', label: 'M 1-4', img: 'B300', kind: 'sends' },
+    { key: 'FADER', label: 'Fader', img: 'F300', fixed: true },
+  ];
+  const GH = 'https://github.com/WardBeckSystems/', PDF = '../MANUALS/2016%20-%20DCASSP%20schematics%20V1.pdf#page=';
+  const KEY = [
+    { img: 'M480B', name: 'Preamp · M480B input module', links: [['repo', GH + 'MODULES.INPUT-PRE-AMPS.M480B-Input-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M480B%20Input%20module.sch']] },
+    { img: 'M467', name: 'Gate · M467 noise gate', links: [['repo', GH + 'MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module']] },
+    { img: 'M462B', name: 'EQ · M462B equalizer', links: [['repo', GH + 'MODULES.FILTERS.M462B-Equalizer-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M462B%20Final.sch']] },
+    { img: 'M466', name: 'Comp / De-ess · M466', links: [['repo', GH + 'MODULES.DYNAMICS.M466-Limiter-Compressor-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M466-compressor-limiter.sch']] },
+    { img: 'B300', name: 'Aux 1-4 · Aux 5-8 · M 1-4 sends', links: [['encoders p2', PDF + '2'], ['panel p3', PDF + '3'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
+    { img: 'F300', name: 'Fader · F300', links: [['fader p4', PDF + '4'], ['control p1', PDF + '1'], ['serial p5', PDF + '5']] },
+    { img: 'M450', name: 'Summing amp · M450', links: [['repo', GH + 'MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier'], ['summing p8', PDF + '8']] },
+    { img: 'M499', name: 'Insert · M499', links: [['repo', GH + 'MODULES.UNSORTED.M499-Insertion-Switcher']] },
+    { img: 'BIGVU', name: 'Big VU · RD87', links: [['repo', GH + 'PRODUCTS.BigVU'], ['VU p9', PDF + '9']] },
+  ];
+  document.getElementById('key').innerHTML = KEY.map(k => `<div><img src="img/${k.img}.jpg" alt=""><span><b>${k.name}</b>${k.links.map(([t, u]) => `<a href="${u}" target="_blank">${t}</a>`).join(' · ')}</span></div>`).join('');
+  const SHORT = { SUM: 'Sum', INSERT: 'Insert', PATCH: 'Patch', BIGVU: 'Big VU', EQ: 'EQ', COMP: 'Comp', DEESS: 'De-ess', GATE: 'Gate', EMPTY: 'Blank' };
   let cfg = EC.defaultConfig();
-  try { const s = JSON.parse(localStorage.getItem('ec-config')); if (s && s.rows) cfg = s; } catch (e) {}
+  try { const s = JSON.parse(localStorage.getItem('ec-config-2')); if (s && s.rows) cfg = s; } catch (e) {}
 
+  /* make cfg.channels explicit so each channel can differ */
+  function explicit() { cfg.channels = EC.channels(cfg).map(c => ({ in: c.in, fx: c.fx.slice(), sends: c.sends.slice() })); }
   const slotsPerRow = () => Math.max(...cfg.rows.map(r => r.length));
   function resize() {
     const R = +$('rows').value, S = +$('slots').value;
@@ -114,31 +162,58 @@ code { font-size: 13px; }
     cfg.rows.length = R;
     cfg.rows = cfg.rows.map(r => { r = r.slice(0, S); while (r.length < S) r.push('EMPTY'); return r; });
   }
+  const has = (ch, m) => m.key === 'PRE' ? ch.in !== 'DIRECT' : m.fixed ? true : ch[m.kind].includes(m.key);
+
   function render() {
-    $('inputs').value = cfg.inputs; $('inmod').checked = cfg.inputModule; $('resist').checked = cfg.resistors; $('rval').value = cfg.rValue;
+    explicit();
+    const CHS = cfg.channels, design = EC.build(cfg), buses = design.buses;
+    $('inputs').value = cfg.inputs; $('resist').checked = cfg.resistors; $('rval').value = cfg.rValue;
     $('rows').value = cfg.rows.length; $('slots').value = slotsPerRow();
-    const name = EC.consoleName(cfg), buses = EC.busCount(cfg);
-    $('name').firstChild.nodeValue = name;
-    $('sub').textContent = `${cfg.inputs} inputs × ${buses} summing amps`;
-    $('strips').innerHTML = Array.from({ length: cfg.inputs }, (_, i) => `<div class="strip" title="CH ${i + 1}"></div>`).join('');
-    const SHORT = { SUM: 'Sum', INSERT: 'Insert', PATCH: 'Patch', BIGVU: 'Big VU', EQ: 'EQ', COMP: 'Comp', DEESS: 'De-ess', GATE: 'Gate', EMPTY: 'Blank' };
+    $('name').firstChild.nodeValue = design.name;
+    $('sub').textContent = `${cfg.inputs} inputs × ${buses.length} summing amps`;
+    // bulk chips: lit when every channel has it
+    $('bulk').innerHTML = STRIP.filter(m => !m.fixed).map(m => {
+      const n = CHS.filter(c => has(c, m)).length;
+      return `<button class="chip ${n === CHS.length ? 'on' : n ? 'part' : ''}" data-m="${m.key}">${m.label}</button>`; }).join('');
+    // channels as rows of module faces
+    $('chans').innerHTML = CHS.map((ch, i) => `<div class="chan"><h3><b>CH ${String(i + 1).padStart(2, '0')}</b><span>${EC.INPUTS[ch.in]}</span></h3><div class="faces">` +
+      STRIP.map(m => {
+        const on = has(ch, m), lab = m.key === 'PRE' ? (ch.in === 'DIRECT' ? 'Direct' : EC.INPUTS[ch.in]) : m.label;
+        return `<button class="mod ${on ? 'on' : 'off'} ${m.fixed ? 'fixed' : ''}" data-c="${i}" data-m="${m.key}" title="${m.label}${m.key === 'PRE' ? ': M480B' : ''}"><div class="face"><img src="img/${m.img}.jpg" alt=""></div><span>${lab}</span></button>`;
+      }).join('') + '</div></div>').join('');
+    // summing rows, each amp labelled with its bus
     const opts = Object.entries(EC.SLOTS).map(([k, v]) => `<option value="${k}">${SHORT[k] || v.label}</option>`).join('');
+    let bi = 0;
     $('rack').innerHTML = cfg.rows.map((r, ri) => `<div class="row" style="--n:${r.length}"><div class="rowname">R${ri + 1}</div>` +
-      r.map((s, si) => `<select class="slot" data-t="${s}" data-r="${ri}" data-s="${si}" title="${EC.SLOTS[s].note}">${opts}</select>`).join('') + '</div>').join('');
+      r.map((s, si) => { const tag = s === 'SUM' ? (buses[bi++] || {}).name : '';
+        return `<div class="slotwrap"><em>${tag || ''}</em><select class="slot" data-t="${s}" data-r="${ri}" data-s="${si}" title="${EC.SLOTS[s].note}">${opts}</select></div>`; }).join('') + '</div>').join('');
     $('rack').querySelectorAll('select').forEach(el => { el.value = el.dataset.t; });
-    const d = EC.build(cfg);
-    $('bom').innerHTML = Object.entries(d.bom).map(([k, v]) => `<tr><td class="n">${v}</td><td>${k}</td></tr>`).join('');
-    $('files').textContent = `${d.sheets.length + 1} sheets: root, channels, ${cfg.rows.length} summing row${cfg.rows.length > 1 ? 's' : ''}. Unzip and open ${name}.kicad_pro in KiCad 9.`;
-    let b = 0;
-    const rowsTxt = cfg.rows.map((r, i) => { const n = r.filter(s => s === 'SUM').length; const t = n ? `buses ${b + 1}–${b + n}` : 'no buses'; b += n; return `<li>Row ${i + 1}: ${t}${r.includes('INSERT') ? ', insert per bus' : ''}${r.includes('PATCH') ? ', QTP patch bay' : ''}${r.includes('BIGVU') ? ', Big VU' : ''}</li>`; }).join('');
-    $('flow').innerHTML = `<p>XLR → ${cfg.inputModule ? 'M480B (fader send / return through the B300/F300 strip)' : 'B300/F300 strip'} → <b>CH01–CH${String(cfg.inputs).padStart(2, '0')}</b> on QTP (SUN · SKY · GRASS · EARTH) → every row.
-      Each summing amp is an M450${cfg.resistors ? ` fed by one ${cfg.rValue} resistor per channel per leg` : ''}. Processors patch in through their own QTP.</p><ul>${rowsTxt}</ul>`;
-    try { localStorage.setItem('ec-config', JSON.stringify(cfg)); } catch (e) {}
+    $('bom').innerHTML = Object.entries(design.bom).map(([k, v]) => `<tr><td class="n">${v}</td><td>${k}</td></tr>`).join('');
+    $('files').textContent = `${design.sheets.length + 1} sheets: root, channels, ${cfg.rows.length} summing row${cfg.rows.length > 1 ? 's' : ''}. Unzip and open ${design.name}.kicad_pro in KiCad 9.`;
+    try { localStorage.setItem('ec-config-2', JSON.stringify(cfg)); } catch (e) {}
   }
 
+  function toggle(ch, key) {
+    const m = STRIP.find(x => x.key === key); if (!m || m.fixed) return;
+    if (key === 'PRE') { ch.in = { MIC: 'LINE', LINE: 'DIRECT', DIRECT: 'MIC' }[ch.in]; return; }
+    const list = ch[m.kind], i = list.indexOf(key); if (i >= 0) list.splice(i, 1); else list.push(key);
+  }
+  $('chans').addEventListener('click', e => { const b = e.target.closest('.mod'); if (!b) return; toggle(cfg.channels[+b.dataset.c], b.dataset.m); render(); });
+  $('bulk').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const m = STRIP.find(x => x.key === b.dataset.m), all = cfg.channels.every(c => has(c, m));
+    cfg.channels.forEach(c => {
+      if (m.key === 'PRE') c.in = all ? 'DIRECT' : (c.in === 'DIRECT' ? 'MIC' : c.in);
+      else { const l = c[m.kind], i = l.indexOf(m.key); if (all && i >= 0) l.splice(i, 1); if (!all && i < 0) l.push(m.key); }
+    });
+    render();
+  });
   $('rack').addEventListener('change', e => { const el = e.target; cfg.rows[+el.dataset.r][+el.dataset.s] = el.value; render(); });
-  $('inputs').addEventListener('change', () => { cfg.inputs = Math.max(4, Math.min(32, Math.round(+$('inputs').value / 4) * 4 || 4)); render(); });
-  $('inmod').addEventListener('change', () => { cfg.inputModule = $('inmod').checked; render(); });
+  $('inputs').addEventListener('change', () => {
+    const n = Math.max(4, Math.min(32, Math.round(+$('inputs').value / 4) * 4 || 4));
+    const last = cfg.channels[cfg.channels.length - 1] || EC.TEMPLATE;
+    while (cfg.channels.length < n) cfg.channels.push(JSON.parse(JSON.stringify(last)));
+    cfg.channels.length = n; cfg.inputs = n; render(); });
   $('resist').addEventListener('change', () => { cfg.resistors = $('resist').checked; render(); });
   $('rval').addEventListener('change', () => { cfg.rValue = $('rval').value.trim() || '10k'; render(); });
   $('rows').addEventListener('change', () => { resize(); render(); });

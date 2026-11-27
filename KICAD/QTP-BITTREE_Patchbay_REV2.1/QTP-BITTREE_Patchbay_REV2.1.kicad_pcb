@@ -7,6 +7,15 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "QTP-BITTREE - patchbay card")
+		(date "2021-05-23")
+		(rev "2.1")
+		(company "Ward-Beck Systems")
+		(comment 1 "top-row and bottom-row QTP RJ45 on a Bittree patchbay connector")
+		(comment 2 "From QTP-BITTREE PATCHBAY REV 2.1 (2021 APK) - converted by tools/eagle2kicad_pcb.py")
+		(comment 3 "EuroConsole - Ward-Beck.com - Ward-Beck.ca")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)

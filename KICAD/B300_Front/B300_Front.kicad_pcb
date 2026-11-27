@@ -7,6 +7,15 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "B300 Brain - front PCB")
+		(date "2016-04-06")
+		(rev "17.2")
+		(company "Ward-Beck Systems")
+		(comment 1 "Neopixels, POD buttons, encoder shaft holes; placed on the HUI front panel REV 4.1")
+		(comment 2 "From Encoder PCB REV 17.2 (2016 DCASSP) - converted by tools/eagle2kicad_pcb.py")
+		(comment 3 "EuroConsole - Ward-Beck.com - Ward-Beck.ca")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)

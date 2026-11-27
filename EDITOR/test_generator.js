@@ -9,6 +9,7 @@ if (process.env.ALT) {                     // a second configuration: every slot
   cfg.inputs = 8; cfg.inputModule = false;
   cfg.rows = [['SUM', 'SUM', 'PATCH', 'EQ', 'COMP', 'BIGVU'], ['SUM', 'SUM', 'INSERT', 'DEESS', 'GATE', 'EMPTY']];
 }
+if (process.env.ALT) { cfg.template = { in: 'DIRECT', fx: ['GATE', 'EQ', 'COMP', 'DEESS'], sends: ['M14'] }; cfg.channels = [null, { in: 'LINE', fx: [], sends: [] }]; }
 const design = EC.build(cfg), files = EC.serialize(design);
 for (const [n, t] of Object.entries(files)) fs.writeFileSync(path.join(out, n), t);
 console.log(design.name, Object.keys(files).length, 'files', design.bom);
@@ -23,11 +24,18 @@ for (const m of N.matchAll(/\(net \(code "?\d+"?\) \(name "([^"]+)"[^]*?(?=\(net
 const get = n => nets['/' + n] || nets[n] || [];
 let bad = 0;
 const expect = (n, cond, msg) => { const v = get(n); const ok = cond(v); if (!ok) bad++; console.log(ok ? 'ok  ' : 'BAD ', n.padEnd(10), v.length, 'nodes', msg, ok ? '' : JSON.stringify(v.slice(0, 40))); };
-const nIn = cfg.inputs;
-expect('SUMN01+', v => v.length === (cfg.resistors ? nIn + 1 : 1), `= ${nIn} resistors + M450 summing input`);
-expect('CH01+', v => v.length >= 1 + design.buses + cfg.rows.length, `= channel out + ${design.buses} resistors + QTP pins`);
-expect('BUS01+', v => v.length >= 2, '= bus driver + meter / QTP out');
-expect('IN01+', v => v.length === (cfg.inputModule ? 2 : 2), '= XLR + input');
+const CHS = EC.channels(cfg), B = design.buses;
+if (process.env.ALT) for (const c of CHS) { /* ALT: no sends */ }
+for (const b of [B[0], B[B.length - 1]]) {
+  const n = b.send ? CHS.filter(c => c.sends.includes(b.send)).length : cfg.inputs;
+  expect(`SUMN_${b.name}+`, v => v.length === (cfg.resistors ? n + 1 : 1), `= ${n} resistors + M450 summing input`);
+}
+expect('IN01+', v => v.length === 2, '= XLR + preamp / first stage');
+expect('CH01+', v => v.length >= 2, '= channel out + sends / QTP');
+const s1 = CHS[0].sends[0];
+if (s1) expect(`C01_${EC.SENDS[s1].buses[0]}+`, v => v.length >= 3, '= send module out + QTP at the channel + QTP at the row (+ resistor)');
+const k0 = CHS[0].fx[0];
+if (k0) expect(`${k0}01+`, v => v.length === 2, `= ${k0} out -> next stage`);
 expect('GND', v => v.length > 10, 'power');
 console.log(Object.keys(nets).length, 'nets');
 try { execFileSync('kicad-cli', ['sch', 'erc', '-o', path.join(out, 'erc.rpt'), root], { stdio: 'pipe' }); } catch (e) { }

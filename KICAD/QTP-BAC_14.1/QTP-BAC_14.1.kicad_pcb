@@ -7,6 +7,15 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "QTP-BAC - four-channel QTP backplane")
+		(date "2016")
+		(rev "14.1")
+		(company "Ward-Beck Systems")
+		(comment 1 "SUN SKY GRASS EARTH on RJ45: transformers, XLR, BNC, euro blocks")
+		(comment 2 "From QTP-BAC 14.1 (2016 DCASSP) - converted by tools/eagle2kicad_pcb.py")
+		(comment 3 "EuroConsole - Ward-Beck.com - Ward-Beck.ca")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)
@@ -7702,7 +7711,7 @@
 			(uuid "312be16f-4600-41b9-9962-a1ea5bd97daa")
 		)
 		(fp_text user "male"
-			(at -6.6675 -18.0975 -0)
+			(at -6.6675 -18.0975 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "024b329a-2c33-4353-8d01-f6f6811b1987")
@@ -7715,7 +7724,7 @@
 			)
 		)
 		(fp_text user "female"
-			(at -2.54 -14.605 -0)
+			(at -2.54 -14.605 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "20bb09ed-bf29-464b-b28a-7ad431662061")
@@ -60744,7 +60753,7 @@
 			(uuid "e6e56ed5-5e4e-43e3-9668-287c2feab74b")
 		)
 		(fp_text user "female"
-			(at -2.54 -14.605 -0)
+			(at -2.54 -14.605 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "4bf1f201-5026-4fe5-8a4a-73099d46e943")
@@ -60757,7 +60766,7 @@
 			)
 		)
 		(fp_text user "male"
-			(at -6.6675 -18.0975 -0)
+			(at -6.6675 -18.0975 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "c68e9cc0-80fb-483e-a18e-d68c26257d25")
@@ -62482,7 +62491,7 @@
 			(uuid "91243b93-45c3-4ae5-bf87-07b903d19dde")
 		)
 		(fp_text user "female"
-			(at -2.54 -14.605 -0)
+			(at -2.54 -14.605 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "0dc788d4-d4ac-425b-b72e-3f50e622f329")
@@ -62495,7 +62504,7 @@
 			)
 		)
 		(fp_text user "male"
-			(at -6.6675 -18.0975 -0)
+			(at -6.6675 -18.0975 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "4e83b7eb-a949-4ae1-a3db-57388240e8f1")
@@ -72390,7 +72399,7 @@
 			(uuid "a8039388-6a9f-4068-81e5-6dbcb159d6e5")
 		)
 		(fp_text user "male"
-			(at -6.6675 -18.0975 -0)
+			(at -6.6675 -18.0975 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "b804d69a-0af2-404a-8629-e73922408e81")
@@ -72403,7 +72412,7 @@
 			)
 		)
 		(fp_text user "female"
-			(at -2.54 -14.605 -0)
+			(at -2.54 -14.605 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "c3052da1-be64-4bad-8a35-8af5215befd6")
@@ -77935,7 +77944,7 @@
 		(uuid "dfad7313-5f5a-4749-b29c-1392b7cf15bb")
 		(at 19.685 -38.4175 -90)
 		(property "Reference" "QTP1"
-			(at -7.62 -2.54 -90)
+			(at -7.62 -2.54 270)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "b8529385-f660-4bd4-bbc8-fa31556244c4")

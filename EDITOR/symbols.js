@@ -1053,6 +1053,212 @@ var EC_SYMBOLS = {
 "source": "EuroConsole",
 "desc": ""
 },
+"FADER": {
+"sexpr": "(symbol \"FADER\" (pin_names (offset 1.016)) (exclude_from_sim no) (in_bom yes) (on_board yes)\n  (property \"Reference\" \"U\" (at 0 13.97 0) (effects (font (size 1.27 1.27))))\n  (property \"Value\" \"F300 Fader\" (at 0 -13.97 0) (effects (font (size 1.27 1.27))))\n  (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Datasheet\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Description\" \"EuroConsole fader module (F300): 60 mm Bourns fader, POS pan, ONLY, SEL, CH ON; DS1882 level between THAT 1246 / 1646; ESP32-S3 runs the channel over I2C\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (symbol \"FADER_0_1\" (rectangle (start -10.16 8.89) (end 10.16 -8.89) (stroke (width 0.254) (type default)) (fill (type background))))\n  (symbol \"FADER_1_1\" (pin input line (at -12.70 6.35 0) (length 2.54) (name \"IN+\" (effects (font (size 1.27 1.27)))) (number \"1\" (effects (font (size 1.27 1.27))))) (pin input line (at -12.70 3.81 0) (length 2.54) (name \"IN-\" (effects (font (size 1.27 1.27)))) (number \"2\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 6.35 180) (length 2.54) (name \"OUT+\" (effects (font (size 1.27 1.27)))) (number \"3\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 3.81 180) (length 2.54) (name \"OUT-\" (effects (font (size 1.27 1.27)))) (number \"4\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 12.70 1.27 180) (length 2.54) (name \"SDA\" (effects (font (size 1.27 1.27)))) (number \"5\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 12.70 -1.27 180) (length 2.54) (name \"SCL\" (effects (font (size 1.27 1.27)))) (number \"6\" (effects (font (size 1.27 1.27))))) (pin power_in line (at -1.27 11.43 270) (length 2.54) (name \"+12V\" (effects (font (size 1.27 1.27)))) (number \"7\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 1.27 11.43 270) (length 2.54) (name \"-12V\" (effects (font (size 1.27 1.27)))) (number \"8\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 -11.43 90) (length 2.54) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"9\" (effects (font (size 1.27 1.27))))))\n)",
+"pins": [
+{
+"type": "input",
+"x": -12.7,
+"y": 6.35,
+"a": 0,
+"name": "IN+",
+"num": "1"
+},
+{
+"type": "input",
+"x": -12.7,
+"y": 3.81,
+"a": 0,
+"name": "IN-",
+"num": "2"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 6.35,
+"a": 180,
+"name": "OUT+",
+"num": "3"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 3.81,
+"a": 180,
+"name": "OUT-",
+"num": "4"
+},
+{
+"type": "bidirectional",
+"x": 12.7,
+"y": 1.27,
+"a": 180,
+"name": "SDA",
+"num": "5"
+},
+{
+"type": "bidirectional",
+"x": 12.7,
+"y": -1.27,
+"a": 180,
+"name": "SCL",
+"num": "6"
+},
+{
+"type": "power_in",
+"x": -1.27,
+"y": 11.43,
+"a": 270,
+"name": "+12V",
+"num": "7"
+},
+{
+"type": "power_in",
+"x": 1.27,
+"y": 11.43,
+"a": 270,
+"name": "-12V",
+"num": "8"
+},
+{
+"type": "power_in",
+"x": 0.0,
+"y": -11.43,
+"a": 90,
+"name": "GND",
+"num": "9"
+}
+],
+"source": "EuroConsole",
+"desc": ""
+},
+"AUX4": {
+"sexpr": "(symbol \"AUX4\" (pin_names (offset 1.016)) (exclude_from_sim no) (in_bom yes) (on_board yes)\n  (property \"Reference\" \"U\" (at 0 19.05 0) (effects (font (size 1.27 1.27))))\n  (property \"Value\" \"Aux send x4\" (at 0 -19.05 0) (effects (font (size 1.27 1.27))))\n  (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Datasheet\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Description\" \"EuroConsole 4-way aux send: post-fader channel in, four DS1882-controlled send levels out (one QTP RJ45: SUN SKY GRASS EARTH = sends 1-4), set over I2C by the strip ESP32-S3\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (symbol \"AUX4_0_1\" (rectangle (start -10.16 13.97) (end 10.16 -13.97) (stroke (width 0.254) (type default)) (fill (type background))))\n  (symbol \"AUX4_1_1\" (pin input line (at -12.70 11.43 0) (length 2.54) (name \"IN+\" (effects (font (size 1.27 1.27)))) (number \"1\" (effects (font (size 1.27 1.27))))) (pin input line (at -12.70 8.89 0) (length 2.54) (name \"IN-\" (effects (font (size 1.27 1.27)))) (number \"2\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 11.43 180) (length 2.54) (name \"SEND1+\" (effects (font (size 1.27 1.27)))) (number \"3\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 8.89 180) (length 2.54) (name \"SEND1-\" (effects (font (size 1.27 1.27)))) (number \"4\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 6.35 180) (length 2.54) (name \"SEND2+\" (effects (font (size 1.27 1.27)))) (number \"5\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 3.81 180) (length 2.54) (name \"SEND2-\" (effects (font (size 1.27 1.27)))) (number \"6\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 1.27 180) (length 2.54) (name \"SEND3+\" (effects (font (size 1.27 1.27)))) (number \"7\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 -1.27 180) (length 2.54) (name \"SEND3-\" (effects (font (size 1.27 1.27)))) (number \"8\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 -3.81 180) (length 2.54) (name \"SEND4+\" (effects (font (size 1.27 1.27)))) (number \"9\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 -6.35 180) (length 2.54) (name \"SEND4-\" (effects (font (size 1.27 1.27)))) (number \"10\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 12.70 -8.89 180) (length 2.54) (name \"SDA\" (effects (font (size 1.27 1.27)))) (number \"11\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 12.70 -11.43 180) (length 2.54) (name \"SCL\" (effects (font (size 1.27 1.27)))) (number \"12\" (effects (font (size 1.27 1.27))))) (pin power_in line (at -1.27 16.51 270) (length 2.54) (name \"+12V\" (effects (font (size 1.27 1.27)))) (number \"13\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 1.27 16.51 270) (length 2.54) (name \"-12V\" (effects (font (size 1.27 1.27)))) (number \"14\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 -16.51 90) (length 2.54) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"15\" (effects (font (size 1.27 1.27))))))\n)",
+"pins": [
+{
+"type": "input",
+"x": -12.7,
+"y": 11.43,
+"a": 0,
+"name": "IN+",
+"num": "1"
+},
+{
+"type": "input",
+"x": -12.7,
+"y": 8.89,
+"a": 0,
+"name": "IN-",
+"num": "2"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 11.43,
+"a": 180,
+"name": "SEND1+",
+"num": "3"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 8.89,
+"a": 180,
+"name": "SEND1-",
+"num": "4"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 6.35,
+"a": 180,
+"name": "SEND2+",
+"num": "5"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 3.81,
+"a": 180,
+"name": "SEND2-",
+"num": "6"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": 1.27,
+"a": 180,
+"name": "SEND3+",
+"num": "7"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": -1.27,
+"a": 180,
+"name": "SEND3-",
+"num": "8"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": -3.81,
+"a": 180,
+"name": "SEND4+",
+"num": "9"
+},
+{
+"type": "output",
+"x": 12.7,
+"y": -6.35,
+"a": 180,
+"name": "SEND4-",
+"num": "10"
+},
+{
+"type": "bidirectional",
+"x": 12.7,
+"y": -8.89,
+"a": 180,
+"name": "SDA",
+"num": "11"
+},
+{
+"type": "bidirectional",
+"x": 12.7,
+"y": -11.43,
+"a": 180,
+"name": "SCL",
+"num": "12"
+},
+{
+"type": "power_in",
+"x": -1.27,
+"y": 16.51,
+"a": 270,
+"name": "+12V",
+"num": "13"
+},
+{
+"type": "power_in",
+"x": 1.27,
+"y": 16.51,
+"a": 270,
+"name": "-12V",
+"num": "14"
+},
+{
+"type": "power_in",
+"x": 0.0,
+"y": -16.51,
+"a": 90,
+"name": "GND",
+"num": "15"
+}
+],
+"source": "EuroConsole",
+"desc": ""
+},
 "BIGVU": {
 "sexpr": "(symbol \"BIGVU\" (pin_names (offset 1.016)) (exclude_from_sim no) (in_bom yes) (on_board yes)\n  (property \"Reference\" \"U\" (at 0 11.43 0) (effects (font (size 1.27 1.27))))\n  (property \"Value\" \"Big VU (RD87)\" (at 0 -11.43 0) (effects (font (size 1.27 1.27))))\n  (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Datasheet\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Description\" \"Big VU Meter RD87 REV 5: stereo line input, Arduino, 2 x 57 Neopixel towers with peak-hold dots\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (symbol \"BIGVU_0_1\" (rectangle (start -8.89 6.35) (end 8.89 -6.35) (stroke (width 0.254) (type default)) (fill (type background))))\n  (symbol \"BIGVU_1_1\" (pin input line (at -11.43 3.81 0) (length 2.54) (name \"L+\" (effects (font (size 1.27 1.27)))) (number \"1\" (effects (font (size 1.27 1.27))))) (pin input line (at -11.43 1.27 0) (length 2.54) (name \"L-\" (effects (font (size 1.27 1.27)))) (number \"2\" (effects (font (size 1.27 1.27))))) (pin input line (at -11.43 -1.27 0) (length 2.54) (name \"R+\" (effects (font (size 1.27 1.27)))) (number \"3\" (effects (font (size 1.27 1.27))))) (pin input line (at -11.43 -3.81 0) (length 2.54) (name \"R-\" (effects (font (size 1.27 1.27)))) (number \"4\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 8.89 270) (length 2.54) (name \"+12V\" (effects (font (size 1.27 1.27)))) (number \"5\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 -8.89 90) (length 2.54) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"6\" (effects (font (size 1.27 1.27))))))\n)",
 "pins": [

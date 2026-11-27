@@ -7,6 +7,15 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "Encoder PCB - 2016 DCASSP sheet (source)")
+		(date "2016-04-06")
+		(rev "17.2")
+		(company "Ward-Beck Systems")
+		(comment 1 "the whole Eagle sheet: every board above plus documentation frames")
+		(comment 2 "From Encoder PCB REV 17.2 (2016 DCASSP) - converted by tools/eagle2kicad_pcb.py")
+		(comment 3 "EuroConsole - Ward-Beck.com - Ward-Beck.ca")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)
@@ -348391,7 +348400,7 @@
 			(uuid "0e18304d-07da-422d-add4-e49df9838490")
 		)
 		(fp_text user "female"
-			(at -2.54 -14.605 -0)
+			(at -2.54 -14.605 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "323748e1-54f8-4167-941e-ce03fef5c321")
@@ -348404,7 +348413,7 @@
 			)
 		)
 		(fp_text user "male"
-			(at -6.6675 -18.0975 -0)
+			(at -6.6675 -18.0975 0)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "52fbdc13-a4b7-4254-9bc1-22fa8ae86105")
@@ -568295,7 +568304,7 @@
 		(uuid "5d525937-16f7-4ff8-844f-9deadd316cb7")
 		(at -20.955 1176.9725 -90)
 		(property "Reference" "QTP1"
-			(at -7.62 -2.54 -90)
+			(at -7.62 -2.54 270)
 			(unlocked yes)
 			(layer "B.SilkS")
 			(uuid "3fdddbf1-dade-4dae-94f6-be9ce6f76a31")

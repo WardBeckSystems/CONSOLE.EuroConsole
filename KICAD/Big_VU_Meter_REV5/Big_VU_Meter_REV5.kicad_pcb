@@ -7,6 +7,15 @@
 		(legacy_teardrops no)
 	)
 	(paper "A4")
+	(title_block
+		(title "Big VU (RD87) - meter and driver")
+		(date "2021-05-23")
+		(rev "5")
+		(company "Ward-Beck Systems")
+		(comment 1 "stereo line in, Arduino Micro, 2 x 57 Neopixel towers")
+		(comment 2 "From Big VU meter REV 5 (2021 APK) - converted by tools/eagle2kicad_pcb.py")
+		(comment 3 "EuroConsole - Ward-Beck.com - Ward-Beck.ca")
+	)
 	(layers
 		(0 "F.Cu" signal)
 		(2 "B.Cu" signal)
