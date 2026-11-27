@@ -63,6 +63,14 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
 .blank { border: 1px dashed var(--line); border-radius: 2px; cursor: pointer; color: var(--muted); display: grid; place-items: center; font-size: 18px; background: none; }
 .blank.none { border: 0; cursor: default; }
 .blank select { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.sec { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 8px; font-weight: 600; }
+.rbadge { align-self: center; padding-left: calc(4 * var(--mm)); font-size: 11px; color: var(--muted); white-space: nowrap; line-height: 1.35; }
+.rbadge b { color: var(--ink); }
+.pw td { padding: 2px 0; } .pw td.n { width: auto; }
+svg.flow { display: block; max-width: 100%; height: auto; }
+.flow text { font: 12px system-ui, sans-serif; fill: var(--ink); } .flow .mut { fill: var(--muted); font-size: 11px; }
+.flow .bx { fill: var(--panel); stroke: var(--line); } .flow .bx.on { stroke: var(--glow); } .flow .ar { stroke: var(--muted); fill: none; stroke-width: 1.4; }
+.flow .sum { fill: #e9c46a; } .flow .tap { fill: var(--accent); }
 .key { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px 14px; margin-top: 18px; }
 .key div { display: flex; gap: 8px; align-items: center; font-size: 12.5px; }
 .key img { width: 18px; height: 70px; object-fit: contain; background: var(--face); border-radius: 2px; flex: none; }
@@ -81,14 +89,18 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
   <label>Preamp design <select id="preamp"></select></label>
   <div id="mods"></div>
   <h2>Master</h2>
-  <label>Summing rows <input id="rows" type="number" min="1" max="8" value="4"></label>
+  <label>Masters <input id="rows" type="number" min="1" max="8" value="3"></label>
   <label>Summing resistors <span><input id="resist" type="checkbox" checked> <input id="rval" type="text" value="10k" size="4"></span></label>
+  <h2>Power <small class="muted" style="text-transform:none;letter-spacing:0">(estimate)</small></h2>
+  <div id="power" class="small"></div>
+  <h2>Control layer</h2>
+  <div id="control" class="small"></div>
   <h2>View</h2>
   <label>Eurorack grid <input id="grid" type="checkbox" checked></label>
   <label>Scale <select id="zoom"><option value="0.8">0.8 px/mm</option><option value="1" selected>1 px/mm</option><option value="1.25">1.25 px/mm</option><option value="1.6">1.6 px/mm</option></select></label>
   <button class="main" id="dl">Download KiCad project</button>
   <label style="justify-content:flex-start;cursor:pointer;color:var(--accent)">Load config<input id="load" type="file" accept=".json" hidden></label>
-  <button class="tog" id="reset" style="justify-content:center">Reset to C1616</button>
+  <button class="tog" id="reset" style="justify-content:center">Reset to default</button>
   <h2>Parts</h2>
   <table id="bom"></table>
   <p class="small muted" id="files"></p>
@@ -97,7 +109,11 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
 <main>
   <div class="heads" id="heads"></div>
   <div class="rack" id="rack"></div>
-  <p class="small muted" style="max-width:900px">Every Eurorack module is a bank of 4 channels: 3U, 24HP (6HP per channel), one QTP in and one QTP out (SUN · SKY · GRASS · EARTH). Channel banks sit left and right, the master section in the middle. Click a channel module to remove it from its bank, an empty slot to add it, the preamp to switch Mic / Line / Direct; pick a master module to change or remove it, or + in a master's heading to add one. No summing point takes more than 8 inputs: each bus is summed per 8 channels in a group sum that sits under those channels' banks, then the master sums the groups (Σ); every sum face shows its inputs per summing point. Meters are vertical, one per bus, like the M467's.</p>
+  <p class="small muted" style="max-width:900px">Every Eurorack module is a bank of 4 channels: 3U, 24HP (6HP per channel), one QTP in and one QTP out (SUN · SKY · GRASS · EARTH). Channel banks sit left and right, the master section in the middle. Click a channel module to remove it from its bank, an empty slot to add it, the preamp to switch Mic / Line / Direct; pick a master module to change or remove it, or + in a master's heading to add one. Every send bank takes the bank's PRE (insert return) and POST (fader out), sets every send pre or post, sums its 4 channels per bus inside the module with the bus coming in from the previous bank, and passes the bus on to the next bank or the master: no summing point takes more than 5 inputs. Everything is digitally controlled analog. Meters are vertical, one per channel or bus. Power figures are first estimates.</p>
+  <h3 class="sec">Signal flow</h3>
+  <div id="sigflow"></div>
+  <h3 class="sec">Power flow <span class="muted small">(estimate)</span></h3>
+  <div id="pwrflow"></div>
   <div class="key" id="key"></div>
 </main>
 </div>
@@ -131,13 +147,31 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
     { img: 'M467', name: 'Gate bank · 4 x M467 (master only)', links: [['repo', GH + 'MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module']] },
     { img: 'M462B', name: 'EQ bank · 4 x M462B', links: [['repo', GH + 'MODULES.FILTERS.M462B-Equalizer-Module'], ['KiCad', '../KICAD/M462B_EQ/']] },
     { img: 'M466', name: 'Compressor / de-esser bank · 4 x M466', links: [['repo', GH + 'MODULES.DYNAMICS.M466-Limiter-Compressor-Module'], ['KiCad', '../KICAD/M466_Compressor_Limiter/']] },
-    { img: 'B300', name: 'Send banks · Aux 1-4, Aux 5-8, M 1-4', links: [['firmware', '../SOFTWARE/DCASSP/firmware/TPJ_sketch_mar19a/TPJ_sketch_mar19a.ino'], ['encoders p2', PDF + '2'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
+    { img: 'B300', name: 'Send banks · Aux 1-4, Aux 5-8, M 1-4: PRE + POST in, sum the bank, cascade the bus', links: [['firmware', '../SOFTWARE/DCASSP/firmware/TPJ_sketch_mar19a/TPJ_sketch_mar19a.ino'], ['encoders p2', PDF + '2'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
     { img: 'F300', name: 'Fader bank · 4 x F300', links: [['firmware', '../SOFTWARE/DCASSP/'], ['fader p4', PDF + '4'], ['control p1', PDF + '1']] },
-    { img: 'M450', name: 'Sum bank · 4 x M450', links: [['repo', GH + 'MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier'], ['summing p8', PDF + '8']] },
     { img: 'M499', name: 'Insert bank · 4 x M499', links: [['repo', GH + 'MODULES.UNSORTED.M499-Insertion-Switcher']] },
     { img: 'BIGVU', name: 'Big VU · RD87 (also the quad preamp meters)', links: [['firmware', '../SOFTWARE/BigVU/'], ['repo', GH + 'PRODUCTS.BigVU'], ['KiCad', '../KICAD/Big_VU_Meter_REV5/']] },
   ];
   $('key').innerHTML = KEY.map(k => `<div><img src="${face(k.img)}" alt=""><span><b>${k.name}</b>${k.links.map(([t, u]) => `<a href="${u}" target="_blank">${t}</a>`).join(' · ')}</span></div>`).join('');
+
+  /* first estimates per 24HP module, mA on +12 V / -12 V / +5 V (scaled from a 4-channel Eurorack mixer, WMD PM Channels MKII
+     +320 / -280 mA, plus Neopixel and ESP32-S3 loads); pots = DS1882 wipers (digitally controlled analog), sw = digital switches */
+  const SPEC = {
+    PRE:   { pw: [160, 140, 200], pots: 4, sw: 8, label: 'Quad preamp' },
+    EQ:    { pw: [120, 120, 0],   pots: 32, sw: 8, label: 'EQ bank' },
+    COMP:  { pw: [180, 180, 0],   pots: 24, sw: 8, label: 'Compressor bank' },
+    DEESS: { pw: [180, 180, 0],   pots: 12, sw: 4, label: 'De-esser bank' },
+    GATE:  { pw: [140, 140, 0],   pots: 12, sw: 4, label: 'Gate bank' },
+    A14:   { pw: [150, 130, 30],  pots: 16, sw: 16, label: 'Send bank' }, A58: null, M14: null,
+    FADER: { pw: [80, 60, 150],   pots: 12, sw: 12, label: 'Fader bank (ESP32-S3)' },
+    INSERT:{ pw: [60, 40, 0],     pots: 0, sw: 4, label: 'Insert bank' },
+    PATCH: { pw: [0, 0, 0],       pots: 0, sw: 0, label: 'Patch bay' },
+    MFADER:{ pw: [80, 60, 150],   pots: 4, sw: 4, label: 'Master fader bank' },
+    BIGVU: { pw: [60, 40, 400],   pots: 0, sw: 0, label: 'Big VU (4 meters)' },
+  };
+  SPEC.A58 = SPEC.M14 = SPEC.A14;
+  const specOf = (key, master) => master && key === 'FADER' ? SPEC.MFADER : SPEC[key] || { pw: [0, 0, 0], pots: 0, sw: 0, label: key };
+  const PSU = 3000;   // mA per rail of one supply (a common Eurorack PSU class); sized with 25 % headroom
 
   let cfg = EC.defaultConfig();
   try { const s = JSON.parse(localStorage.getItem('ec-config-3')); if (s && s.rows) cfg = s; } catch (e) {}
@@ -163,10 +197,9 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
     const out = []; let bus = 0, sums = [];
     const flush = () => { if (sums.length) out.push(...sumBanks(sums, CHS)); sums = []; };
     slots.forEach((s, i) => {
-      if (s === 'SUM') { sums.push(buses[bus++]); if (sums.length === 4) flush(); return; }
-      flush(); if (s !== 'EMPTY') out.push({ t: s, i });
+      if (s === 'SUM') { bus++; return; }                       // summing amps ignored: the send banks sum
+      if (s !== 'EMPTY') out.push({ t: s, i, buses: buses });
     });
-    flush();
     return out;
   }
 
@@ -182,9 +215,10 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
       return `<button class="tog ${m.fixed || n === B ? 'on' : n ? 'part' : ''} ${m.fixed ? 'fixed' : ''}" data-m="${m.key}">${m.label}<small>${m.fixed ? 'always' : n + ' / ' + B}</small></button>`; }).join('');
     // rows of the rack: channel module types in use, aligned with the master modules
     const types = STRIP.filter(m => CHS.some(c => has(c, m)));
+    let bj = 0; const colBuses = cfg.rows.map(r => { const n = r.filter(s => s === 'SUM').length, bs = buses.slice(bj, bj + n); bj += n; return bs; });
     let bi = 0; const cols = cfg.rows.map(r => { const n = r.filter(s => s === 'SUM').length, col = masterCol(r, buses.slice(bi, bi + n), CHS); bi += n; return col; });
     // group sums: for every 8 channels (2 banks) and every grouped master, one sum bank, placed under those banks
-    const sets = cols.flatMap(c => c.filter(e => e.grouped).map(e => e.buses));
+    const sets = [];   // summing amps ignored for now: every send bank sums its 4 channels and passes the bus on
     const P = Math.ceil(CHS.length / 8), grp = Array.from({ length: P }, (_, p) => sets.map(bs => {
       const chs = CHS.slice(p * 8, p * 8 + 8), n = Math.max(...bs.map(b => chs.filter(c => feeds(c, b)).length));
       return n ? { buses: bs, n, a: p * 8 + 1, z: p * 8 + chs.length } : null; }).filter(Boolean));
@@ -199,13 +233,14 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
       if (!m) return '<div class="blank none"></div>';
       const chs = bankCh(b), on = has(chs[0], m);
       if (!on) return `<button class="blank" data-b="${b}" data-m="${m.key}" title="Add ${m.label} to bank ${b + 1}">+</button>`;
-      const tag = m.key === 'PRE' ? EC.INPUTS[chs[0].in] : '';
+      let tag = m.key === 'PRE' ? EC.INPUTS[chs[0].in] : '';
+      if (m.kind === 'sends') { const nb = Array.from({ length: B }, (_, k) => k).filter(k => k > b && has(CHS[k * 4], m)); tag = `Σ ${chs.length} + bus in → ${nb.length ? 'bank ' + (nb[0] + 1) : 'master'}`; }
       if (m.key === 'PRE')                       // quad preamp: 4 preamp sections, each with its vertical VU meter
         return `<button class="m" data-b="${b}" data-m="PRE" title="Bank ${b + 1} · CH ${p2(b * 4 + 1)}-${p2(b * 4 + chs.length)}: quad preamp, 4 x ${cfg.preamp} preamp section + vertical VU (click: Mic / Line / Direct)">${chs.map((c, i) => `<span class="lane"><img src="${face(m.img)}" alt=""><img class="vu" src="${vuFace('CH' + (b * 4 + i + 1), EC.INPUTS[c.in])}" alt=""></span>`).join('')}</button>`;
       return `<button class="m ${m.key === 'PRE' ? 'pre' : ''}" data-b="${b}" data-m="${m.key}" title="Bank ${b + 1} · CH ${p2(b * 4 + 1)}-${p2(b * 4 + chs.length)}: 4 x ${m.key === 'PRE' ? cfg.preamp : m.label}${m.fixed ? '' : ' (click to remove)'}">${('<img src="' + face(m.img) + '" alt="">').repeat(chs.length)}${tag ? `<span class="tag">${tag}</span>` : ''}</button>`;
     };
     const opts = (cur) => `<option value="" disabled ${cur ? '' : 'selected'}>${cur ? 'Change…' : '+'}</option>` + Object.entries(MASTER).map(([k, [l]]) => `<option value="${k}" ${k === cur ? 'selected' : ''}>${l}</option>`).join('') + (cur ? '<option value="REMOVE">Remove</option>' : '');
-    const c4 = R => cols[R].filter(e => e.t === 'SUM').flatMap(e => e.buses).slice(0, 4);
+    const c4 = R => colBuses[R].slice(0, 4);
     const masterTile = (R, e, r) => {
       if (!e) return '<div class="blank none"></div>';
       if (e.t === 'SUM') return `<div class="m" title="Sum bank ${e.sub}: ${e.buses.length} x M450 (${e.buses.map(b => b.name).join(' ')}); no amp sums more than 8" style="cursor:default">${e.buses.map(b => `<img src="${sumFace(b.name, e.sub)}" alt="">`).join('')}</div>`;
@@ -214,16 +249,33 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
       return `<div class="m" title="Master ${R + 1} ${label}: ${e.t === 'BIGVU' ? 'vertical meters on ' + bs.map(b => b.name).join(' ') : '4 x ' + img}">${lanes}<select data-r="${R}" data-i="${e.i}">${opts(e.t)}</select></div>`;
     };
     $('heads').innerHTML = '<div style="width:calc(5.08 * var(--mm))"></div>' + Array.from({ length: L }, (_, b) => `<div><b>Bank ${b + 1}</b>CH ${p2(b * 4 + 1)}–${p2(Math.min(b * 4 + 4, CHS.length))}</div>`).join('') +
-      '<div class="gap"></div>' + cols.map((c, R) => { const bs = c.filter(e => e.t === 'SUM').flatMap(e => e.buses); return `<div><b>Master ${R + 1}</b>${bs.length ? bs[0].name + '–' + bs[bs.length - 1].name : '—'} <select class="addm" data-r="${R}" data-i="-1" title="Add a module to master ${R + 1}">${opts('')}</select></div>`; }).join('') +
+      '<div class="gap"></div>' + cols.map((c, R) => { const bs = c.filter(e => e.t === 'SUM').flatMap(e => e.buses); return `<div><b>Master ${R + 1}</b>${colBuses[R].length ? colBuses[R][0].name + '–' + colBuses[R][colBuses[R].length - 1].name : '—'} <select class="addm" data-r="${R}" data-i="-1" title="Add a module to master ${R + 1}">${opts('')}</select></div>`; }).join('') +
       '<div class="gap"></div>' + Array.from({ length: B - L }, (_, k) => { const b = L + k; return `<div><b>Bank ${b + 1}</b>CH ${p2(b * 4 + 1)}–${p2(Math.min(b * 4 + 4, CHS.length))}</div>`; }).join('');
+    // power and control: what sits in every rack row
+    const rowMods = [];
+    for (let r = 0; r < nRows; r++) {
+      const mods = [];
+      for (let b = 0; b < B; b++) { const m = types[r]; if (m && has(CHS[b * 4], m)) mods.push({ key: m.key, master: false, name: m.label }); }
+      cols.forEach(c => { const e = c[r]; if (e) mods.push({ key: e.t, master: true, name: MASTER[e.t] ? MASTER[e.t][0] : e.t }); });
+      rowMods.push(mods);
+    }
+    const rowPw = rowMods.map(ms => ms.reduce((a, m) => a.map((v, i) => v + specOf(m.key, m.master).pw[i]), [0, 0, 0]));
+    const tot = rowPw.reduce((a, p) => a.map((v, i) => v + p[i]), [0, 0, 0]);
+    const nPsu = Math.max(1, ...tot.map(v => Math.ceil(v * 1.25 / PSU)));
+    const ma = v => v >= 1000 ? (v / 1000).toFixed(2) + ' A' : v + ' mA';
+    $('power').innerHTML = `<table class="pw"><tr><td>+12 V</td><td class="n">${ma(tot[0])}</td></tr><tr><td>−12 V</td><td class="n">${ma(tot[1])}</td></tr><tr><td>+5 V</td><td class="n">${ma(tot[2])}</td></tr></table><p class="muted" style="margin:6px 0 0">${nPsu} supply${nPsu > 1 ? 'ies' : ''} of ${PSU / 1000} A per rail (25 % headroom). Per-module figures are first estimates, to be measured.</p>`;
+    const all = rowMods.flat(), pots = all.reduce((n, m) => n + specOf(m.key, m.master).pots, 0), sw = all.reduce((n, m) => n + specOf(m.key, m.master).sw, 0);
+    const ds = Math.ceil(pots / 2), io = Math.ceil(sw / 16);
+    $('control').innerHTML = `Every parameter is digitally controlled analog: <b>${pots + sw}</b> parameters, ${pots} pots on <b>${ds}</b> DS1882 (2 wipers each), ${sw} switches on <b>${io}</b> 16-bit I2C expanders. DS1882 takes 3 address pins, so 8 per I2C bus: <b>${Math.ceil(ds / 8)}</b> I2C buses, one ESP32-S3 per bank (${B} + ${cols.length} master).`;
     let html = '';
     for (let r = 0; r < nRows; r++) {
       const side = b => r < types.length ? chanTile(b, types[r]) : groupTile(b, r - types.length);
       html += '<div class="rrow">' + Array.from({ length: L }, (_, b) => side(b)).join('') + '<div class="gap"></div>' +
         cols.map((c, R) => masterTile(R, c[r], r)).join('') + '<div class="gap"></div>' +
-        Array.from({ length: B - L }, (_, k) => side(L + k)).join('') + '</div>';
+        Array.from({ length: B - L }, (_, k) => side(L + k)).join('') + `<div class="rbadge"><b>${ma(rowPw[r][0])}</b> +12<br>${ma(rowPw[r][1])} −12<br>${ma(rowPw[r][2])} +5</div></div>`;
     }
     $('rack').innerHTML = html;
+    drawFlows(CHS, B, cols, colBuses, types, rowMods, rowPw, tot, nPsu, ma);
     // HP
     const chanMods = CHS.length ? Array.from({ length: B }, (_, b) => types.filter(m => has(CHS[b * 4], m)).length).reduce((a, b) => a + b, 0) : 0;
     const masterMods = cols.reduce((n, c) => n + c.length, 0) + grp.reduce((n, g) => n + g.length, 0), hp = (chanMods + masterMods) * 24;
@@ -233,6 +285,50 @@ main { padding: 16px 18px 40px; overflow-x: auto; }
     document.body.classList.toggle('grid', $('grid').checked);
     document.documentElement.style.setProperty('--mm', $('zoom').value + 'px');
     try { localStorage.setItem('ec-config-3', JSON.stringify(cfg)); } catch (e) {}
+  }
+
+  /* signal flow: the channel strip, then every bus summed bank to bank into its master */
+  function drawFlows(CHS, B, cols, colBuses, types, rowMods, rowPw, tot, nPsu, ma) {
+    const bx = (x, y, w, h, t, sub, cls) => `<rect class="bx ${cls || ''}" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/><text x="${x + w / 2}" y="${y + h / 2 - (sub ? 3 : -4)}" text-anchor="middle">${t}</text>${sub ? `<text class="mut" x="${x + w / 2}" y="${y + h / 2 + 12}" text-anchor="middle">${sub}</text>` : ''}`;
+    const ar = (x1, y1, x2, y2) => `<path class="ar" d="M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}" marker-end="url(#ah)"/>`;
+    const defs = '<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>';
+    // channel strip
+    const ch = CHS[0], strip = [['In', ch.in === 'DIRECT' ? 'direct' : 'XLR ' + EC.INPUTS[ch.in].toLowerCase()]];
+    if (ch.in !== 'DIRECT') strip.push(['Preamp', cfg.preamp]);
+    ch.fx.forEach(k => strip.push([EC.CHAIN[k].label, EC.CHAIN[k].sym]));
+    const preI = strip.length; strip.push(['PRE', 'insert return']); strip.push(['Fader', 'F300']); strip.push(['POST', 'fader out']);
+    let w = 110, gx = 24, sv = defs, x = 10;
+    strip.forEach(([t, sub], i) => { const tap = t === 'PRE' || t === 'POST';
+      sv += tap ? `<circle class="tap" cx="${x + 20}" cy="40" r="7"/><text x="${x + 20}" y="70" text-anchor="middle">${t}</text><text class="mut" x="${x + 20}" y="84" text-anchor="middle">${sub}</text>` : bx(x, 18, w, 44, t, sub, 'on');
+      const nx = x + (tap ? 40 : w) + gx; if (i < strip.length - 1) sv += ar(x + (tap ? 27 : w), 40, nx - 2, 40); x = nx; });
+    const sx = x + 10; sv += `<text x="${sx}" y="22">PRE and POST → each send bank (each send pre or post) and the bank's PRE / POST QTP outs</text>`;
+    let svg1 = `<svg class="flow" viewBox="0 0 ${Math.max(x + 560, 900)} 100" width="${Math.max(x + 560, 900)}">${sv}</svg>`;
+    // summing: per send module, bank to bank, into its master
+    const sends = ['M14', 'A14', 'A58'].filter(k => CHS.some(c => c.sends.includes(k)));
+    let y = 14; sv = defs;
+    sends.forEach(k => {
+      const lab = { M14: 'M 1-4', A14: 'Aux 1-4', A58: 'Aux 5-8' }[k], bks = Array.from({ length: B }, (_, b) => b).filter(b => CHS[b * 4].sends.includes(k));
+      sv += `<text x="10" y="${y + 26}">${lab}</text>`;
+      let xx = 80;
+      bks.forEach((b, i) => { sv += bx(xx, y, 92, 40, 'Bank ' + (b + 1), `Σ 4${i ? ' + bus' : ''} = ${i ? 5 : 4} in`, 'on'); if (i < bks.length - 1) sv += ar(xx + 92, y + 20, xx + 112, y + 20); xx += 112; });
+      const R = colBuses.findIndex(bs => bs.some(b => b.send === k));
+      if (R >= 0) { sv += ar(xx - 20, y + 20, xx + 6, y + 20); xx += 8;
+        sv += bx(xx, y, 96, 40, 'Master ' + (R + 1), colBuses[R].map(b => b.name).slice(0, 4).join(' ').replace(/(\S+) .* (\S+)/, '$1–$2'));
+        xx += 96; cols[R].forEach(e => { if (!MASTER[e.t]) return; sv += ar(xx, y + 20, xx + 18, y + 20); xx += 20; sv += bx(xx, y, 84, 40, MASTER[e.t][0], e.t === 'BIGVU' ? 'meters' : '4 x ' + MASTER[e.t][1]); xx += 84; });
+        sv += ar(xx, y + 20, xx + 18, y + 20); sv += `<text x="${xx + 24}" y="${y + 25}">QTP out</text>`; }
+      y += 56;
+    });
+    const svg2 = sends.length ? `<svg class="flow" viewBox="0 0 ${120 + B * 112 + 700} ${y}" width="${120 + B * 112 + 700}">${sv}</svg>` : '<p class="muted small">No send banks: nothing is summed.</p>';
+    $('sigflow').innerHTML = svg1 + svg2;
+    // power: supplies -> rails -> rack rows
+    const rows = rowMods.map((ms, r) => ({ name: `Row ${r + 1}: ` + [...new Set(ms.map(m => m.name))].join(' + ') + ` (${ms.length})`, p: rowPw[r] })).filter(r => r.p.some(v => v));
+    const H = Math.max(160, rows.length * 34 + 30), maxI = Math.max(1, ...tot), sw = v => Math.max(1.5, v / maxI * 36);
+    let pv = defs + bx(10, H / 2 - 30, 120, 60, `${nPsu} × PSU`, `${PSU / 1000} A per rail`, 'on');
+    const rails = [['+12 V', 0, '#c0392b'], ['−12 V', 1, '#2f6fd6'], ['+5 V', 2, '#e9a23b']];
+    rails.forEach(([t, i, col], k) => { const ry = 30 + k * (H - 60) / 2; pv += `<path d="M130 ${H / 2} C170 ${H / 2} 170 ${ry} 210 ${ry}" stroke="${col}" stroke-width="${sw(tot[i])}" fill="none" opacity=".75"/>` + bx(210, ry - 18, 92, 36, t, ma(tot[i]));
+      rows.forEach((r, j) => { const yy = 22 + j * 34; if (r.p[i]) pv += `<path d="M302 ${ry} C380 ${ry} 380 ${yy + 12} 452 ${yy + 12}" stroke="${col}" stroke-width="${sw(r.p[i])}" fill="none" opacity=".55"/>`; }); });
+    rows.forEach((r, j) => { const yy = 22 + j * 34; pv += `<rect class="bx" x="452" y="${yy}" width="300" height="26" rx="5"/><text x="462" y="${yy + 17}">${r.name}</text><text class="mut" x="760" y="${yy + 17}">${ma(r.p[0])} / ${ma(r.p[1])} / ${ma(r.p[2])}</text>`; });
+    $('pwrflow').innerHTML = `<svg class="flow" viewBox="0 0 960 ${H}" width="960">${pv}</svg>`;
   }
 
   $('rack').addEventListener('click', e => {

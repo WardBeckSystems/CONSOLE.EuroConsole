@@ -57,7 +57,7 @@
   const TEMPLATE = { in: 'MIC', fx: ['EQ', 'COMP'], sends: ['A14', 'A58', 'M14'] };
   function defaultConfig() {
     const row = ['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'BIGVU'];
-    return { inputs: 16, rows: [['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'COMP', 'FADER', 'BIGVU'], row, row, row].map(r => r.slice()), resistors: true, rValue: '10k', rev: 'A',
+    return { inputs: 16, rows: [['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'COMP', 'FADER', 'BIGVU'], row, row].map(r => r.slice()), resistors: true, rValue: '10k', rev: 'A',
              template: JSON.parse(JSON.stringify(TEMPLATE)), channels: [], preamp: 'M480' };
   }
   /* every channel: { in, fx: [...CHAIN], sends: [...SENDS] }; missing channels take the template */
@@ -151,6 +151,9 @@
     const rowW = sp => 58.42 + (sp.in !== 'DIRECT' ? W((PREAMPS[cfg.preamp] || PREAMPS.M480).sym) : 0) + sp.fx.reduce((w, k) => w + W(CHAIN[k].sym), 0) + W('FADER') + sp.sends.length * (W('AUX4') + 33.02);
     const rowH = 58.42;
     const bankCount = (ci, key) => { if (ci % 4 === 0) count(key); };   // one Eurorack module per bank
+    const preNet = {};                                                    // channel -> its pre-fader net
+    const lastBank = {};                                                  // send module -> last bank that has it (it outputs the bus sum)
+    CHS.forEach((sp, ci) => sp.sends.forEach(k => { lastBank[k] = Math.floor(ci / 4); }));
     CHS.forEach((sp, ci) => {
       const c = ci + 1, b = Math.floor(ci / 4), r = ci % 4, chs = bankSheet(b);
       if (r === 0) chs.text(`Bank ${b + 1}: CH ${pad2(c)}-${pad2(Math.min(c + 3, N))} · ${INPUTS[sp.in]}${sp.fx.map(k => ' · ' + CHAIN[k].label).join('')} · Fader${sp.sends.map(k => ' · ' + SENDS[k].label).join('')}  (each module = 4 channels)`, 20.32, 15.24, 3);
@@ -164,6 +167,7 @@
           chs.place(sym, snap(x + halfW(sym) + 12.7), y0, next('U'), k === 'DEESS' ? 'M466 De-esser' : sym, legNets(sym, from, out)); bankCount(ci, CHAIN[k].label + ' bank (4 x ' + sym + ')');
           x = snap(x + W(sym)); from = out;
         });
+        preNet[c] = from;                           // pre-fader tap: the insert return, before the fader
         chs.place('FADER', snap(x + halfW('FADER') + 12.7), y0, next('U'), 'F300 Fader', { 'IN+': from + '+', 'IN-': from + '-', 'OUT+': to + '+', 'OUT-': to + '-', SDA: 'I2C_SDA', SCL: 'I2C_SCL' });
         bankCount(ci, 'Fader bank (4 x F300)'); x = snap(x + W('FADER'));
       };
@@ -190,20 +194,34 @@
         x = snap(x + 104.14);
         chain(`FS${pad2(c)}`, `FR${pad2(c)}`);       // inserts + fader in the M480B fader send / return
       } else chain(`IN${pad2(c)}`, CH(c));
-      sp.sends.forEach(k => {                        // post-fader 4-way sends, each on its own QTP
-        const outs = SENDS[k].buses.map(b => sendNet(c, b)), nets = { 'IN+': CH(c) + '+', 'IN-': CH(c) + '-', SDA: 'I2C_SDA', SCL: 'I2C_SCL' };
-        outs.forEach((n, i) => { nets[`SEND${i + 1}+`] = n + '+'; nets[`SEND${i + 1}-`] = n + '-'; });
-        chs.place('AUX4', snap(x + halfW('AUX4') + 12.7), y0, next('U'), SENDS[k].label, nets); bankCount(ci, SENDS[k].label + ' send bank (4 x 4-way send)');
-        x = snap(x + W('AUX4'));
-        chs.place('QTP', snap(x + 10.16), y0, next('J'), `CH${pad2(c)} ${SENDS[k].label}`, qtpNets(outs)); count('QTP RJ45');
-        x = snap(x + 33.02);
-      });
     });
-    if (BUSES.some(b => !b.send)) banks.forEach((chs, g) => {
-      const qx = snap(chs.w + 20);
-      chs.text('Bank QTP out: CH to the direct summing rows', qx, 30.48, 2);
-      const list = [0, 1, 2, 3].map(i => g * 4 + i + 1 <= N ? CH(g * 4 + i + 1) : null);
-      chs.place('QTP', qx + 10.16, 45.72, next('J'), `QTP OUT ${g * 4 + 1}-${Math.min(g * 4 + 4, N)}`, qtpNets(list)); count('QTP RJ45');
+    /* per bank: pre-fader and post-fader QTP outs, and a send bank per send module.
+       A send bank takes PRE (insert return) and POST (fader out) for its 4 channels, sets every send level
+       (each send pre or post), sums the 4 channels per bus inside the module with the bus coming in from the
+       previous bank, and passes the bus on: no summing point takes more than 5 inputs. */
+    const prevOut = {};                                                   // bus -> net leaving the previous bank
+    banks.forEach((chs, b) => {
+      const chans = [0, 1, 2, 3].map(i => b * 4 + i + 1).filter(c => c <= N), sp = CHS[b * 4];
+      let qy = snap(45.72 + 4 * rowH + 12.7), qx = 20.32;
+      chs.text(`Bank ${b + 1}: outputs and send banks`, qx, qy - 15.24, 2.54);
+      chs.place('QTP', qx + 10.16, qy, next('J'), `PRE-FADER OUT CH ${pad2(chans[0])}-${pad2(chans[chans.length - 1])}`, qtpNets(chans.map(c => preNet[c] || null))); count('QTP RJ45');
+      chs.place('QTP', qx + 50.8, qy, next('J'), `POST-FADER OUT CH ${pad2(chans[0])}-${pad2(chans[chans.length - 1])}`, qtpNets(chans.map(c => CH(c)))); count('QTP RJ45');
+      qx = 101.6;
+      sp.sends.forEach(k => {
+        const nets = { SDA: 'I2C_SDA', SCL: 'I2C_SCL' };
+        chans.forEach((c, i) => { const pre = preNet[c] || CH(c);
+          nets[`PRE CH${i + 1}+`] = pre + '+'; nets[`PRE CH${i + 1}-`] = pre + '-'; nets[`POST CH${i + 1}+`] = CH(c) + '+'; nets[`POST CH${i + 1}-`] = CH(c) + '-'; });
+        const outs = SENDS[k].buses.map(bus => b === lastBank[k] ? `${bus}_SUM` : `${bus}_B${b + 1}`);
+        SENDS[k].buses.forEach((bus, i) => {
+          const inn = prevOut[bus]; nets[`BUS${i + 1} IN+`] = inn ? inn + '+' : 'NC'; nets[`BUS${i + 1} IN-`] = inn ? inn + '-' : 'NC';
+          nets[`BUS${i + 1} OUT+`] = outs[i] + '+'; nets[`BUS${i + 1} OUT-`] = outs[i] + '-'; prevOut[bus] = outs[i];
+        });
+        chs.place('SENDBANK', snap(qx + halfW('SENDBANK') + 12.7), snap(qy + 25.4), next('U'), `${SENDS[k].label} send bank`, nets);
+        count(`${SENDS[k].label} send bank (4 ch pre / post in, sums 4 buses)`);
+        qx = snap(qx + W('SENDBANK') + 30);
+        chs.place('QTP', qx - 20.32, snap(qy + 25.4), next('J'), `${SENDS[k].label} BUS OUT (to ${b === lastBank[k] ? 'master' : 'bank ' + (b + 2)})`, qtpNets(outs)); count('QTP RJ45');
+        qx = snap(qx + 25.4);
+      });
     });
 
     /* ---- summing rows ---- */
@@ -222,8 +240,7 @@
       sh.text('QTP in', 20.32, 27.94, 2);
       let qy = 45.72;
       const mods = [...new Set(rb.filter(b => b.send).map(b => b.send))];
-      mods.forEach(k => CHS.forEach((sp, ci) => { if (!sp.sends.includes(k)) return;
-        sh.place('QTP', 30.48, snap(qy), next('J'), `CH${pad2(ci + 1)} ${SENDS[k].label}`, qtpNets(SENDS[k].buses.map(b => sendNet(ci + 1, b)))); count('QTP RJ45'); qy += 38.1; }));
+      mods.forEach(k => { sh.place('QTP', 30.48, snap(qy), next('J'), `${SENDS[k].label} BUS IN (from bank ${lastBank[k] + 1})`, qtpNets(SENDS[k].buses.map(b => `${b}_SUM`))); count('QTP RJ45'); qy += 38.1; });
       if (rb.some(b => !b.send)) for (let g = 0; g < Math.ceil(N / 4); g++) {
         sh.place('QTP', 30.48, snap(qy), next('J'), `QTP IN ${g * 4 + 1}-${Math.min(g * 4 + 4, N)}`, qtpNets([0, 1, 2, 3].map(i => g * 4 + i + 1 <= N ? CH(g * 4 + i + 1) : null))); count('QTP RJ45'); qy += 38.1;
       }
@@ -254,6 +271,7 @@
           'OUTPUT +': outNet + '+', 'OUTPUT -': outNet + '-', 'INPUT SHIELD': 'GND', COMMON: 'GND', GND: 'GND' }); count('M450 summing amplifier');
       };
       rb.forEach(bus => {
+        if (bus.send) return;                        // send buses are summed in the send banks (cascade); only direct sums need M450s
         const feed = CHS.map((sp, ci) => ({ ci, net: !bus.send ? CH(ci + 1) : sp.sends.includes(bus.send) ? sendNet(ci + 1, bus.name) : null })).filter(x => x.net);
         let src = feed.map(x => x.net), level = 0;
         if (src.length > MAXIN) {                    // first level: one group per 8 channels by position (CH 1-8, 9-16 ...): it sits with those channels

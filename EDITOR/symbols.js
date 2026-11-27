@@ -2616,6 +2616,317 @@ var EC_SYMBOLS = {
 "source": "EuroConsole",
 "desc": ""
 },
+"SENDBANK": {
+"sexpr": "(symbol \"SENDBANK\" (pin_names (offset 1.016)) (exclude_from_sim no) (in_bom yes) (on_board yes)\n  (property \"Reference\" \"U\" (at 0 43.18 0) (effects (font (size 1.27 1.27))))\n  (property \"Value\" \"Send bank\" (at 0 -43.18 0) (effects (font (size 1.27 1.27))))\n  (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Datasheet\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Description\" \"EuroConsole send bank: two 4-channel inputs, PRE (insert return, before the fader) and POST (fader out); 4 send levels per channel (DS1882), each send pre or post; the 4 channels are summed per bus inside the module with the bus coming in from the previous bank (cascade). OUT = the bus so far; each summing point takes 5 inputs\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (symbol \"SENDBANK_0_1\" (rectangle (start -12.7 38.1) (end 12.7 -38.1) (stroke (width 0.254) (type default)) (fill (type background))))\n  (symbol \"SENDBANK_1_1\" (pin input line (at -15.24 35.56 0) (length 2.54) (name \"PRE CH1+\" (effects (font (size 1.27 1.27)))) (number \"P1+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 33.02 0) (length 2.54) (name \"PRE CH1-\" (effects (font (size 1.27 1.27)))) (number \"P1-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 30.48 0) (length 2.54) (name \"PRE CH2+\" (effects (font (size 1.27 1.27)))) (number \"P2+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 27.94 0) (length 2.54) (name \"PRE CH2-\" (effects (font (size 1.27 1.27)))) (number \"P2-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 25.40 0) (length 2.54) (name \"PRE CH3+\" (effects (font (size 1.27 1.27)))) (number \"P3+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 22.86 0) (length 2.54) (name \"PRE CH3-\" (effects (font (size 1.27 1.27)))) (number \"P3-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 20.32 0) (length 2.54) (name \"PRE CH4+\" (effects (font (size 1.27 1.27)))) (number \"P4+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 17.78 0) (length 2.54) (name \"PRE CH4-\" (effects (font (size 1.27 1.27)))) (number \"P4-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 15.24 0) (length 2.54) (name \"POST CH1+\" (effects (font (size 1.27 1.27)))) (number \"Q1+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 12.70 0) (length 2.54) (name \"POST CH1-\" (effects (font (size 1.27 1.27)))) (number \"Q1-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 10.16 0) (length 2.54) (name \"POST CH2+\" (effects (font (size 1.27 1.27)))) (number \"Q2+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 7.62 0) (length 2.54) (name \"POST CH2-\" (effects (font (size 1.27 1.27)))) (number \"Q2-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 5.08 0) (length 2.54) (name \"POST CH3+\" (effects (font (size 1.27 1.27)))) (number \"Q3+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 2.54 0) (length 2.54) (name \"POST CH3-\" (effects (font (size 1.27 1.27)))) (number \"Q3-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 0.00 0) (length 2.54) (name \"POST CH4+\" (effects (font (size 1.27 1.27)))) (number \"Q4+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -2.54 0) (length 2.54) (name \"POST CH4-\" (effects (font (size 1.27 1.27)))) (number \"Q4-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -5.08 0) (length 2.54) (name \"BUS1 IN+\" (effects (font (size 1.27 1.27)))) (number \"I1+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -7.62 0) (length 2.54) (name \"BUS1 IN-\" (effects (font (size 1.27 1.27)))) (number \"I1-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -10.16 0) (length 2.54) (name \"BUS2 IN+\" (effects (font (size 1.27 1.27)))) (number \"I2+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -12.70 0) (length 2.54) (name \"BUS2 IN-\" (effects (font (size 1.27 1.27)))) (number \"I2-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -15.24 0) (length 2.54) (name \"BUS3 IN+\" (effects (font (size 1.27 1.27)))) (number \"I3+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -17.78 0) (length 2.54) (name \"BUS3 IN-\" (effects (font (size 1.27 1.27)))) (number \"I3-\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -20.32 0) (length 2.54) (name \"BUS4 IN+\" (effects (font (size 1.27 1.27)))) (number \"I4+\" (effects (font (size 1.27 1.27))))) (pin input line (at -15.24 -22.86 0) (length 2.54) (name \"BUS4 IN-\" (effects (font (size 1.27 1.27)))) (number \"I4-\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 35.56 180) (length 2.54) (name \"BUS1 OUT+\" (effects (font (size 1.27 1.27)))) (number \"O1+\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 33.02 180) (length 2.54) (name \"BUS1 OUT-\" (effects (font (size 1.27 1.27)))) (number \"O1-\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 30.48 180) (length 2.54) (name \"BUS2 OUT+\" (effects (font (size 1.27 1.27)))) (number \"O2+\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 27.94 180) (length 2.54) (name \"BUS2 OUT-\" (effects (font (size 1.27 1.27)))) (number \"O2-\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 25.40 180) (length 2.54) (name \"BUS3 OUT+\" (effects (font (size 1.27 1.27)))) (number \"O3+\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 22.86 180) (length 2.54) (name \"BUS3 OUT-\" (effects (font (size 1.27 1.27)))) (number \"O3-\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 20.32 180) (length 2.54) (name \"BUS4 OUT+\" (effects (font (size 1.27 1.27)))) (number \"O4+\" (effects (font (size 1.27 1.27))))) (pin output line (at 15.24 17.78 180) (length 2.54) (name \"BUS4 OUT-\" (effects (font (size 1.27 1.27)))) (number \"O4-\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 15.24 15.24 180) (length 2.54) (name \"SDA\" (effects (font (size 1.27 1.27)))) (number \"SDA\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 15.24 12.70 180) (length 2.54) (name \"SCL\" (effects (font (size 1.27 1.27)))) (number \"SCL\" (effects (font (size 1.27 1.27))))) (pin power_in line (at -2.54 40.64 270) (length 2.54) (name \"+12V\" (effects (font (size 1.27 1.27)))) (number \"V+\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 40.64 270) (length 2.54) (name \"-12V\" (effects (font (size 1.27 1.27)))) (number \"V-\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 2.54 40.64 270) (length 2.54) (name \"+5V\" (effects (font (size 1.27 1.27)))) (number \"5V\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 -40.64 90) (length 2.54) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"G\" (effects (font (size 1.27 1.27))))))\n)",
+"pins": [
+{
+"type": "input",
+"x": -15.24,
+"y": 35.56,
+"a": 0,
+"name": "PRE CH1+",
+"num": "P1+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 33.02,
+"a": 0,
+"name": "PRE CH1-",
+"num": "P1-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 30.48,
+"a": 0,
+"name": "PRE CH2+",
+"num": "P2+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 27.94,
+"a": 0,
+"name": "PRE CH2-",
+"num": "P2-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 25.4,
+"a": 0,
+"name": "PRE CH3+",
+"num": "P3+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 22.86,
+"a": 0,
+"name": "PRE CH3-",
+"num": "P3-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 20.32,
+"a": 0,
+"name": "PRE CH4+",
+"num": "P4+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 17.78,
+"a": 0,
+"name": "PRE CH4-",
+"num": "P4-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 15.24,
+"a": 0,
+"name": "POST CH1+",
+"num": "Q1+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 12.7,
+"a": 0,
+"name": "POST CH1-",
+"num": "Q1-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 10.16,
+"a": 0,
+"name": "POST CH2+",
+"num": "Q2+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 7.62,
+"a": 0,
+"name": "POST CH2-",
+"num": "Q2-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 5.08,
+"a": 0,
+"name": "POST CH3+",
+"num": "Q3+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 2.54,
+"a": 0,
+"name": "POST CH3-",
+"num": "Q3-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": 0.0,
+"a": 0,
+"name": "POST CH4+",
+"num": "Q4+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -2.54,
+"a": 0,
+"name": "POST CH4-",
+"num": "Q4-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -5.08,
+"a": 0,
+"name": "BUS1 IN+",
+"num": "I1+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -7.62,
+"a": 0,
+"name": "BUS1 IN-",
+"num": "I1-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -10.16,
+"a": 0,
+"name": "BUS2 IN+",
+"num": "I2+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -12.7,
+"a": 0,
+"name": "BUS2 IN-",
+"num": "I2-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -15.24,
+"a": 0,
+"name": "BUS3 IN+",
+"num": "I3+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -17.78,
+"a": 0,
+"name": "BUS3 IN-",
+"num": "I3-"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -20.32,
+"a": 0,
+"name": "BUS4 IN+",
+"num": "I4+"
+},
+{
+"type": "input",
+"x": -15.24,
+"y": -22.86,
+"a": 0,
+"name": "BUS4 IN-",
+"num": "I4-"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 35.56,
+"a": 180,
+"name": "BUS1 OUT+",
+"num": "O1+"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 33.02,
+"a": 180,
+"name": "BUS1 OUT-",
+"num": "O1-"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 30.48,
+"a": 180,
+"name": "BUS2 OUT+",
+"num": "O2+"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 27.94,
+"a": 180,
+"name": "BUS2 OUT-",
+"num": "O2-"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 25.4,
+"a": 180,
+"name": "BUS3 OUT+",
+"num": "O3+"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 22.86,
+"a": 180,
+"name": "BUS3 OUT-",
+"num": "O3-"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 20.32,
+"a": 180,
+"name": "BUS4 OUT+",
+"num": "O4+"
+},
+{
+"type": "output",
+"x": 15.24,
+"y": 17.78,
+"a": 180,
+"name": "BUS4 OUT-",
+"num": "O4-"
+},
+{
+"type": "bidirectional",
+"x": 15.24,
+"y": 15.24,
+"a": 180,
+"name": "SDA",
+"num": "SDA"
+},
+{
+"type": "bidirectional",
+"x": 15.24,
+"y": 12.7,
+"a": 180,
+"name": "SCL",
+"num": "SCL"
+},
+{
+"type": "power_in",
+"x": -2.54,
+"y": 40.64,
+"a": 270,
+"name": "+12V",
+"num": "V+"
+},
+{
+"type": "power_in",
+"x": 0.0,
+"y": 40.64,
+"a": 270,
+"name": "-12V",
+"num": "V-"
+},
+{
+"type": "power_in",
+"x": 2.54,
+"y": 40.64,
+"a": 270,
+"name": "+5V",
+"num": "5V"
+},
+{
+"type": "power_in",
+"x": 0.0,
+"y": -40.64,
+"a": 90,
+"name": "GND",
+"num": "G"
+}
+],
+"source": "EuroConsole",
+"desc": ""
+},
 "AUX4": {
 "sexpr": "(symbol \"AUX4\" (pin_names (offset 1.016)) (exclude_from_sim no) (in_bom yes) (on_board yes)\n  (property \"Reference\" \"U\" (at 0 19.05 0) (effects (font (size 1.27 1.27))))\n  (property \"Value\" \"Aux send x4\" (at 0 -19.05 0) (effects (font (size 1.27 1.27))))\n  (property \"Footprint\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Datasheet\" \"\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (property \"Description\" \"EuroConsole 4-way aux send: post-fader channel in, four DS1882-controlled send levels out (one QTP RJ45: SUN SKY GRASS EARTH = sends 1-4), set over I2C by the strip ESP32-S3\" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n  (symbol \"AUX4_0_1\" (rectangle (start -10.16 13.97) (end 10.16 -13.97) (stroke (width 0.254) (type default)) (fill (type background))))\n  (symbol \"AUX4_1_1\" (pin input line (at -12.70 11.43 0) (length 2.54) (name \"IN+\" (effects (font (size 1.27 1.27)))) (number \"1\" (effects (font (size 1.27 1.27))))) (pin input line (at -12.70 8.89 0) (length 2.54) (name \"IN-\" (effects (font (size 1.27 1.27)))) (number \"2\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 11.43 180) (length 2.54) (name \"SEND1+\" (effects (font (size 1.27 1.27)))) (number \"3\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 8.89 180) (length 2.54) (name \"SEND1-\" (effects (font (size 1.27 1.27)))) (number \"4\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 6.35 180) (length 2.54) (name \"SEND2+\" (effects (font (size 1.27 1.27)))) (number \"5\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 3.81 180) (length 2.54) (name \"SEND2-\" (effects (font (size 1.27 1.27)))) (number \"6\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 1.27 180) (length 2.54) (name \"SEND3+\" (effects (font (size 1.27 1.27)))) (number \"7\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 -1.27 180) (length 2.54) (name \"SEND3-\" (effects (font (size 1.27 1.27)))) (number \"8\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 -3.81 180) (length 2.54) (name \"SEND4+\" (effects (font (size 1.27 1.27)))) (number \"9\" (effects (font (size 1.27 1.27))))) (pin output line (at 12.70 -6.35 180) (length 2.54) (name \"SEND4-\" (effects (font (size 1.27 1.27)))) (number \"10\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 12.70 -8.89 180) (length 2.54) (name \"SDA\" (effects (font (size 1.27 1.27)))) (number \"11\" (effects (font (size 1.27 1.27))))) (pin bidirectional line (at 12.70 -11.43 180) (length 2.54) (name \"SCL\" (effects (font (size 1.27 1.27)))) (number \"12\" (effects (font (size 1.27 1.27))))) (pin power_in line (at -1.27 16.51 270) (length 2.54) (name \"+12V\" (effects (font (size 1.27 1.27)))) (number \"13\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 1.27 16.51 270) (length 2.54) (name \"-12V\" (effects (font (size 1.27 1.27)))) (number \"14\" (effects (font (size 1.27 1.27))))) (pin power_in line (at 0.00 -16.51 90) (length 2.54) (name \"GND\" (effects (font (size 1.27 1.27)))) (number \"15\" (effects (font (size 1.27 1.27))))))\n)",
 "pins": [

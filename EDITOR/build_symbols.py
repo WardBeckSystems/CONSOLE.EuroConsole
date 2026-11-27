@@ -77,6 +77,13 @@ CUSTOM = {
                     20.32, 17.78, left=[('1', 'IN+', 'input'), ('2', 'IN-', 'input')],
                     right=[('3', 'OUT+', 'output'), ('4', 'OUT-', 'output'), ('5', 'SDA', 'bidirectional'), ('6', 'SCL', 'bidirectional')],
                     top=[('7', '+12V', 'power_in'), ('8', '-12V', 'power_in')], bottom=[('9', 'GND', 'power_in')]),
+    'SENDBANK': custom('SENDBANK', 'U', 'Send bank', 'EuroConsole send bank: two 4-channel inputs, PRE (insert return, before the fader) and POST (fader out); 4 send levels per channel (DS1882), each send pre or post; the 4 channels are summed per bus inside the module with the bus coming in from the previous bank (cascade). OUT = the bus so far; each summing point takes 5 inputs',
+                       25.4, 76.2,
+                       left=[(f'P{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', f'PRE CH{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', 'input') for i in range(8)]
+                          + [(f'Q{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', f'POST CH{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', 'input') for i in range(8)]
+                          + [(f'I{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', f'BUS{i // 2 + 1} IN{"+" if i % 2 == 0 else "-"}', 'input') for i in range(8)],
+                       right=[(f'O{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', f'BUS{i // 2 + 1} OUT{"+" if i % 2 == 0 else "-"}', 'output') for i in range(8)] + [('SDA', 'SDA', 'bidirectional'), ('SCL', 'SCL', 'bidirectional')],
+                       top=[('V+', '+12V', 'power_in'), ('V-', '-12V', 'power_in'), ('5V', '+5V', 'power_in')], bottom=[('G', 'GND', 'power_in')]),
     'AUX4': custom('AUX4', 'U', 'Aux send x4', 'EuroConsole 4-way aux send: post-fader channel in, four DS1882-controlled send levels out (one QTP RJ45: SUN SKY GRASS EARTH = sends 1-4), set over I2C by the strip ESP32-S3',
                    20.32, 27.94, left=[('1', 'IN+', 'input'), ('2', 'IN-', 'input')],
                    right=[(str(3 + i), f'SEND{i // 2 + 1}{"+" if i % 2 == 0 else "-"}', 'output') for i in range(8)] + [('11', 'SDA', 'bidirectional'), ('12', 'SCL', 'bidirectional')],
