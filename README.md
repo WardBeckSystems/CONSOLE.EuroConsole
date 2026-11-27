@@ -4,11 +4,11 @@
 
 EuroConsole grows out of the 2016|49 *Digitally Controlled Analog Surround Sound Panner* (DCASSP), built at APK audio and Ward-Beck Systems as a Seneca College technology project. That prototype showed one idea: **the audio stays analog, the controls go digital**. Every control a mixer touches (encoders, buttons, faders, LEDs) is read by a microcontroller. The microcontroller sets digitally controlled analog parts, such as the Maxim DS1882 log-taper audio potentiometers, which do the actual work on the signal. Because the panel never carries audio, the controls can move, light up, recall and be driven remotely, and the signal path keeps the sound of the Ward-Beck circuits.
 
-EuroConsole turns that prototype into a whole console, built from 3U Eurorack modules:
+EuroConsole turns that prototype into a whole console, built from 3U Eurorack modules. The first build is the **C1616**:
 
 | Part | What it is |
 |---|---|
-| **16 × 16 console** | 16 input channels (B300 Brain + F300 Fader strips) feeding **16 summing amplifiers**, in 4 rows of 6 modules |
+| **C1616 console** | 16 input channels (B300 Brain + F300 Fader strips) feeding **16 summing amplifiers**, in 4 rows of 6 modules |
 | **Input** | M480B input module: the channel's mic/line front end |
 | **4-input summing console** | one row: 4 × RJ45 QTP in (all 16 channels) → 4 summing amps, each with an insert point |
 | **Processing** | EQ, compressor, de-esser, gate: patch into any insert |
@@ -25,7 +25,7 @@ Everything connects with **QTP (Quad Twisted Pair)**: four balanced analog chann
 
 ```mermaid
 flowchart LR
-  subgraph CH["16 × 16 console: 16 channel strips"]
+  subgraph CH["C1616: 16 channel strips"]
     direction TB
     B["B300 Brain<br/>input select · 4 aux · ESP32-S3"] --- F["F300 Fader<br/>POS pan · ONLY · SEL · fader · CH ON"]
   end
@@ -54,7 +54,9 @@ flowchart LR
 
 ---
 
-## 1. The 16 × 16 console: channel strip = B300 + F300
+## 1. The C1616 console (16 × 16): channel strip = B300 + F300
+
+**C1616** = 16 input channels × 16 summing amplifiers.
 
 Each channel strip is two 6HP × 3U modules from the *HUI front panel REV 4.1* drawing ([DXF](MECHANICAL/HUI%20front%20panel%20REV%204.1.dxf)):
 
@@ -76,7 +78,7 @@ Each channel strip is two 6HP × 3U modules from the *HUI front panel REV 4.1* d
 
 The fader scales the looked-up row to a percentage. At power-up, every pot starts at full mute.
 
-**16 × 16.** 16 input channels feed 16 summing amplifiers. The 16 channels leave the strips on four QTP cables (4 channels each), and every summing row receives all four. 16 strips × 12HP = 192HP, which is three rows of 84HP.
+**C1616.** 16 input channels feed 16 summing amplifiers. The 16 channels leave the strips on four QTP cables (4 channels each), and every summing row receives all four. 16 strips × 12HP = 192HP, which is three rows of 84HP.
 
 ---
 
@@ -162,7 +164,7 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 4. **Processing**: EQ (M462B), compressor (M466), de-esser (M466 side-chain), gate (M467). Each gets a Eurorack PCB and panel with QTP send / return, sharing the M466/M462B output amplifier.
 5. **Patch bay**: QTP-BITTREE and QTP-NEUTRIK into a Eurorack QTP patch module, normalled.
 6. **Metering**: Big VU Meter onto the ESP32-S3 as the VU meter driver, plus moving-coil VU panels.
-7. **The 16 × 16 frame**: three 84HP rows, the power, the QTP patch, and network control.
+7. **The C1616 frame**: three 84HP rows, the power, the QTP patch, and network control.
 
 ## Source material
 
