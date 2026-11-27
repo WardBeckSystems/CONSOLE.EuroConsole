@@ -13,3 +13,23 @@
 | [Encoder PCB - 2016 DCASSP sheet (source)](Encoder_PCB_17.2/) | 17.2 | the whole Eagle sheet: every board above plus documentation frames | Encoder PCB REV 17.2 (2016 DCASSP) |
 
 Each board carries its name in the title block. `split_boards.py` splits the Encoder sheet per module in panel coordinates; `name_boards.py` writes these names.
+
+## Schematics
+
+Every Eagle schematic in `EAGLE/` is converted with KiCad's own importer (eeschema, File → Import → Non-KiCad Schematic), driven on a virtual display because `kicad-cli` has no schematic import: `tools/eagle_sch_batch.py` (Xvfb `:77`, a fresh eeschema per file; `xdrv.py` clicks / keys, `xclip_owner.py` hands the path to the file dialog). Each converted schematic sits next to its board where there is one, with its `*-eagle-import.kicad_sym` and `sym-lib-table`.
+
+| Schematic | Parts | Nets |
+|---|---|---|
+| Encoder_PCB_17.2 (11 sheets) | 173 | 278 |
+| M462B_EQ | 268 | 224 |
+| M466_Compressor_Limiter | 231 | 191 |
+| M480B_Input_Module | 205 | 187 |
+| M466_Control_Amp | 82 | 60 |
+| Big_VU_Meter_REV5 | 80 | 79 |
+| M466_M462B_Output_Amplifier | 73 | 50 |
+| QTP-BAC_14.1 | 68 | 43 |
+| VU_Meter_Summing_Amp_rev1 | 22 | 59 |
+| QTP-BITTREE_Patchbay_REV2.1 | 10 | 45 |
+| QTP-NEUTRIK_D-hole | 8 | 17 |
+| Block_Diagram_v2 | 6 | 10 |
+| Maxim_Adapter_Board | 3 | 16 |

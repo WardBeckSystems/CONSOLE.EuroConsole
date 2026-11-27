@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "QTP-BITTREE_Patchbay_REV2.1-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/QTP-BITTREE_Patchbay_REV2.1-eagle-import.kicad_sym")(options "")(descr ""))
+)

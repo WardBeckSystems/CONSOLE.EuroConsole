@@ -19,11 +19,12 @@
     SUM:    { label: 'Summing amp', sym: 'M450', note: 'M450 program/summing amplifier' },
     INSERT: { label: 'Insert', sym: 'M499', note: 'M499 insertion switcher per bus + QTP send / return' },
     PATCH:  { label: 'Patch bay', sym: 'QTP', note: 'QTP-BITTREE patch card: top row = sends, bottom row = returns' },
+    FADER:  { label: 'Fader', sym: 'FADER', note: 'master fader bank: 4 x F300, one per bus of the row' },
     BIGVU:  { label: 'Big VU', sym: 'BIGVU', note: 'Big VU (RD87) per bus pair' },
-    EQ:     { label: 'EQ', sym: 'M462B', note: 'M462B equalizer, patched' },
-    COMP:   { label: 'Compressor', sym: 'M466', note: 'M466 limiter-compressor, patched' },
-    DEESS:  { label: 'De-esser', sym: 'M466', note: 'M466 with a weighted side-chain (new), patched' },
-    GATE:   { label: 'Gate', sym: 'M467', note: 'M467 noise gate, patched' },
+    EQ:     { label: 'EQ', sym: 'M462B', note: 'M462B equalizer bank on the row\'s buses' },
+    COMP:   { label: 'Compressor', sym: 'M466', note: 'M466 compressor bank on the row\'s buses' },
+    DEESS:  { label: 'De-esser', sym: 'M466', note: 'M466 de-esser bank (weighted side-chain, new) on the row\'s buses' },
+    GATE:   { label: 'Gate', sym: 'M467', note: 'M467 gate bank on the row\'s buses' },
     EMPTY:  { label: 'Blank', sym: null, note: 'blank panel' },
   };
   const PAIR = ['SUN', 'SKY', 'GRASS', 'EARTH'];
@@ -54,7 +55,7 @@
   const TEMPLATE = { in: 'MIC', fx: ['EQ', 'COMP'], sends: ['A14', 'A58', 'M14'] };
   function defaultConfig() {
     const row = ['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'BIGVU'];
-    return { inputs: 16, rows: [row, row, row, row].map(r => r.slice()), resistors: true, rValue: '10k', rev: 'A',
+    return { inputs: 16, rows: [['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'COMP', 'FADER', 'BIGVU'], row, row, row].map(r => r.slice()), resistors: true, rValue: '10k', rev: 'A',
              template: JSON.parse(JSON.stringify(TEMPLATE)), channels: [], preamp: 'M480' };
   }
   /* every channel: { in, fx: [...CHAIN], sends: [...SENDS] }; missing channels take the template */
@@ -205,6 +206,10 @@
       sheets.push(sh);
       const rb = []; slots.forEach(s => { if (s === 'SUM') rb.push(BUSES[bi++]); });
       const hasIns = slots.includes('INSERT'), patchOut = slots.includes('PATCH') && !hasIns;
+      /* each bus runs through the row's stages in slot order: summing amp -> insert / processors / fader -> bus out */
+      const STAGES = ['INSERT', 'GATE', 'EQ', 'COMP', 'DEESS', 'FADER'];
+      const stages = slots.filter(s => STAGES.includes(s));
+      const sn = (b, i) => i >= stages.length ? b.name : i === 0 ? `${b.name}_SUM` : `${b.name}_${stages[i - 1]}`;   // the net into stage i
       sh.text(`Row ${R}: ${slots.map(s => SLOTS[s].label).join(' | ')}  -  ${rb.map(b => b.name).join(' ') || 'no buses'}`, 20.32, 15.24, 3);
       // QTP inputs: one per channel per send module feeding this row, or the CH groups for direct sums
       sh.text('QTP in', 20.32, 27.94, 2);
@@ -215,13 +220,13 @@
       if (rb.some(b => !b.send)) for (let g = 0; g < Math.ceil(N / 4); g++) {
         sh.place('QTP', 30.48, snap(qy), next('J'), `QTP IN ${g * 4 + 1}-${Math.min(g * 4 + 4, N)}`, qtpNets([0, 1, 2, 3].map(i => g * 4 + i + 1 <= N ? CH(g * 4 + i + 1) : null))); count('QTP RJ45'); qy += 38.1;
       }
-      // summing amps with their resistor matrix
-      const pitch = 7.62, rx0 = 81.28, blockH = 76.2;
-      rb.forEach((bus, k) => {
-        const y = snap(40.64 + k * blockH);
-        const src = CHS.map((sp, ci) => (!bus.send ? CH(ci + 1) : sp.sends.includes(bus.send) ? sendNet(ci + 1, bus.name) : null)).filter(Boolean);
-        sh.text(`${bus.name}: ${src.length} channel${src.length === 1 ? '' : 's'} summed`, rx0, y - 20.32, 2);
-        const out = hasIns ? `SEND_${bus.name}` : bus.name;
+      // summing amps with their resistor matrix: no amp sums more than 8 (rule), so a bus is a tree of groups of 8
+      const pitch = 7.62, rx0 = 81.28, blockH = 76.2, MAXIN = 8;
+      const groupsOf = (a, n) => { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
+      let yb = 40.64;
+      const ampBlock = (label, src, node, outNet, value) => {
+        const y = snap(yb); yb += blockH;
+        sh.text(`${label}: ${src.length} in`, rx0, y - 20.32, 2);
         if (cfg.resistors && src.length) {
           ['+', '-'].forEach((pol, pi) => {
             const ry = snap(y + pi * 25.4);
@@ -233,40 +238,53 @@
             });
             const xe = rx0 + (src.length - 1) * pitch + 10.16;
             sh.wire(rx0 + (src.length - 1) * pitch, ry + 3.81, xe, ry + 3.81);
-            sh.label(`SUMN_${bus.name}${pol}`, xe, ry + 3.81, 0);
+            sh.label(`${node}${pol}`, xe, ry + 3.81, 0);
           });
           count(`Summing resistor ${cfg.rValue}`, 2 * src.length);
         }
-        sh.place('M450', snap(rx0 + Math.max(N, 4) * pitch + 50.8), snap(y + 12.7), next('U'), `M450 ${bus.name}`, {
-          'SUMMING INPUT +': `SUMN_${bus.name}+`, 'SUMMING INPUT -': `SUMN_${bus.name}-`,
-          'OUTPUT +': out + '+', 'OUTPUT -': out + '-', 'INPUT SHIELD': 'GND', COMMON: 'GND', GND: 'GND' }); count('M450 summing amplifier');
+        sh.place('M450', snap(rx0 + MAXIN * pitch + 50.8), snap(y + 12.7), next('U'), value, {
+          'SUMMING INPUT +': node + '+', 'SUMMING INPUT -': node + '-',
+          'OUTPUT +': outNet + '+', 'OUTPUT -': outNet + '-', 'INPUT SHIELD': 'GND', COMMON: 'GND', GND: 'GND' }); count('M450 summing amplifier');
+      };
+      rb.forEach(bus => {
+        let src = CHS.map((sp, ci) => (!bus.send ? CH(ci + 1) : sp.sends.includes(bus.send) ? sendNet(ci + 1, bus.name) : null)).filter(Boolean);
+        let level = 0;
+        while (src.length > MAXIN) {                 // sum groups of 8, then sum the groups
+          src = groupsOf(src, MAXIN).map((g, gi) => { const o = `${bus.name}_${level ? 'L' + level : ''}G${gi + 1}`; ampBlock(`${bus.name} group ${gi + 1}`, g, `SUMN_${o}`, o, `M450 ${o}`); return o; });
+          level++;
+        }
+        ampBlock(level ? `${bus.name} = sum of ${src.length} groups` : bus.name, src, `SUMN_${bus.name}`, sn(bus, 0), `M450 ${bus.name}`);
       });
       // the other slots
-      let sx = snap(rx0 + Math.max(N, 4) * pitch + 50.8 + 111.76), sy = 40.64;
+      let sx = snap(rx0 + MAXIN * pitch + 50.8 + 111.76), sy = 40.64;
       const chunk = (arr, n) => { const o = []; for (let i = 0; i < arr.length; i += n) o.push(arr.slice(i, i + n)); return o; };
       const qtpBus = (label, prefix, group) => { sh.place('QTP', sx + 10.16, snap(sy), next('J'), label, qtpNets(group.map(b => prefix + b.name))); count('QTP RJ45'); sy += 38.1; };
       const span = g => `${g[0].name}-${g[g.length - 1].name}`;
+      let st = 0;
       slots.forEach((s, si) => {
         if (s === 'SUM' || s === 'EMPTY') return;
         sh.text(`Slot ${si + 1}: ${SLOTS[s].label}`, sx, sy - 10.16, 2); sy += 7.62;
-        if (s === 'INSERT') {
-          rb.forEach(b => { sh.place('M499', sx + 33.02, snap(sy + 5.08), next('U'), `M499 ${b.name}`, { 'IN +': `RET_${b.name}+`, 'IN -': `RET_${b.name}-`, 'OUT +': b.name + '+', 'OUT -': b.name + '-', VCC: 'VCC', GND: 'GND' }); count('M499 insertion switcher'); sy += 33.02; });
-          chunk(rb, 4).forEach(g => { qtpBus(`INSERT SEND ${span(g)}`, 'SEND_', g); qtpBus(`INSERT RETURN ${span(g)}`, 'RET_', g); });
+        const k = STAGES.includes(s) ? st++ : -1, into = b => sn(b, k), outof = b => sn(b, k + 1);
+        if (s === 'INSERT') {                       // send = the net into the insert, return -> M499 -> next stage
+          rb.forEach(b => { sh.place('M499', sx + 33.02, snap(sy + 5.08), next('U'), `M499 ${b.name}`, { 'IN +': `RET_${b.name}+`, 'IN -': `RET_${b.name}-`, 'OUT +': outof(b) + '+', 'OUT -': outof(b) + '-', VCC: 'VCC', GND: 'GND' }); sy += 33.02; });
+          count('Insert bank (4 x M499)', Math.ceil(rb.length / 4));
+          chunk(rb, 4).forEach(g => { sh.place('QTP', sx + 10.16, snap(sy), next('J'), `INSERT SEND ${span(g)}`, qtpNets(g.map(into))); count('QTP RJ45'); sy += 38.1; qtpBus(`INSERT RETURN ${span(g)}`, 'RET_', g); });
         } else if (s === 'PATCH') {
-          if (hasIns) chunk(rb, 4).forEach(g => { qtpBus(`PATCH TOP (sends) ${span(g)}`, 'SEND_', g); qtpBus(`PATCH BOTTOM (returns) ${span(g)}`, 'RET_', g); });
+          const ins = slots.indexOf('INSERT') >= 0 ? stages.indexOf('INSERT') : -1;
+          if (ins >= 0) chunk(rb, 4).forEach(g => { sh.place('QTP', sx + 10.16, snap(sy), next('J'), `PATCH TOP (sends) ${span(g)}`, qtpNets(g.map(b => sn(b, ins)))); count('QTP RJ45'); sy += 38.1; qtpBus(`PATCH BOTTOM (returns) ${span(g)}`, 'RET_', g); });
           else { chunk(rb, 4).forEach(g => { qtpBus(`PATCH TOP (bus out) ${span(g)}`, '', g); qtpBus(`PATCH BOTTOM (to row out) ${span(g)}`, 'OUT_', g); });
             sh.text('Half-normal: OUT = bus when nothing is patched', sx, sy, 1.5); sy += 5.08; }
           count('QTP-BITTREE patch card', Math.ceil(rb.length / 4));
+        } else if (s === 'FADER') {
+          rb.forEach(b => { sh.place('FADER', sx + 25.4, snap(sy + 10.16), next('U'), `F300 ${b.name}`, { 'IN+': into(b) + '+', 'IN-': into(b) + '-', 'OUT+': outof(b) + '+', 'OUT-': outof(b) + '-', SDA: 'I2C_SDA', SCL: 'I2C_SCL' }); sy += 33.02; });
+          count('Master fader bank (4 x F300)', Math.ceil(rb.length / 4));
         } else if (s === 'BIGVU') {
-          chunk(rb, 2).forEach(g => { sh.place('BIGVU', sx + 22.86, snap(sy + 7.62), next('U'), `Big VU ${g.map(b => b.name).join('/')}`, { 'L+': g[0].name + '+', 'L-': g[0].name + '-', 'R+': g[1] ? g[1].name + '+' : 'NC', 'R-': g[1] ? g[1].name + '-' : 'NC' }); count('Big VU (RD87)'); sy += 33.02; });
-        } else {
-          const sym = SLOTS[s].sym, ref = next('U'), S = SYM[sym];
-          const tag = ['INL+', 'INL-', 'INR+', 'INR-'], otag = ['OUTL+', 'OUTL-', 'OUTR+', 'OUTR-'], nets = {};
-          S.pins.map((p, i) => [p, i]).filter(([p]) => p.type === 'input').slice(0, 4).forEach(([p, i], j) => nets[i] = `P${ref}_${tag[j]}`);
-          S.pins.map((p, i) => [p, i]).filter(([p]) => p.type === 'output').slice(0, 4).forEach(([p, i], j) => nets[i] = `P${ref}_${otag[j]}`);
-          sh.place(sym, sx + 55.88, snap(sy + 10.16), ref, s === 'DEESS' ? 'M466 De-esser' : sym, nets); count(SLOTS[s].note);
-          sy += 45.72;
-          sh.place('QTP', sx + 10.16, snap(sy), next('J'), `${ref} PATCH (SUN/SKY in, GRASS/EARTH out)`, qtpNets([`P${ref}_INL`, `P${ref}_INR`, `P${ref}_OUTL`, `P${ref}_OUTR`])); count('QTP RJ45'); sy += 38.1;
+          chunk(rb, 2).forEach(g => { sh.place('BIGVU', sx + 22.86, snap(sy + 7.62), next('U'), `Big VU ${g.map(b => b.name).join('/')}`, { 'L+': g[0].name + '+', 'L-': g[0].name + '-', 'R+': g[1] ? g[1].name + '+' : 'NC', 'R-': g[1] ? g[1].name + '-' : 'NC' }); sy += 33.02; });
+          count('Big VU (RD87)', Math.ceil(rb.length / 2));
+        } else {                                     // EQ / compressor / de-esser / gate: a bank of 4 inline on the row's buses
+          const sym = SLOTS[s].sym;
+          rb.forEach(b => { sh.place(sym, sx + halfW(sym) + 12.7, snap(sy + 10.16), next('U'), `${s === 'DEESS' ? 'M466 De-esser' : sym} ${b.name}`, legNets(sym, into(b), outof(b))); sy += 45.72; });
+          count(`${SLOTS[s].label} bank (4 x ${sym}, bus)`, Math.ceil(rb.length / 4));
         }
         sy += 10.16;
       });

@@ -1,0 +1,1779 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "ea0e5647-10d1-4319-94e1-a5982467325a")
+	(paper "A4")
+	(lib_symbols
+		(symbol "QTP-NEUTRIK_D-hole-eagle-import:CON-QTP_VERT"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" ""
+				(at 22.86 12.7 90)
+				(effects
+					(font
+						(size 1.9304 1.6408)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" "QTP-NEUTRIK_D-hole:ASSMAN-RJ45_VERT"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "CON-QTP_VERT_1_0"
+				(polyline
+					(pts
+						(xy 0 33.02) (xy 20.32 33.02)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 30.48) (xy 0 33.02)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 27.94) (xy 0 30.48)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 30.48)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 20.32 33.02) (xy 20.32 0)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 20.32 0) (xy 0 0)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "QTP"
+					(at 22.86 5.08 900)
+					(effects
+						(font
+							(size 1.778 1.5113)
+						)
+						(justify left bottom)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 30.48 0)
+					(length 5.08)
+					(name "PAIR+1_SUN"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 27.94 0)
+					(length 5.08)
+					(name "PAIR-1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 22.86 0)
+					(length 5.08)
+					(name "PAIR+2_SKY"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$4"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 20.32 0)
+					(length 5.08)
+					(name "PAIR-2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$5"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 15.24 0)
+					(length 5.08)
+					(name "PAIR+3_GRASS"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$6"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 12.7 0)
+					(length 5.08)
+					(name "PAIR-3"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 7.62 0)
+					(length 5.08)
+					(name "PAIR+4_EARTH"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$8"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -5.08 5.08 0)
+					(length 5.08)
+					(name "PAIR-4"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$7"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 2.54 180)
+					(length 5.08)
+					(name "GROUND"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$10"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 2.54 180)
+					(length 5.08)
+					(name "GROUND"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$11"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 2.54 180)
+					(length 5.08)
+					(name "GROUND"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$12"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 2.54 180)
+					(length 5.08)
+					(name "GROUND"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "P$9"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-3"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" ""
+				(at -2.54 5.334 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-3"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "CON-WBS-LOCKING-0.1-3_1_0"
+				(polyline
+					(pts
+						(xy -2.54 5.08) (xy 2.54 5.08)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -5.08) (xy -2.54 5.08)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 5.08) (xy 2.54 -5.08)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -5.08) (xy -2.54 -5.08)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "1"
+					(at 0 2.54 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(text "2"
+					(at 0 0 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(text "3"
+					(at 0 -2.54 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 2.54 180)
+					(length 2.54)
+					(name "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 -2.54 180)
+					(length 2.54)
+					(name "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-4"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" ""
+				(at -2.54 5.334 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-4"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "CON-WBS-LOCKING-0.1-4_1_0"
+				(polyline
+					(pts
+						(xy -2.54 5.08) (xy 2.54 5.08)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -7.62) (xy -2.54 5.08)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 5.08) (xy 2.54 -7.62)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -7.62) (xy -2.54 -7.62)
+					)
+					(stroke
+						(width 0.254)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "1"
+					(at 0 2.54 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(text "2"
+					(at 0 0 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(text "3"
+					(at 0 -2.54 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(text "4"
+					(at 0 -5.08 0)
+					(effects
+						(font
+							(size 1.016 0.8636)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 2.54 180)
+					(length 2.54)
+					(name "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 -2.54 180)
+					(length 2.54)
+					(name "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 5.08 -5.08 180)
+					(length 2.54)
+					(name "P$4"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$4"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(wire
+		(pts
+			(xy 91.44 116.84) (xy 106.68 116.84)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "06ad4b6f-bace-4cbe-93ee-7553b4158cd5")
+	)
+	(wire
+		(pts
+			(xy 91.44 149.86) (xy 208.28 149.86)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "09ab9737-bdaf-416c-8ddf-6e8eebe997b4")
+	)
+	(wire
+		(pts
+			(xy 208.28 101.6) (xy 208.28 91.44)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "0b5a606d-cefa-4a6c-9c5f-11b44ea8e34d")
+	)
+	(wire
+		(pts
+			(xy 142.24 134.62) (xy 127 134.62)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "0c2d8942-aec3-4eae-a3cf-59a60aecd3fe")
+	)
+	(wire
+		(pts
+			(xy 127 78.74) (xy 177.8 78.74)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "0d5b93d6-f6a2-428e-a6fe-26a17821b2bd")
+	)
+	(wire
+		(pts
+			(xy 144.78 91.44) (xy 144.78 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "161614bd-4e93-41da-9586-2be8bb3a9837")
+	)
+	(wire
+		(pts
+			(xy 127 129.54) (xy 177.8 129.54)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "17cf9294-4e91-4d35-8a1c-3fd990893e31")
+	)
+	(wire
+		(pts
+			(xy 104.14 119.38) (xy 91.44 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "2256fe15-cbf6-4045-809d-2e7a7dff526c")
+	)
+	(wire
+		(pts
+			(xy 91.44 111.76) (xy 177.8 111.76)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "2e86ecec-0a19-419b-8cb5-09fcd472cb38")
+	)
+	(wire
+		(pts
+			(xy 127 127) (xy 177.8 127)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "32b077f2-a59b-4723-bfac-ad7ee1f88ca6")
+	)
+	(wire
+		(pts
+			(xy 104.14 121.92) (xy 177.8 121.92)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "3cfc2a5e-b045-4759-b353-18dfe44c3094")
+	)
+	(wire
+		(pts
+			(xy 91.44 101.6) (xy 106.68 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "3d1af009-925d-45d5-8845-3ed8655e3a78")
+	)
+	(wire
+		(pts
+			(xy 127 101.6) (xy 144.78 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "491c7c0e-4c4d-4b61-9b76-2533307d2a93")
+	)
+	(wire
+		(pts
+			(xy 142.24 137.16) (xy 142.24 134.62)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "4cace3ad-e368-486e-9e3d-9f35633d3017")
+	)
+	(wire
+		(pts
+			(xy 127 132.08) (xy 144.78 132.08)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "605e605d-1bb7-4993-8d78-e4061b18f969")
+	)
+	(wire
+		(pts
+			(xy 127 83.82) (xy 127 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "64993bf3-0951-4fcd-bac5-1cfd93a56b0f")
+	)
+	(wire
+		(pts
+			(xy 106.68 101.6) (xy 127 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "6b666d85-ba9b-443a-9809-796961d50736")
+	)
+	(wire
+		(pts
+			(xy 104.14 121.92) (xy 104.14 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "746c6952-4d64-43eb-b1e2-24341c2447a8")
+	)
+	(wire
+		(pts
+			(xy 91.44 66.04) (xy 177.8 66.04)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "76a40b91-48df-4ee2-8841-49bfdb39d306")
+	)
+	(wire
+		(pts
+			(xy 106.68 71.12) (xy 177.8 71.12)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "93779abf-9439-4363-ab0f-1afa30da48c2")
+	)
+	(wire
+		(pts
+			(xy 91.44 63.5) (xy 177.8 63.5)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "9a0c3d9a-c9c9-40ba-b5e0-9416fc7297cc")
+	)
+	(wire
+		(pts
+			(xy 144.78 134.62) (xy 177.8 134.62)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "9abc463a-47c4-4327-aa21-6b8a5b14fae9")
+	)
+	(wire
+		(pts
+			(xy 106.68 116.84) (xy 106.68 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "a6a04215-188e-4233-b4bd-7d9fae3b5e20")
+	)
+	(wire
+		(pts
+			(xy 144.78 101.6) (xy 208.28 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "b6ad376b-e6d2-42b6-a271-aae39a5d3900")
+	)
+	(wire
+		(pts
+			(xy 106.68 73.66) (xy 177.8 73.66)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "bdc74425-f83f-43ff-bd8c-c6c3cee2bf03")
+	)
+	(wire
+		(pts
+			(xy 208.28 149.86) (xy 208.28 139.7)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "c8e445e7-0864-43fc-93cb-aa14b2152450")
+	)
+	(wire
+		(pts
+			(xy 144.78 88.9) (xy 177.8 88.9)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "ca0ed1d8-0db2-463f-aa2d-746608800dc0")
+	)
+	(wire
+		(pts
+			(xy 91.44 114.3) (xy 177.8 114.3)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "d4e14c22-09bf-45b3-9a0e-e663c2593c76")
+	)
+	(wire
+		(pts
+			(xy 106.68 76.2) (xy 106.68 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "d5505490-6783-4f79-9f7c-ae3030a5cc6b")
+	)
+	(wire
+		(pts
+			(xy 144.78 86.36) (xy 177.8 86.36)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "d9ea96e9-e367-4da0-a45e-f203940cf424")
+	)
+	(wire
+		(pts
+			(xy 91.44 68.58) (xy 91.44 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "dbb285fd-0fbd-48c2-a984-a868357a2650")
+	)
+	(wire
+		(pts
+			(xy 142.24 137.16) (xy 177.8 137.16)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "e59e0db3-d9bd-4fe7-8f02-daf5e9671a13")
+	)
+	(wire
+		(pts
+			(xy 127 81.28) (xy 177.8 81.28)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "edfb11a6-4105-4460-966c-3fea8a74f579")
+	)
+	(wire
+		(pts
+			(xy 144.78 132.08) (xy 144.78 134.62)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "f128d90c-0ab5-4769-aaba-ec67e769a58b")
+	)
+	(wire
+		(pts
+			(xy 106.68 119.38) (xy 177.8 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "fd1afb59-969f-49df-a432-df667248018d")
+	)
+	(label "GND"
+		(at 91.44 68.58 0)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+			(justify left bottom)
+		)
+		(uuid "c71f3bd3-0c61-4f31-bdec-8cec3bf23796")
+	)
+	(label "GND"
+		(at 91.44 149.86 180)
+		(effects
+			(font
+				(size 1.016 1.016)
+			)
+			(justify right bottom)
+		)
+		(uuid "ee54344c-6ab1-45f7-a7d2-bd0ed18bdfdc")
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-3")
+		(at 139.7 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0ecdb72b-ec97-4886-a743-129aa7be79c0")
+		(property "Reference" "EARTH0"
+			(at 137.16 83.566 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-WBS-LOCKING-0.1-3"
+			(at 139.7 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-3"
+			(at 139.7 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 139.7 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 139.7 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$1"
+			(uuid "dfc32c01-e69a-4f5f-a636-ed6f66e3dd50")
+		)
+		(pin "P$2"
+			(uuid "d1539f4c-2f2a-4d76-a7a3-661f17df7223")
+		)
+		(pin "P$3"
+			(uuid "c3956abd-e9ee-4a17-83c1-04693f3ec5b8")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "EARTH0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-QTP_VERT")
+		(at 182.88 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1d90621d-42ed-41d3-90e9-0e2470bbc96f")
+		(property "Reference" "U$2"
+			(at 205.74 129.54 90)
+			(effects
+				(font
+					(size 1.9304 1.6408)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-QTP_VERT"
+			(at 182.88 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:ASSMAN-RJ45_VERT"
+			(at 182.88 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 182.88 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$2"
+			(uuid "d511c4ae-10fd-4249-a658-063154570393")
+		)
+		(pin "P$1"
+			(uuid "91f9c064-ab1e-47b9-b801-38a00c1664b9")
+		)
+		(pin "P$4"
+			(uuid "db641c31-2bc7-486a-98e2-60b331f74a80")
+		)
+		(pin "P$5"
+			(uuid "23bdc64d-32d1-42cd-bd4c-2c03fd9d0907")
+		)
+		(pin "P$6"
+			(uuid "aa53cec2-1b67-42d3-af34-24bc4a92c8cf")
+		)
+		(pin "P$3"
+			(uuid "65d741d4-7777-498e-9c01-16a755602976")
+		)
+		(pin "P$8"
+			(uuid "0119ac76-8505-4d3f-88e4-640c10ec0fde")
+		)
+		(pin "P$7"
+			(uuid "fcb0c218-2f21-44bf-812d-10c052692f3b")
+		)
+		(pin "P$10"
+			(uuid "2372fdeb-6ae8-4ccf-baac-c870fd2cfac2")
+		)
+		(pin "P$11"
+			(uuid "3fdbbaa5-dc71-485d-8491-0011e15b19a3")
+		)
+		(pin "P$12"
+			(uuid "aed7b369-8fe7-4230-a02d-842e8a877dec")
+		)
+		(pin "P$9"
+			(uuid "55601752-3788-48fa-a155-6f250c0cc99a")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "U$2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-4")
+		(at 121.92 129.54 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4cd20b88-b3e0-49b1-acb4-6d061c81f875")
+		(property "Reference" "GRASS-EARTH0"
+			(at 119.38 124.206 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-WBS-LOCKING-0.1-4"
+			(at 121.92 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-4"
+			(at 121.92 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 121.92 129.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$1"
+			(uuid "8450fe2f-fca1-4683-a674-524c5175a1ed")
+		)
+		(pin "P$2"
+			(uuid "3f9cc748-664f-458c-be12-f8421dedc493")
+		)
+		(pin "P$3"
+			(uuid "e74a5891-8bd8-43ea-b456-7c74db22dec1")
+		)
+		(pin "P$4"
+			(uuid "70259146-d664-4af3-9931-79101a601cba")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "GRASS-EARTH0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-4")
+		(at 86.36 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "52343490-e386-46d6-8374-331957f39403")
+		(property "Reference" "SUN-SKY0"
+			(at 83.82 108.966 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-WBS-LOCKING-0.1-4"
+			(at 86.36 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-4"
+			(at 86.36 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$1"
+			(uuid "c083144b-e3f3-458f-8a34-901f30a61f31")
+		)
+		(pin "P$2"
+			(uuid "7a2e1578-2d8f-4d1d-b4c7-35b31c619ca5")
+		)
+		(pin "P$3"
+			(uuid "22c4bfde-6c28-4a05-9d99-6e6dbb128e03")
+		)
+		(pin "P$4"
+			(uuid "d9529138-aac9-4de9-876b-6f913f06d92d")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "SUN-SKY0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-3")
+		(at 86.36 66.04 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a8568793-2e09-47fb-b3b1-d6c333524cbf")
+		(property "Reference" "SUN0"
+			(at 83.82 60.706 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-WBS-LOCKING-0.1-3"
+			(at 86.36 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-3"
+			(at 86.36 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$1"
+			(uuid "9794dc77-a9d1-4e16-9103-74df279dd848")
+		)
+		(pin "P$2"
+			(uuid "b9e622b4-1075-44eb-b25c-3ee3f3ca5313")
+		)
+		(pin "P$3"
+			(uuid "1587b821-ebe6-43e4-b659-72a8c20ade72")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "SUN0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-QTP_VERT")
+		(at 182.88 93.98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b2bf67e3-3651-4651-b78c-60e55af961e5")
+		(property "Reference" "U$1"
+			(at 205.74 81.28 90)
+			(effects
+				(font
+					(size 1.9304 1.6408)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-QTP_VERT"
+			(at 182.88 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:ASSMAN-RJ45_VERT"
+			(at 182.88 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 182.88 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$2"
+			(uuid "3a18070b-1f56-4eab-8f85-d2d94ccbea94")
+		)
+		(pin "P$1"
+			(uuid "4dcab330-e0d0-40dd-affb-46407df550fd")
+		)
+		(pin "P$4"
+			(uuid "2f64ea54-0b72-4cef-90ed-9605ac8dfaef")
+		)
+		(pin "P$5"
+			(uuid "295d90d1-bb6a-41fa-ab77-1d4a3c24406b")
+		)
+		(pin "P$6"
+			(uuid "ddceb4f3-2a15-4c49-9a92-7774431e8ba4")
+		)
+		(pin "P$3"
+			(uuid "9848e9a2-74c2-4659-bf12-5adee78df41b")
+		)
+		(pin "P$8"
+			(uuid "041a2a98-9899-4c99-b210-ee90cba1621e")
+		)
+		(pin "P$7"
+			(uuid "1ce72ce3-21b6-48d0-9cfa-abe97d483f7c")
+		)
+		(pin "P$10"
+			(uuid "bafda267-ac29-4653-9a76-d2f4dfeee4b1")
+		)
+		(pin "P$11"
+			(uuid "6dc54d40-3de7-4f29-b4f2-90cc0879fcd7")
+		)
+		(pin "P$12"
+			(uuid "2b523ff3-3b60-4cce-9adc-488ca2ed1da9")
+		)
+		(pin "P$9"
+			(uuid "80c51c46-0edc-476b-9fd9-6e7e0325645e")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "U$1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-3")
+		(at 101.6 73.66 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d9bc8b9f-4145-4102-8863-effd54a8a4a2")
+		(property "Reference" "SKY0"
+			(at 99.06 68.326 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-WBS-LOCKING-0.1-3"
+			(at 101.6 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-3"
+			(at 101.6 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 101.6 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$1"
+			(uuid "61813a00-b978-459a-9829-68b4d0619ce9")
+		)
+		(pin "P$2"
+			(uuid "d680a715-3df6-4550-bd59-0f09c2ba0549")
+		)
+		(pin "P$3"
+			(uuid "eacfd056-67a5-436c-ac86-40426aea2f57")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "SKY0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "QTP-NEUTRIK_D-hole-eagle-import:CON-WBS-LOCKING-0.1-3")
+		(at 121.92 81.28 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "dc74b8be-0ac8-418e-b4ab-c71734cf1f54")
+		(property "Reference" "GRASS0"
+			(at 119.38 75.946 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "CON-WBS-LOCKING-0.1-3"
+			(at 121.92 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "QTP-NEUTRIK_D-hole:CON-WBS-LOCKING-0.1-3"
+			(at 121.92 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 121.92 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "P$1"
+			(uuid "c6ba7dd2-037d-4620-a9b5-f01a028e7999")
+		)
+		(pin "P$2"
+			(uuid "8417116b-c020-4e80-835e-23387b3eb901")
+		)
+		(pin "P$3"
+			(uuid "1335a0c4-5c73-44c7-900a-d8e14cfc872b")
+		)
+		(instances
+			(project "QTP-NEUTRIK_D-hole"
+				(path "/ea0e5647-10d1-4319-94e1-a5982467325a"
+					(reference "GRASS0")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

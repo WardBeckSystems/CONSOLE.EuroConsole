@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "QTP-NEUTRIK_D-hole-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/QTP-NEUTRIK_D-hole-eagle-import.kicad_sym")(options "")(descr ""))
+)

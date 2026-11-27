@@ -7,228 +7,243 @@
 <style>
 :root {
   --bg: #f4f1ea; --panel: #fffdf8; --ink: #1f1e1c; --muted: #6d6a63; --line: #d9d3c5; --accent: #1f3f6b; --glow: #2fa84a;
-  --sum: #e9c46a; --ins: #8ecae6; --patch: #a3b18a; --vu: #e76f51; --proc: #b8a1d9; --empty: #e5e1d8; --face: #ffffff;
+  --face: #ece8df; --rail: #9a9489; --hole: #5d584f; --case: #d6d0c4; --hp: rgba(31, 63, 107, .10); --hp24: rgba(31, 63, 107, .28);
+  --mm: 1px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8; --glow: #5fd37a;
-  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --face: #e9e6df; } }
+  --face: #e9e6df; --rail: #4c4f55; --hole: #1b1c1f; --case: #26282c; --hp: rgba(143, 179, 232, .10); --hp24: rgba(143, 179, 232, .30); } }
 :root[data-theme="dark"] {
   --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8; --glow: #5fd37a;
-  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --face: #e9e6df; }
+  --face: #e9e6df; --rail: #4c4f55; --hole: #1b1c1f; --case: #26282c; --hp: rgba(143, 179, 232, .10); --hp24: rgba(143, 179, 232, .30); }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
-main { max-width: 1760px; margin: 0 auto; padding: 20px 16px 48px; }
-h1 { font-size: 30px; margin: 0; letter-spacing: .02em; }
-h1 small { font-size: 15px; font-weight: 400; color: var(--muted); margin-left: 8px; }
-h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 8px; }
-.top { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; }
-.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
-.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
-label { display: inline-flex; gap: 6px; align-items: center; }
-select, input[type=text], input[type=number] { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.app { display: grid; grid-template-columns: 270px minmax(0, 1fr); min-height: 100vh; }
+aside { position: sticky; top: 0; height: 100vh; overflow: auto; background: var(--panel); border-right: 1px solid var(--line); padding: 16px 14px 24px; }
+aside h1 { font-size: 26px; margin: 0; letter-spacing: .02em; }
+aside .sub { color: var(--muted); font-size: 13px; margin: 2px 0 8px; }
+aside h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 18px 0 6px; }
+aside label { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 6px 0; }
+select, input[type=text], input[type=number] { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; }
 input[type=number] { width: 4.5em; }
-button { font: inherit; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); border-radius: 7px; padding: 8px 14px; cursor: pointer; }
-button.ghost { background: transparent; color: var(--accent); }
-.chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); }
-.chip.on { border-color: var(--glow); color: var(--glow); box-shadow: 0 0 0 1px var(--glow) inset; }
-.chip.part { border-color: var(--glow); color: var(--ink); border-style: dashed; }
-/* channels: each channel is a row of module faces, as in the rack */
-.console { overflow-x: auto; margin-top: 12px; padding-bottom: 6px; }
-.cgrid { display: grid; grid-template-columns: 80px repeat(var(--n), 124px); gap: 4px 3px; width: max-content; }
-.chead { font-size: 12px; text-align: center; color: var(--muted); line-height: 1.2; padding-bottom: 2px; }
-.chead b { display: block; color: var(--ink); font-size: 13px; }
-.chead .warn { color: #c0392b; }
-.rl { position: sticky; left: 0; z-index: 1; background: var(--panel); border: 0; padding: 0 6px 0 0; font: inherit; font-size: 12px; text-align: right; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: flex-end; }
-.rl.all { color: var(--glow); font-weight: 600; } .rl.fixed { cursor: default; }
-.mod { width: 124px; height: 150px; padding: 3px; overflow: hidden; gap: 2px; border: 0; border-radius: 4px; background: var(--face); cursor: pointer; outline: 2px solid transparent; outline-offset: -2px; display: flex; align-items: center; justify-content: center; }
-.mod img { height: 144px; width: 28px; object-fit: contain; display: block; }
-.mod.tall img { height: 254px; }
-.mod.on { outline-color: var(--glow); }
-.mod.off { background: transparent; border: 1px dashed var(--line); }
-.mod.off img { opacity: .1; }
-.mod.tall { height: 260px; }
-.mod.fixed { cursor: default; }
-.key { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 14px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
-.key div { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.tog { display: flex; width: 100%; justify-content: space-between; align-items: center; font: inherit; padding: 5px 8px; margin: 3px 0; border-radius: 6px;
+  border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; text-align: left; }
+.tog.on { border-color: var(--glow); color: var(--ink); box-shadow: inset 3px 0 0 var(--glow); }
+.tog.part { border-color: var(--glow); border-style: dashed; color: var(--ink); }
+.tog small { color: var(--muted); font-size: 11px; }
+.tog.fixed { cursor: default; }
+button.main { font: inherit; width: 100%; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); border-radius: 7px; padding: 8px; cursor: pointer; margin-top: 8px; }
+a { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+td { padding: 3px 0; border-bottom: 1px solid var(--line); vertical-align: top; } td.n { text-align: right; padding-right: 8px; width: 3em; color: var(--accent); font-weight: 600; }
+.muted { color: var(--muted); } .small { font-size: 12px; }
+main { padding: 16px 18px 40px; overflow-x: auto; }
+/* the rack: every row is a 3U Eurorack row on rails; every module is 24HP (a bank of 4 x 6HP) */
+.heads, .rrow { display: flex; gap: 0; width: max-content; }
+.heads div { width: calc(121.92 * var(--mm)); font-size: 11.5px; text-align: center; color: var(--muted); padding-bottom: 4px; line-height: 1.25; }
+.heads div b { display: block; color: var(--ink); font-size: 12.5px; }
+.addm { font-size: 11px; padding: 0 2px; width: 3.2em; }
+.heads .gap, .rrow .gap { width: calc(10.16 * var(--mm)); }
+.rack { width: max-content; background: var(--case); border-radius: 6px; padding: calc(4 * var(--mm)) calc(5.08 * var(--mm)); }
+.rrow { position: relative; padding: calc(3 * var(--mm)) 0; }
+.rrow::before, .rrow::after { content: ""; position: absolute; left: 0; right: 0; height: calc(3 * var(--mm)); background: var(--rail);
+  background-image: radial-gradient(circle at calc(2.54 * var(--mm)) 50%, var(--hole) calc(0.9 * var(--mm)), transparent calc(1 * var(--mm))); background-size: calc(5.08 * var(--mm)) 100%; }
+.rrow::before { top: 0; } .rrow::after { bottom: 0; }
+.grid .rrow .m, .grid .rrow .blank { background-image: repeating-linear-gradient(90deg, var(--hp) 0 1px, transparent 1px calc(5.08 * var(--mm))); }
+.grid .rrow .m::after { content: ""; position: absolute; inset: 0; border-left: 1px solid var(--hp24); pointer-events: none; }
+.m, .blank { position: relative; width: calc(121.92 * var(--mm)); height: calc(128.5 * var(--mm)); flex: none; }
+.m { display: flex; background: var(--face); border: 0; padding: 0; cursor: pointer; outline: 1px solid rgba(0,0,0,.25); outline-offset: -1px; }
+.m img { width: calc(30.48 * var(--mm)); height: 100%; object-fit: contain; display: block; padding: calc(1.5 * var(--mm)) calc(1 * var(--mm)); pointer-events: none; }
+.m.w2 img { width: calc(60.96 * var(--mm)); }
+.m:hover { outline: 2px solid var(--glow); }
+.m .tag { position: absolute; left: 0; right: 0; bottom: calc(2 * var(--mm)); text-align: center; font-size: 10px; font-weight: 700; color: #1f1e1c; pointer-events: none; }
+.m select { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.blank { border: 1px dashed var(--line); border-radius: 2px; cursor: pointer; color: var(--muted); display: grid; place-items: center; font-size: 18px; background: none; }
+.blank.none { border: 0; cursor: default; }
+.blank select { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.key { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px 14px; margin-top: 18px; }
+.key div { display: flex; gap: 8px; align-items: center; font-size: 12.5px; }
 .key img { width: 18px; height: 70px; object-fit: contain; background: var(--face); border-radius: 2px; flex: none; }
 .key b { display: block; }
-.rack { display: grid; gap: 8px; }
-.row { display: grid; grid-template-columns: 42px repeat(var(--n), minmax(0, 1fr)); gap: 6px; align-items: stretch; }
-.rowname { font-size: 12px; color: var(--muted); align-self: center; }
-.slotwrap { position: relative; }
-.slot { appearance: none; -webkit-appearance: none; width: 100%; border-radius: 6px; border: 1px solid var(--line); padding: 20px 4px 10px; text-align: center; text-align-last: center;
-  font-size: 13px; font-weight: 600; color: #1f1e1c; cursor: pointer; min-height: 60px; }
-.slotwrap em { position: absolute; top: 5px; left: 0; right: 0; text-align: center; font-size: 11px; font-style: normal; pointer-events: none; color: #1f1e1c; opacity: .75; font-weight: 700; }
-.slot[data-t=SUM] { background: var(--sum); } .slot[data-t=INSERT] { background: var(--ins); } .slot[data-t=PATCH] { background: var(--patch); }
-.slot[data-t=BIGVU] { background: var(--vu); } .slot[data-t=EQ], .slot[data-t=COMP], .slot[data-t=DEESS], .slot[data-t=GATE] { background: var(--proc); }
-.slot[data-t=EMPTY] { background: var(--empty); color: var(--muted); font-weight: 400; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .slot, :root:not([data-theme="light"]) .slotwrap em { color: #f4f1ea; } }
-:root[data-theme="dark"] .slot, :root[data-theme="dark"] .slotwrap em { color: #f4f1ea; }
-.grid2 { display: grid; grid-template-columns: 1fr 320px; gap: 16px; align-items: start; }
-@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } .row { grid-template-columns: 30px repeat(var(--n), minmax(0, 1fr)); } .slot { font-size: 11px; padding: 18px 2px 8px; } }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-td { padding: 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; } td.n { text-align: right; padding-right: 10px; font-variant-numeric: tabular-nums; width: 3.5em; color: var(--accent); font-weight: 600; }
-.muted { color: var(--muted); } .small { font-size: 13px; }
-.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: center; }
-a { color: var(--accent); }
+@media (max-width: 860px) { .app { grid-template-columns: 1fr; } aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); } }
 </style>
 </head>
 <body>
-<main>
-  <div class="top">
-    <h1 id="name">C1616<small id="sub"></small></h1>
-    <span class="small muted"><a href="../index.html">EuroConsole guide</a> · KiCad 9 schematic from a console configuration</span>
-  </div>
-
+<div class="app">
+<aside>
+  <h1 id="name">C1616</h1>
+  <div class="sub" id="sub"></div>
+  <div class="small muted" id="hp"></div>
   <h2>Channels</h2>
-  <div class="card">
-    <div class="controls">
-      <label>Channels <input id="inputs" type="number" min="4" max="32" step="4" value="16"></label>
-      <label>Preamp design <select id="preamp"></select></label>
-    </div>
-    <div class="console" id="chans"></div>
-    <div class="key" id="key"></div>
-    <p class="small muted" style="margin:10px 0 0">Every Eurorack module is a bank of 4 channels (one QTP in, one QTP out): 4 preamps, 4 EQs, 4 compressors, 4 faders. Each column is a bank, top to bottom. Click the preamp for Mic, Line or Direct; click a module to add or remove it for the bank; click a row name to set it on every bank. Inserts and fader sit in the M480B fader send / return; the sends are post-fader, each on one QTP.</p>
-  </div>
-
-  <div class="grid2">
-    <div>
-      <h2>Summing rows</h2>
-      <div class="card">
-        <div class="controls" style="margin-bottom:12px">
-          <label>Rows <input id="rows" type="number" min="1" max="8" value="4"></label>
-          <label>Slots per row <input id="slots" type="number" min="2" max="8" value="6"></label>
-          <label><input id="resist" type="checkbox" checked> Summing resistors <input id="rval" type="text" value="10k" size="4"></label>
-          <button class="ghost" id="same">Copy row 1 to all</button>
-          <button class="ghost" id="reset">C1616</button>
-        </div>
-        <div class="rack" id="rack"></div>
-      </div>
-    </div>
-    <div>
-      <h2>Parts</h2>
-      <div class="card">
-        <table id="bom"></table>
-        <div class="actions">
-          <button id="dl">Download KiCad project</button>
-          <label style="cursor:pointer;color:var(--accent)">Load config<input id="load" type="file" accept=".json" hidden></label>
-        </div>
-        <p class="small muted" id="files"></p>
-      </div>
-    </div>
-  </div>
+  <label>Channels <input id="inputs" type="number" min="4" max="64" step="4" value="16"></label>
+  <label>Preamp design <select id="preamp"></select></label>
+  <div id="mods"></div>
+  <h2>Master</h2>
+  <label>Summing rows <input id="rows" type="number" min="1" max="8" value="4"></label>
+  <label>Summing resistors <span><input id="resist" type="checkbox" checked> <input id="rval" type="text" value="10k" size="4"></span></label>
+  <h2>View</h2>
+  <label>Eurorack grid <input id="grid" type="checkbox" checked></label>
+  <label>Scale <select id="zoom"><option value="0.8">0.8 px/mm</option><option value="1" selected>1 px/mm</option><option value="1.25">1.25 px/mm</option><option value="1.6">1.6 px/mm</option></select></label>
+  <button class="main" id="dl">Download KiCad project</button>
+  <label style="justify-content:flex-start;cursor:pointer;color:var(--accent)">Load config<input id="load" type="file" accept=".json" hidden></label>
+  <button class="tog" id="reset" style="justify-content:center">Reset to C1616</button>
+  <h2>Parts</h2>
+  <table id="bom"></table>
+  <p class="small muted" id="files"></p>
+  <p class="small"><a href="../index.html">EuroConsole guide</a></p>
+</aside>
+<main>
+  <div class="heads" id="heads"></div>
+  <div class="rack" id="rack"></div>
+  <p class="small muted" style="max-width:900px">Every Eurorack module is a bank of 4 channels: 3U, 24HP (6HP per channel), one QTP in and one QTP out (SUN · SKY · GRASS · EARTH). Channel banks sit left and right, the master section in the middle. Click a channel module to remove it from its bank, an empty slot to add it, the preamp to switch Mic / Line / Direct; pick a master module to change or remove it, or + in a master's heading to add one. No summing module sums more than 8 channels: each bus is summed in groups of 8 (1–8, 9–16 …), then the groups are summed (Σ).</p>
+  <div class="key" id="key"></div>
 </main>
+</div>
 
 <script src="symbols.js"></script>
 <script src="generator.js"></script>
 <script>
 (function () {
   const $ = id => document.getElementById(id);
-  /* the strip, left to right, as modules in the rack */
+  const SVG = new Set(['M480', 'M480B', 'M460', 'M467', 'M462B', 'M466', 'B300', 'F300']);   // traced front panels; the rest are photos
+  const face = k => 'img/' + k + (SVG.has(k) ? '.svg' : '.jpg');
+  const p2 = n => String(n).padStart(2, '0');
+  /* channel modules, in strip order */
   const STRIP = [
     { key: 'PRE', label: 'Preamp', img: 'M480' },
-    { key: 'GATE', label: 'Gate', img: 'M467', kind: 'fx' },
-    { key: 'EQ', label: 'EQ', img: 'M462B', kind: 'fx' },
-    { key: 'COMP', label: 'Comp', img: 'M466', kind: 'fx' },
-    { key: 'DEESS', label: 'De-ess', img: 'M466', kind: 'fx' },
-    { key: 'A14', label: 'Aux 1-4', img: 'B300', kind: 'sends' },
-    { key: 'A58', label: 'Aux 5-8', img: 'B300', kind: 'sends' },
-    { key: 'M14', label: 'M 1-4', img: 'B300', kind: 'sends' },
-    { key: 'FADER', label: 'Fader', img: 'F300', fixed: true },
+    { key: 'GATE', label: 'Gate', img: 'M467', kind: 'fx', sym: 'M467' },
+    { key: 'EQ', label: 'EQ', img: 'M462B', kind: 'fx', sym: 'M462B' },
+    { key: 'COMP', label: 'Compressor', img: 'M466', kind: 'fx', sym: 'M466' },
+    { key: 'DEESS', label: 'De-esser', img: 'M466', kind: 'fx', sym: 'M466' },
+    { key: 'A14', label: 'Aux 1-4', img: 'B300', kind: 'sends', sym: 'send' },
+    { key: 'A58', label: 'Aux 5-8', img: 'B300', kind: 'sends', sym: 'send' },
+    { key: 'M14', label: 'M 1-4', img: 'B300', kind: 'sends', sym: 'send' },
+    { key: 'FADER', label: 'Fader', img: 'F300', fixed: true, sym: 'F300' },
   ];
+  /* master modules (a summing row's slots); SUM slots draw as one sum bank */
+  const MASTER = { INSERT: ['Insert', 'M499'], PATCH: ['Patch bay', 'M499'], GATE: ['Gate', 'M467'], EQ: ['EQ', 'M462B'], COMP: ['Compressor', 'M466'], DEESS: ['De-esser', 'M466'], FADER: ['Fader', 'F300'], BIGVU: ['Big VU', 'BIGVU'] };
+  const sumFace = (bus, sub) => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 128.5"><rect x=".5" y=".5" width="29" height="127.5" fill="#1c1c1c" rx="1"/><text x="15" y="9" fill="#ddd" font-size="4" text-anchor="middle" font-family="sans-serif">WBS M450</text><circle cx="15" cy="40" r="7" fill="none" stroke="#ddd" stroke-width=".8"/><circle cx="15" cy="72" r="4" fill="#c0392b"/><text x="15" y="106" fill="#e9c46a" font-size="6" font-weight="700" text-anchor="middle" font-family="sans-serif">${bus}</text><text x="15" y="116" fill="#bbb" font-size="4.2" text-anchor="middle" font-family="sans-serif">${sub || ''}</text></svg>`);
   const GH = 'https://github.com/WardBeckSystems/', PDF = '../MANUALS/2016%20-%20DCASSP%20schematics%20V1.pdf#page=';
   const KEY = [
-    { img: 'M480', name: 'Preamp · M480 (design to choose: M480, M480B, M460)', links: [['M480', GH + 'MODULES.INPUT-PRE-AMPS.M480-Input-Module'], ['M480B', GH + 'MODULES.INPUT-PRE-AMPS.M480B-Input-Module'], ['M460', GH + 'MODULES.INPUT-PRE-AMPS.M460-Input-Module'], ['M480B Eagle', '../EAGLE/2021-APK/M480B%20Input%20module.sch']] },
-    { img: 'M467', name: 'Gate · M467 noise gate', links: [['repo', GH + 'MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module']] },
-    { img: 'M462B', name: 'EQ · M462B equalizer', links: [['repo', GH + 'MODULES.FILTERS.M462B-Equalizer-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M462B%20Final.sch']] },
-    { img: 'M466', name: 'Comp / De-ess · M466', links: [['repo', GH + 'MODULES.DYNAMICS.M466-Limiter-Compressor-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M466-compressor-limiter.sch']] },
-    { img: 'B300', name: 'Aux 1-4 · Aux 5-8 · M 1-4 sends', links: [['encoders p2', PDF + '2'], ['panel p3', PDF + '3'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
-    { img: 'F300', name: 'Fader · F300', links: [['fader p4', PDF + '4'], ['control p1', PDF + '1'], ['serial p5', PDF + '5']] },
-    { img: 'M450', name: 'Summing amp · M450', links: [['repo', GH + 'MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier'], ['summing p8', PDF + '8']] },
-    { img: 'M499', name: 'Insert · M499', links: [['repo', GH + 'MODULES.UNSORTED.M499-Insertion-Switcher']] },
-    { img: 'BIGVU', name: 'Big VU · RD87', links: [['repo', GH + 'PRODUCTS.BigVU'], ['VU p9', PDF + '9']] },
+    { img: 'M480', name: 'Preamp bank · 4 x M480 (design to choose: M480, M480B, M460)', links: [['M480', GH + 'MODULES.INPUT-PRE-AMPS.M480-Input-Module'], ['M460', GH + 'MODULES.INPUT-PRE-AMPS.M460-Input-Module'], ['M480B Eagle', '../EAGLE/2021-APK/M480B%20Input%20module.sch']] },
+    { img: 'M467', name: 'Gate bank · 4 x M467', links: [['repo', GH + 'MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module']] },
+    { img: 'M462B', name: 'EQ bank · 4 x M462B', links: [['repo', GH + 'MODULES.FILTERS.M462B-Equalizer-Module'], ['KiCad', '../KICAD/M462B_EQ/']] },
+    { img: 'M466', name: 'Compressor / de-esser bank · 4 x M466', links: [['repo', GH + 'MODULES.DYNAMICS.M466-Limiter-Compressor-Module'], ['KiCad', '../KICAD/M466_Compressor_Limiter/']] },
+    { img: 'B300', name: 'Send banks · Aux 1-4, Aux 5-8, M 1-4', links: [['encoders p2', PDF + '2'], ['DS1882 p6', PDF + '6'], ['driver p7', PDF + '7']] },
+    { img: 'F300', name: 'Fader bank · 4 x F300', links: [['fader p4', PDF + '4'], ['control p1', PDF + '1']] },
+    { img: 'M450', name: 'Sum bank · 4 x M450', links: [['repo', GH + 'MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier'], ['summing p8', PDF + '8']] },
+    { img: 'M499', name: 'Insert bank · 4 x M499', links: [['repo', GH + 'MODULES.UNSORTED.M499-Insertion-Switcher']] },
+    { img: 'BIGVU', name: 'Big VU · RD87', links: [['repo', GH + 'PRODUCTS.BigVU'], ['KiCad', '../KICAD/Big_VU_Meter_REV5/']] },
   ];
-  document.getElementById('key').innerHTML = KEY.map(k => `<div><img src="img/${k.img}.jpg" alt=""><span><b>${k.name}</b>${k.links.map(([t, u]) => `<a href="${u}" target="_blank">${t}</a>`).join(' · ')}</span></div>`).join('');
-  const SHORT = { SUM: 'Sum', INSERT: 'Insert', PATCH: 'Patch', BIGVU: 'Big VU', EQ: 'EQ', COMP: 'Comp', DEESS: 'De-ess', GATE: 'Gate', EMPTY: 'Blank' };
-  let cfg = EC.defaultConfig();
-  try { const s = JSON.parse(localStorage.getItem('ec-config-2')); if (s && s.rows) cfg = s; } catch (e) {}
+  $('key').innerHTML = KEY.map(k => `<div><img src="${face(k.img)}" alt=""><span><b>${k.name}</b>${k.links.map(([t, u]) => `<a href="${u}" target="_blank">${t}</a>`).join(' · ')}</span></div>`).join('');
 
-  /* make cfg.channels explicit so each channel can differ */
+  let cfg = EC.defaultConfig();
+  try { const s = JSON.parse(localStorage.getItem('ec-config-3')); if (s && s.rows) cfg = s; } catch (e) {}
   function explicit() { cfg.channels = EC.channels(cfg).map(c => ({ in: c.in, fx: c.fx.slice(), sends: c.sends.slice() })); }
-  const slotsPerRow = () => Math.max(...cfg.rows.map(r => r.length));
-  function resize() {
-    const R = +$('rows').value, S = +$('slots').value;
-    while (cfg.rows.length < R) cfg.rows.push(cfg.rows[cfg.rows.length - 1].slice());
-    cfg.rows.length = R;
-    cfg.rows = cfg.rows.map(r => { r = r.slice(0, S); while (r.length < S) r.push('EMPTY'); return r; });
-  }
   const has = (ch, m) => m.key === 'PRE' ? ch.in !== 'DIRECT' : m.fixed ? true : ch[m.kind].includes(m.key);
+  const setOn = (ch, m, on) => {
+    if (m.key === 'PRE') { ch.in = on ? (ch.in === 'DIRECT' ? 'MIC' : ch.in) : 'DIRECT'; return; }
+    const l = ch[m.kind], i = l.indexOf(m.key); if (on && i < 0) l.push(m.key); if (!on && i >= 0) l.splice(i, 1);
+  };
+  const bankCh = b => cfg.channels.slice(b * 4, b * 4 + 4);
+  /* a summing row as master modules: consecutive SUM slots are one sum bank */
+  /* rule: no summing module sums more than 8 channels, so a bus is summed in groups of 8, then the groups are summed (Σ) */
+  function sumBanks(bs, CHS) {
+    const feeders = b => b.send ? CHS.filter(c => c.sends.includes(b.send)).length : CHS.length;
+    const n = Math.max(...bs.map(feeders)), g = n > 8 ? Math.ceil(n / 8) : 1;
+    if (g === 1) return [{ t: 'SUM', buses: bs, sub: n + ' in' }];
+    return [...Array.from({ length: g }, (_, k) => ({ t: 'SUM', buses: bs, sub: `${k * 8 + 1}–${Math.min(k * 8 + 8, n)}` })), { t: 'SUM', buses: bs, sub: 'Σ ' + g }];
+  }
+  function masterCol(slots, buses, CHS) {
+    const out = []; let bus = 0, sums = [];
+    const flush = () => { if (sums.length) out.push(...sumBanks(sums, CHS)); sums = []; };
+    slots.forEach((s, i) => {
+      if (s === 'SUM') { sums.push(buses[bus++]); if (sums.length === 4) flush(); return; }
+      flush(); if (s !== 'EMPTY') out.push({ t: s, i });
+    });
+    flush();
+    return out;
+  }
 
   function render() {
     explicit();
-    const CHS = cfg.channels, design = EC.build(cfg), buses = design.buses;
-    cfg.preamp = cfg.preamp || 'M480'; STRIP[0].img = cfg.preamp === 'M480B' ? 'M480B' : cfg.preamp;
+    cfg.preamp = cfg.preamp || 'M480'; STRIP[0].img = cfg.preamp;
+    const CHS = cfg.channels, design = EC.build(cfg), buses = design.buses, B = Math.ceil(CHS.length / 4), L = Math.ceil(B / 2);
+    // side bar
+    $('name').textContent = design.name; $('sub').textContent = `${cfg.inputs} inputs × ${buses.length} summing amps`;
+    $('inputs').value = cfg.inputs; $('resist').checked = cfg.resistors; $('rval').value = cfg.rValue; $('rows').value = cfg.rows.length;
     $('preamp').innerHTML = Object.entries(EC.PREAMPS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join(''); $('preamp').value = cfg.preamp;
-    $('inputs').value = cfg.inputs; $('resist').checked = cfg.resistors; $('rval').value = cfg.rValue;
-    $('rows').value = cfg.rows.length; $('slots').value = slotsPerRow();
-    $('name').firstChild.nodeValue = design.name;
-    $('sub').textContent = `${cfg.inputs} inputs × ${buses.length} summing amps`;
-    // the console: banks of 4 side by side (every Eurorack module is 4 channels on one QTP), each strip top to bottom
-    const direct = buses.some(b => !b.send), feeds = ch => direct || ch.sends.some(k => buses.some(b => b.send === k));
-    const B = Math.ceil(CHS.length / 4), bank = b => CHS.slice(b * 4, b * 4 + 4), p2 = n => String(n).padStart(2, '0');
-    let g = `<div class="cgrid" style="--n:${B}"><div></div>` + Array.from({ length: B }, (_, b) => { const ch = CHS[b * 4], ok = bank(b).every(feeds);
-      return `<div class="chead"><b>Bank ${b + 1}</b>CH ${p2(b * 4 + 1)}–${p2(Math.min(b * 4 + 4, CHS.length))} · <span${ok ? '' : ' class="warn" title="feeds no bus"'}>${ok ? EC.INPUTS[ch.in] : 'no bus'}</span></div>`; }).join('');
-    STRIP.forEach(m => {
-      const n = CHS.filter(c => has(c, m)).length;
-      g += `<button class="rl ${n === CHS.length ? 'all' : ''} ${m.fixed ? 'fixed' : ''}" data-m="${m.key}" title="${m.fixed ? m.label : 'Set on every bank'}">${m.label}</button>`;
-      g += Array.from({ length: B }, (_, b) => { const on = has(CHS[b * 4], m);
-        return `<button class="mod ${on ? 'on' : 'off'} ${m.fixed ? 'fixed' : ''}" data-b="${b}" data-m="${m.key}" title="Bank ${b + 1}: 4 x ${m.key === 'PRE' ? cfg.preamp + ' ' + EC.INPUTS[CHS[b * 4].in] : m.label}">${('<img src="img/' + m.img + '.jpg" alt="">').repeat(bank(b).length)}</button>`; }).join('');
-    });
-    $('chans').innerHTML = g + '</div>';
-    // summing rows, each amp labelled with its bus
-    const opts = Object.entries(EC.SLOTS).map(([k, v]) => `<option value="${k}">${SHORT[k] || v.label}</option>`).join('');
-    let bi = 0;
-    $('rack').innerHTML = cfg.rows.map((r, ri) => `<div class="row" style="--n:${r.length}"><div class="rowname">R${ri + 1}</div>` +
-      r.map((s, si) => { const tag = s === 'SUM' ? (buses[bi++] || {}).name : '';
-        return `<div class="slotwrap"><em>${tag || ''}</em><select class="slot" data-t="${s}" data-r="${ri}" data-s="${si}" title="${EC.SLOTS[s].note}">${opts}</select></div>`; }).join('') + '</div>').join('');
-    $('rack').querySelectorAll('select').forEach(el => { el.value = el.dataset.t; });
+    $('mods').innerHTML = STRIP.map(m => { const n = Array.from({ length: B }, (_, b) => has(CHS[b * 4], m)).filter(Boolean).length;
+      return `<button class="tog ${m.fixed || n === B ? 'on' : n ? 'part' : ''} ${m.fixed ? 'fixed' : ''}" data-m="${m.key}">${m.label}<small>${m.fixed ? 'always' : n + ' / ' + B}</small></button>`; }).join('');
+    // rows of the rack: channel module types in use, aligned with the master modules
+    const types = STRIP.filter(m => CHS.some(c => has(c, m)));
+    let bi = 0; const cols = cfg.rows.map(r => { const n = r.filter(s => s === 'SUM').length, col = masterCol(r, buses.slice(bi, bi + n), CHS); bi += n; return col; });
+    const nRows = Math.max(types.length, ...cols.map(c => c.length));
+    const chanTile = (b, m) => {
+      if (!m) return '<div class="blank none"></div>';
+      const chs = bankCh(b), on = has(chs[0], m);
+      if (!on) return `<button class="blank" data-b="${b}" data-m="${m.key}" title="Add ${m.label} to bank ${b + 1}">+</button>`;
+      const tag = m.key === 'PRE' ? EC.INPUTS[chs[0].in] : '';
+      return `<button class="m" data-b="${b}" data-m="${m.key}" title="Bank ${b + 1} · CH ${p2(b * 4 + 1)}-${p2(b * 4 + chs.length)}: 4 x ${m.key === 'PRE' ? cfg.preamp : m.label}${m.fixed ? '' : ' (click to remove)'}">${('<img src="' + face(m.img) + '" alt="">').repeat(chs.length)}${tag ? `<span class="tag">${tag}</span>` : ''}</button>`;
+    };
+    const opts = (cur) => `<option value="" disabled ${cur ? '' : 'selected'}>${cur ? 'Change…' : '+'}</option>` + Object.entries(MASTER).map(([k, [l]]) => `<option value="${k}" ${k === cur ? 'selected' : ''}>${l}</option>`).join('') + (cur ? '<option value="REMOVE">Remove</option>' : '');
+    const masterTile = (R, e, r) => {
+      if (!e) return '<div class="blank none"></div>';
+      if (e.t === 'SUM') return `<div class="m" title="Sum bank ${e.sub}: ${e.buses.length} x M450 (${e.buses.map(b => b.name).join(' ')}); no amp sums more than 8" style="cursor:default">${e.buses.map(b => `<img src="${sumFace(b.name, e.sub)}" alt="">`).join('')}</div>`;
+      const [label, img] = MASTER[e.t], vu = e.t === 'BIGVU';
+      const n = vu ? 2 : 4;
+      return `<div class="m ${vu ? 'w2' : ''}" title="Row ${R + 1} ${label}: ${vu ? '2 x Big VU' : '4 x ' + img}">${('<img src="' + face(img) + '" alt="">').repeat(n)}<select data-r="${R}" data-i="${e.i}">${opts(e.t)}</select></div>`;
+    };
+    $('heads').innerHTML = '<div style="width:calc(5.08 * var(--mm))"></div>' + Array.from({ length: L }, (_, b) => `<div><b>Bank ${b + 1}</b>CH ${p2(b * 4 + 1)}–${p2(Math.min(b * 4 + 4, CHS.length))}</div>`).join('') +
+      '<div class="gap"></div>' + cols.map((c, R) => { const bs = c.filter(e => e.t === 'SUM').flatMap(e => e.buses); return `<div><b>Master ${R + 1}</b>${bs.length ? bs[0].name + '–' + bs[bs.length - 1].name : '—'} <select class="addm" data-r="${R}" data-i="-1" title="Add a module to master ${R + 1}">${opts('')}</select></div>`; }).join('') +
+      '<div class="gap"></div>' + Array.from({ length: B - L }, (_, k) => { const b = L + k; return `<div><b>Bank ${b + 1}</b>CH ${p2(b * 4 + 1)}–${p2(Math.min(b * 4 + 4, CHS.length))}</div>`; }).join('');
+    let html = '';
+    for (let r = 0; r < nRows; r++) {
+      html += '<div class="rrow">' + Array.from({ length: L }, (_, b) => chanTile(b, types[r])).join('') + '<div class="gap"></div>' +
+        cols.map((c, R) => masterTile(R, c[r], r)).join('') + '<div class="gap"></div>' +
+        Array.from({ length: B - L }, (_, k) => chanTile(L + k, types[r])).join('') + '</div>';
+    }
+    $('rack').innerHTML = html;
+    // HP
+    const chanMods = CHS.length ? Array.from({ length: B }, (_, b) => types.filter(m => has(CHS[b * 4], m)).length).reduce((a, b) => a + b, 0) : 0;
+    const masterMods = cols.reduce((n, c) => n + c.length, 0), hp = (chanMods + masterMods) * 24;
+    $('hp').innerHTML = `${chanMods + masterMods} modules · ${hp} HP · ${Math.ceil(hp / 84)} rows of 84 HP`;
     $('bom').innerHTML = Object.entries(design.bom).map(([k, v]) => `<tr><td class="n">${v}</td><td>${k}</td></tr>`).join('');
-    $('files').textContent = `${design.sheets.length + 1} sheets: root, channels, ${cfg.rows.length} summing row${cfg.rows.length > 1 ? 's' : ''}. Unzip and open ${design.name}.kicad_pro in KiCad 9.`;
-    try { localStorage.setItem('ec-config-2', JSON.stringify(cfg)); } catch (e) {}
+    $('files').textContent = `${design.sheets.length + 1} sheets: root, ${B} banks, ${cfg.rows.length} summing rows. Unzip and open ${design.name}.kicad_pro in KiCad 9.`;
+    document.body.classList.toggle('grid', $('grid').checked);
+    document.documentElement.style.setProperty('--mm', $('zoom').value + 'px');
+    try { localStorage.setItem('ec-config-3', JSON.stringify(cfg)); } catch (e) {}
   }
 
-  function toggle(ch, key) {
-    const m = STRIP.find(x => x.key === key); if (!m || m.fixed) return;
-    if (key === 'PRE') { ch.in = { MIC: 'LINE', LINE: 'DIRECT', DIRECT: 'MIC' }[ch.in]; return; }
-    const list = ch[m.kind], i = list.indexOf(key); if (i >= 0) list.splice(i, 1); else list.push(key);
-  }
-  $('chans').addEventListener('click', e => {
-    const b = e.target.closest('.mod'), r = e.target.closest('.rl');
-    if (b) {                                   // a module is a bank of 4: set all four channels like the first
-      const chs = cfg.channels.slice(+b.dataset.b * 4, +b.dataset.b * 4 + 4), first = JSON.parse(JSON.stringify(chs[0]));
-      toggle(first, b.dataset.m); chs.forEach(c => { c.in = first.in; c.fx = first.fx.slice(); c.sends = first.sends.slice(); });
-      render(); return; }
-    if (!r) return;
-    const m = STRIP.find(x => x.key === r.dataset.m); if (m.fixed) return;
-    const all = cfg.channels.every(c => has(c, m));
-    cfg.channels.forEach(c => {
-      if (m.key === 'PRE') c.in = all ? 'DIRECT' : (c.in === 'DIRECT' ? 'MIC' : c.in);
-      else { const l = c[m.kind], i = l.indexOf(m.key); if (all && i >= 0) l.splice(i, 1); if (!all && i < 0) l.push(m.key); }
-    });
+  $('rack').addEventListener('click', e => {
+    const t = e.target.closest('button[data-b]'); if (!t) return;
+    const m = STRIP.find(x => x.key === t.dataset.m), chs = bankCh(+t.dataset.b);
+    if (m.key === 'PRE' && t.classList.contains('m')) { const nx = { MIC: 'LINE', LINE: 'DIRECT', DIRECT: 'MIC' }[chs[0].in]; chs.forEach(c => c.in = nx); }
+    else if (!m.fixed) { const on = !has(chs[0], m); chs.forEach(c => setOn(c, m, on)); }
     render();
   });
-  $('rack').addEventListener('change', e => { const el = e.target; cfg.rows[+el.dataset.r][+el.dataset.s] = el.value; render(); });
+  const onMaster = e => {
+    const s = e.target; if (s.tagName !== 'SELECT') return;
+    const row = cfg.rows[+s.dataset.r], i = +s.dataset.i;
+    if (s.value === 'REMOVE') row.splice(i, 1); else if (i < 0) row.push(s.value); else row[i] = s.value;
+    render();
+  };
+  $('rack').addEventListener('change', onMaster); $('heads').addEventListener('change', onMaster);
+  $('mods').addEventListener('click', e => {
+    const t = e.target.closest('.tog'); if (!t) return;
+    const m = STRIP.find(x => x.key === t.dataset.m); if (m.fixed) return;
+    const all = cfg.channels.every(c => has(c, m)); cfg.channels.forEach(c => setOn(c, m, !all)); render();
+  });
   $('inputs').addEventListener('change', () => {
-    const n = Math.max(4, Math.min(32, Math.round(+$('inputs').value / 4) * 4 || 4));
-    const last = cfg.channels[cfg.channels.length - 1] || EC.TEMPLATE;
+    const n = Math.max(4, Math.min(64, Math.round(+$('inputs').value / 4) * 4 || 4)), last = cfg.channels[cfg.channels.length - 1] || EC.TEMPLATE;
     while (cfg.channels.length < n) cfg.channels.push(JSON.parse(JSON.stringify(last)));
     cfg.channels.length = n; cfg.inputs = n; render(); });
+  $('rows').addEventListener('change', () => { const R = Math.max(1, Math.min(8, +$('rows').value || 1));
+    while (cfg.rows.length < R) cfg.rows.push(['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'BIGVU']); cfg.rows.length = R; render(); });
   $('preamp').addEventListener('change', () => { cfg.preamp = $('preamp').value; render(); });
   $('resist').addEventListener('change', () => { cfg.resistors = $('resist').checked; render(); });
   $('rval').addEventListener('change', () => { cfg.rValue = $('rval').value.trim() || '10k'; render(); });
-  $('rows').addEventListener('change', () => { resize(); render(); });
-  $('slots').addEventListener('change', () => { resize(); render(); });
-  $('same').addEventListener('click', () => { cfg.rows = cfg.rows.map(() => cfg.rows[0].slice()); render(); });
+  $('grid').addEventListener('change', render); $('zoom').addEventListener('change', render);
   $('reset').addEventListener('click', () => { cfg = EC.defaultConfig(); render(); });
   $('dl').addEventListener('click', () => {
     const d = EC.build(cfg), files = EC.serialize(d), blob = EC.zip(files, d.name);

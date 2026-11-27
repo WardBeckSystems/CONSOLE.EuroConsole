@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "QTP-BAC_14.1-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/QTP-BAC_14.1-eagle-import.kicad_sym")(options "")(descr ""))
+)

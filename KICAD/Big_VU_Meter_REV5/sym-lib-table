@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 0)
+  (lib (name "Big_VU_Meter_REV5-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/Big_VU_Meter_REV5-eagle-import.kicad_sym")(options "")(descr ""))
+)
