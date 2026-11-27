@@ -34,14 +34,14 @@ button.ghost { background: transparent; color: var(--accent); }
 .chip.part { border-color: var(--glow); color: var(--ink); border-style: dashed; }
 /* channels: each channel is a row of module faces, as in the rack */
 .console { overflow-x: auto; margin-top: 12px; padding-bottom: 6px; }
-.cgrid { display: grid; grid-template-columns: 80px repeat(var(--n), 86px); gap: 4px 3px; width: max-content; }
+.cgrid { display: grid; grid-template-columns: 80px repeat(var(--n), 124px); gap: 4px 3px; width: max-content; }
 .chead { font-size: 12px; text-align: center; color: var(--muted); line-height: 1.2; padding-bottom: 2px; }
 .chead b { display: block; color: var(--ink); font-size: 13px; }
 .chead .warn { color: #c0392b; }
 .rl { position: sticky; left: 0; z-index: 1; background: var(--panel); border: 0; padding: 0 6px 0 0; font: inherit; font-size: 12px; text-align: right; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: flex-end; }
 .rl.all { color: var(--glow); font-weight: 600; } .rl.fixed { cursor: default; }
-.mod { width: 86px; height: 150px; padding: 3px; overflow: hidden; border: 0; border-radius: 4px; background: var(--face); cursor: pointer; outline: 2px solid transparent; outline-offset: -2px; display: flex; align-items: center; justify-content: center; }
-.mod img { height: 144px; width: auto; max-width: 80px; object-fit: contain; display: block; }
+.mod { width: 124px; height: 150px; padding: 3px; overflow: hidden; gap: 2px; border: 0; border-radius: 4px; background: var(--face); cursor: pointer; outline: 2px solid transparent; outline-offset: -2px; display: flex; align-items: center; justify-content: center; }
+.mod img { height: 144px; width: 28px; object-fit: contain; display: block; }
 .mod.tall img { height: 254px; }
 .mod.on { outline-color: var(--glow); }
 .mod.off { background: transparent; border: 1px dashed var(--line); }
@@ -88,7 +88,7 @@ a { color: var(--accent); }
     </div>
     <div class="console" id="chans"></div>
     <div class="key" id="key"></div>
-    <p class="small muted" style="margin:10px 0 0">Each column is a channel strip, top to bottom. Click the preamp for Mic, Line or Direct; click a module to add or remove it; click a row name to set it on every channel. Inserts and fader sit in the M480B fader send / return; the sends are post-fader, each on one QTP.</p>
+    <p class="small muted" style="margin:10px 0 0">Every Eurorack module is a bank of 4 channels (one QTP in, one QTP out): 4 preamps, 4 EQs, 4 compressors, 4 faders. Each column is a bank, top to bottom. Click the preamp for Mic, Line or Direct; click a module to add or remove it for the bank; click a row name to set it on every bank. Inserts and fader sit in the M480B fader send / return; the sends are post-fader, each on one QTP.</p>
   </div>
 
   <div class="grid2">
@@ -173,14 +173,16 @@ a { color: var(--accent); }
     $('rows').value = cfg.rows.length; $('slots').value = slotsPerRow();
     $('name').firstChild.nodeValue = design.name;
     $('sub').textContent = `${cfg.inputs} inputs × ${buses.length} summing amps`;
-    // the console: channels side by side, each strip top to bottom
+    // the console: banks of 4 side by side (every Eurorack module is 4 channels on one QTP), each strip top to bottom
     const direct = buses.some(b => !b.send), feeds = ch => direct || ch.sends.some(k => buses.some(b => b.send === k));
-    let g = `<div class="cgrid" style="--n:${CHS.length}"><div></div>` + CHS.map((ch, i) =>
-      `<div class="chead"><b>${String(i + 1).padStart(2, '0')}</b><span${feeds(ch) ? '' : ' class="warn" title="feeds no bus"'}>${feeds(ch) ? EC.INPUTS[ch.in] : 'no bus'}</span></div>`).join('');
+    const B = Math.ceil(CHS.length / 4), bank = b => CHS.slice(b * 4, b * 4 + 4), p2 = n => String(n).padStart(2, '0');
+    let g = `<div class="cgrid" style="--n:${B}"><div></div>` + Array.from({ length: B }, (_, b) => { const ch = CHS[b * 4], ok = bank(b).every(feeds);
+      return `<div class="chead"><b>Bank ${b + 1}</b>CH ${p2(b * 4 + 1)}–${p2(Math.min(b * 4 + 4, CHS.length))} · <span${ok ? '' : ' class="warn" title="feeds no bus"'}>${ok ? EC.INPUTS[ch.in] : 'no bus'}</span></div>`; }).join('');
     STRIP.forEach(m => {
       const n = CHS.filter(c => has(c, m)).length;
-      g += `<button class="rl ${n === CHS.length ? 'all' : ''} ${m.fixed ? 'fixed' : ''}" data-m="${m.key}" title="${m.fixed ? m.label : 'Set on every channel'}">${m.label}</button>`;
-      g += CHS.map((ch, i) => `<button class="mod ${has(ch, m) ? 'on' : 'off'} ${m.fixed ? 'fixed tall' : ''}" data-c="${i}" data-m="${m.key}" title="CH ${i + 1} ${m.key === 'PRE' ? EC.INPUTS[ch.in] + ' (' + cfg.preamp + ')' : m.label}"><img src="img/${m.img}.jpg" alt=""></button>`).join('');
+      g += `<button class="rl ${n === CHS.length ? 'all' : ''} ${m.fixed ? 'fixed' : ''}" data-m="${m.key}" title="${m.fixed ? m.label : 'Set on every bank'}">${m.label}</button>`;
+      g += Array.from({ length: B }, (_, b) => { const on = has(CHS[b * 4], m);
+        return `<button class="mod ${on ? 'on' : 'off'} ${m.fixed ? 'fixed' : ''}" data-b="${b}" data-m="${m.key}" title="Bank ${b + 1}: 4 x ${m.key === 'PRE' ? cfg.preamp + ' ' + EC.INPUTS[CHS[b * 4].in] : m.label}">${('<img src="img/' + m.img + '.jpg" alt="">').repeat(bank(b).length)}</button>`; }).join('');
     });
     $('chans').innerHTML = g + '</div>';
     // summing rows, each amp labelled with its bus
@@ -202,7 +204,10 @@ a { color: var(--accent); }
   }
   $('chans').addEventListener('click', e => {
     const b = e.target.closest('.mod'), r = e.target.closest('.rl');
-    if (b) { toggle(cfg.channels[+b.dataset.c], b.dataset.m); render(); return; }
+    if (b) {                                   // a module is a bank of 4: set all four channels like the first
+      const chs = cfg.channels.slice(+b.dataset.b * 4, +b.dataset.b * 4 + 4), first = JSON.parse(JSON.stringify(chs[0]));
+      toggle(first, b.dataset.m); chs.forEach(c => { c.in = first.in; c.fx = first.fx.slice(); c.sends = first.sends.slice(); });
+      render(); return; }
     if (!r) return;
     const m = STRIP.find(x => x.key === r.dataset.m); if (m.fixed) return;
     const all = cfg.channels.every(c => has(c, m));

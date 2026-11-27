@@ -141,26 +141,28 @@
     const sheets = [];
 
     /* ---- channels ---- */
-    const chs = new Sheet('Channels', `${name}-channels.kicad_sch`, `${name}: ${N} input channels`);
-    sheets.push(chs);
+    /* every Eurorack module is a bank of 4 channels (one QTP in, one QTP out): one sheet per bank */
+    const banks = [];
+    const bankSheet = b => banks[b] || (banks[b] = (() => { const sh = new Sheet(`Bank ${b + 1}`, `${name}-bank${b + 1}.kicad_sch`, `${name}: bank ${b + 1}, CH ${pad2(b * 4 + 1)}-${pad2(Math.min(b * 4 + 4, N))}`); sheets.push(sh); return sh; })());
     const W = sym => 2 * halfW(sym) + 25.4;
     const rowW = sp => 58.42 + (sp.in !== 'DIRECT' ? W((PREAMPS[cfg.preamp] || PREAMPS.M480).sym) : 0) + sp.fx.reduce((w, k) => w + W(CHAIN[k].sym), 0) + W('FADER') + sp.sends.length * (W('AUX4') + 33.02);
-    const perCol = 8, colW = snap(Math.max(...CHS.map(rowW)) + 40), rowH = 58.42;
-    chs.text(`${N} channels: preamp -> inserts -> fader -> CH (QTP) -> post-fader sends (Aux 1-4, Aux 5-8, M 1-4, one QTP each)`, 20.32, 15.24, 3);
+    const rowH = 58.42;
+    const bankCount = (ci, key) => { if (ci % 4 === 0) count(key); };   // one Eurorack module per bank
     CHS.forEach((sp, ci) => {
-      const c = ci + 1, col = Math.floor(ci / perCol), r = ci % perCol;
-      const x0 = 20.32 + col * colW, y0 = snap(45.72 + r * rowH);
-      chs.text(`CH ${pad2(c)} · ${INPUTS[sp.in]}${sp.fx.map(k => ' · ' + CHAIN[k].label).join('')} · Fader${sp.sends.map(k => ' · ' + SENDS[k].label).join('')}`, x0, y0 - 22.86, 2);
+      const c = ci + 1, b = Math.floor(ci / 4), r = ci % 4, chs = bankSheet(b);
+      if (r === 0) chs.text(`Bank ${b + 1}: CH ${pad2(c)}-${pad2(Math.min(c + 3, N))} · ${INPUTS[sp.in]}${sp.fx.map(k => ' · ' + CHAIN[k].label).join('')} · Fader${sp.sends.map(k => ' · ' + SENDS[k].label).join('')}  (each module = 4 channels)`, 20.32, 15.24, 3);
+      const x0 = 20.32, y0 = snap(45.72 + r * rowH);
+      chs.text(`CH ${pad2(c)}`, x0, y0 - 22.86, 2);
       chs.place('XLR', x0 + 12.7, y0, next('J'), sp.in === 'MIC' ? 'XLR-3F mic' : 'XLR-3F line', { HOT: `IN${pad2(c)}+`, COLD: `IN${pad2(c)}-`, GND: 'GND' }); count('XLR-3F input');
       let x = x0 + 58.42;
       const chain = (from, to) => {               // inserts then fader, from net `from` to net `to`
         sp.fx.forEach(k => {
           const sym = CHAIN[k].sym, out = `${k}${pad2(c)}`;
-          chs.place(sym, snap(x + halfW(sym) + 12.7), y0, next('U'), k === 'DEESS' ? 'M466 De-esser' : sym, legNets(sym, from, out)); count(CHAIN[k].bom);
+          chs.place(sym, snap(x + halfW(sym) + 12.7), y0, next('U'), k === 'DEESS' ? 'M466 De-esser' : sym, legNets(sym, from, out)); bankCount(ci, CHAIN[k].label + ' bank (4 x ' + sym + ')');
           x = snap(x + W(sym)); from = out;
         });
         chs.place('FADER', snap(x + halfW('FADER') + 12.7), y0, next('U'), 'F300 Fader', { 'IN+': from + '+', 'IN-': from + '-', 'OUT+': to + '+', 'OUT-': to + '-', SDA: 'I2C_SDA', SCL: 'I2C_SCL' });
-        count('F300 fader module'); x = snap(x + W('FADER'));
+        bankCount(ci, 'Fader bank (4 x F300)'); x = snap(x + W('FADER'));
       };
       if (sp.in !== 'DIRECT') {
         const mic = sp.in === 'MIC', P = PREAMPS[cfg.preamp] || PREAMPS.M480, n2 = pad2(c);
@@ -175,7 +177,7 @@
           'Fader Send +': `FS${n2}+`, 'Fader Send -': `FS${n2}-`, 'Fader Return +': `FR${n2}+`, 'Fader Return -': `FR${n2}-`,
           'M1 OUT +': CH(c) + '+', 'M1 OUT -': CH(c) + '-', 'Cue Solo +': 'NC', 'Cue Solo -': 'NC',
           'M2 OUT +': 'NC', 'M2 OUT -': 'NC', 'Aux +': 'NC', 'Aux -': 'NC' };
-        chs.place(P.sym, snap(x + halfW(P.sym) + 12.7), y0, next('U'), `${P.sym} ${mic ? 'mic' : 'line'}`, nets); count(`${P.label} (preamp)`);
+        chs.place(P.sym, snap(x + halfW(P.sym) + 12.7), y0, next('U'), `${P.sym} ${mic ? 'mic' : 'line'}`, nets); bankCount(ci, `Preamp bank (4 x ${P.sym})`);
         x = snap(x + 2 * halfW(P.sym) + 25.4 - 104.14);
         x = snap(x + 104.14);
         chain(`FS${pad2(c)}`, `FR${pad2(c)}`);       // inserts + fader in the M480B fader send / return
@@ -183,20 +185,18 @@
       sp.sends.forEach(k => {                        // post-fader 4-way sends, each on its own QTP
         const outs = SENDS[k].buses.map(b => sendNet(c, b)), nets = { 'IN+': CH(c) + '+', 'IN-': CH(c) + '-', SDA: 'I2C_SDA', SCL: 'I2C_SCL' };
         outs.forEach((n, i) => { nets[`SEND${i + 1}+`] = n + '+'; nets[`SEND${i + 1}-`] = n + '-'; });
-        chs.place('AUX4', snap(x + halfW('AUX4') + 12.7), y0, next('U'), SENDS[k].label, nets); count('4-way send module (' + SENDS[k].label + ')');
+        chs.place('AUX4', snap(x + halfW('AUX4') + 12.7), y0, next('U'), SENDS[k].label, nets); bankCount(ci, SENDS[k].label + ' send bank (4 x 4-way send)');
         x = snap(x + W('AUX4'));
         chs.place('QTP', snap(x + 10.16), y0, next('J'), `CH${pad2(c)} ${SENDS[k].label}`, qtpNets(outs)); count('QTP RJ45');
         x = snap(x + 33.02);
       });
     });
-    const qx = 20.32 + Math.ceil(N / perCol) * colW;
-    if (BUSES.some(b => !b.send)) {
-      chs.text('QTP out: 4 channels per RJ45, to the direct summing rows', qx, 25.4, 2);
-      for (let g = 0; g < Math.ceil(N / 4); g++) {
-        const list = [0, 1, 2, 3].map(i => g * 4 + i + 1 <= N ? CH(g * 4 + i + 1) : null);
-        chs.place('QTP', qx + 10.16, snap(45.72 + g * 38.1), next('J'), `QTP OUT ${g * 4 + 1}-${Math.min(g * 4 + 4, N)}`, qtpNets(list)); count('QTP RJ45');
-      }
-    }
+    if (BUSES.some(b => !b.send)) banks.forEach((chs, g) => {
+      const qx = snap(chs.w + 20);
+      chs.text('Bank QTP out: CH to the direct summing rows', qx, 30.48, 2);
+      const list = [0, 1, 2, 3].map(i => g * 4 + i + 1 <= N ? CH(g * 4 + i + 1) : null);
+      chs.place('QTP', qx + 10.16, 45.72, next('J'), `QTP OUT ${g * 4 + 1}-${Math.min(g * 4 + 4, N)}`, qtpNets(list)); count('QTP RJ45');
+    });
 
     /* ---- summing rows ---- */
     let bi = 0;

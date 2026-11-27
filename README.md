@@ -142,7 +142,7 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 
 ![Console editor](EDITOR/editor.png)
 
-- **Channels** are shown as rack rows of module faces (real front panels from the archive). Each channel is preamp (M480B: Mic / Line, or Direct) → gate · EQ (M462B) · compressor (M466) · de-esser → F300 fader → post-fader sends **Aux 1-4**, **Aux 5-8** and **M 1-4** (4-way send modules, one QTP each). Click a module to add or remove it; *All channels* sets it on every channel. The module key links each one to its repo, its 2021 Eagle redraw and its sheet in the 2016 schematics.
+- **Every Eurorack module is a bank of 4 channels** (one QTP in, one QTP out, SUN · SKY · GRASS · EARTH): 4 preamps, 4 gates, 4 EQs, 4 compressors, 4 de-essers, Aux 1-4 / Aux 5-8 / M 1-4 send banks and 4 faders. The console view shows one column per bank, modules top to bottom with real faces; click to add or remove a module for the bank, or a row name for every bank. The preamp design is a choice (M480 for now, M480B or M460). The schematic has one sheet per bank.
 - **Summing rows:** each summing amp is a bus named by what it sums: M1–M4, AUX1–AUX8, then direct sums (BUS13…). The C1616 is rows M1–4 · AUX1–4 · AUX5–8 · BUS13–16, each with insert and Big VU. The name follows the configuration: 16 inputs × 16 summing amps = **C1616**.
 - **Download:** a zip of a hierarchical KiCad 9 project: a root sheet, a channels sheet and one sheet per summing row. It includes `EuroConsole.kicad_sym` and `sym-lib-table`, plus the configuration (JSON, which *Load config* reads back) and a parts list (CSV).
 - **Symbols:** the Ward-Beck modules use the archive's own symbols (`2026/Engineering/KICAD`: M480B, M450, M499, M462B, M466, M467), with their real card-edge pins. QTP RJ45, XLR, the B300/F300 strip and the RD87 Big VU are EuroConsole parts. Run `python3 EDITOR/build_symbols.py` to refresh `symbols.js`.
@@ -158,7 +158,7 @@ Big VU is Ward-Beck R&D project **RD87**, the *RD87 LED tower* (2015|48): a free
 | `B300_Front` | 2016\|49 Encoder PCB 17.2 | 30 × 113.6 mm | 37 | all 14 controls within 0.18 mm of their panel holes (4 Neopixels + INPUT LED, 4 encoder holes, 5 buttons) |
 | `F300_Fader` | 2016\|49 Encoder PCB 17.2 | 30 × 113.6 mm, L-shape | 14 | ONLY, SEL and CH ON within 0.01 mm; the fader's 4 mounting pads within 0.02 mm of the panel screws; the POS encoder mounts on the panel above the notch |
 | `B300_Main` | 2016\|49 Encoder PCB 17.2 | 133.8 × 113.4 mm | 27 | perpendicular side board: 4 encoders (WBS 10-081), Arduino Mega, RS-485, DB9, DS1808 |
-| `DS1882_Adapter` | 2016\|49 Encoder PCB 17.2 | 20 × 25 mm | 3 | DS1882 breakout |
+| `Maxim_Adapter_Board` | 2016\|49 Maxim Adapter Board | 20 × 25 mm | 3 | DS1882 breakout (also on the Encoder sheet) |
 | `QTP-BAC_14.1` | 2016\|49 | 114 × 50 mm | 112 | four-channel QTP backplane: RJ45, transformers, XLR, BNC |
 | `Big_VU_Meter_REV5` | 2021\|54 APK | 102 × 64 mm | 84 | stereo Neopixel VU meter and driver |
 | `QTP-BITTREE_Patchbay_REV2.1` | 2021\|54 APK | 34 × 41 mm | 10 | QTP card for a Bittree patchbay |

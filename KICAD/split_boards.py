@@ -58,8 +58,6 @@ BOARDS = {
                        transform=lambda x, y: (45.09 - y, 144.14 - x)),
     'B300_Main':  dict(box=(54, -122, 191, -6), panel=None,       # perpendicular side board,
                        transform=lambda x, y: (x - 55.88, -y)),    # front edge at x=0
-    'DS1882_Adapter': dict(box=(-39, 905, -16, 934), panel=None,
-                           transform=lambda x, y: (x + 38.1, 932.18 - y + 7.62)),
 }
 
 

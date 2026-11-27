@@ -6,7 +6,7 @@ NAMES = {  # folder: (title, rev, date, what, source)
     'B300_Front': ('B300 Brain - front PCB', '17.2', '2016-04-06', 'Neopixels, POD buttons, encoder shaft holes; placed on the HUI front panel REV 4.1', 'Encoder PCB REV 17.2 (2016 DCASSP)'),
     'B300_Main': ('B300 Brain - main side board', '17.2', '2016-04-06', '4 encoders (WBS 10-081), Arduino Mega, RS-485, DB9, DS1808; perpendicular to the panel', 'Encoder PCB REV 17.2 (2016 DCASSP)'),
     'F300_Fader': ('F300 Fader - fader PCB', '17.2', '2016-04-06', 'Bourns PTA6043 fader, ONLY / SEL / CH ON buttons; placed on the HUI front panel REV 4.1', 'Encoder PCB REV 17.2 (2016 DCASSP)'),
-    'DS1882_Adapter': ('DS1882 adapter', '17.2', '2016-04-06', 'Maxim DS1882 dual log digital potentiometer breakout', 'Encoder PCB REV 17.2 (2016 DCASSP)'),
+    'Maxim_Adapter_Board': ('DS1882 (Maxim) adapter', '1', '2016', 'Maxim DS1882 dual log digital potentiometer breakout', 'Maxim Adapter Board (2016 DCASSP)'),
     'QTP-BAC_14.1': ('QTP-BAC - four-channel QTP backplane', '14.1', '2016', 'SUN SKY GRASS EARTH on RJ45: transformers, XLR, BNC, euro blocks', 'QTP-BAC 14.1 (2016 DCASSP)'),
     'Big_VU_Meter_REV5': ('Big VU (RD87) - meter and driver', '5', '2021-05-23', 'stereo line in, Arduino Micro, 2 x 57 Neopixel towers', 'Big VU meter REV 5 (2021 APK)'),
     'QTP-BITTREE_Patchbay_REV2.1': ('QTP-BITTREE - patchbay card', '2.1', '2021-05-23', 'top-row and bottom-row QTP RJ45 on a Bittree patchbay connector', 'QTP-BITTREE PATCHBAY REV 2.1 (2021 APK)'),

@@ -54,6 +54,7 @@
       "diff_pair_dimensions": [],
       "drc_exclusions": [],
       "meta": {
+        "filename": "board_design_settings.json",
         "version": 2
       },
       "rule_severities": {
@@ -117,7 +118,7 @@
       },
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.254,
+        "min_clearance": 0.3556,
         "min_connection": 0.0,
         "min_copper_edge_clearance": 0.5,
         "min_groove_width": 0.0,
@@ -230,7 +231,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "DS1882_Adapter.kicad_pro",
+    "filename": "Maxim_Adapter_Board.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -246,7 +247,7 @@
         "microvia_drill": 0.1,
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 2147483647,
+        "priority": -1,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
         "via_diameter": 0.6,
