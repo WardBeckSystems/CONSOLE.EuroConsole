@@ -2,6 +2,8 @@
 
 **A modular analog mixing console in Eurorack: Ward-Beck Systems circuits, digitally controlled, wired with Quad Twisted Pair.**
 
+**Start here:** [`index.html`](index.html) walks through the whole console step by step. [`EDITOR/index.html`](EDITOR/index.html) builds your configuration as a KiCad schematic.
+
 EuroConsole grows out of the 2016|49 *Digitally Controlled Analog Surround Sound Panner* (DCASSP), built at APK audio and Ward-Beck Systems as a Seneca College technology project. That prototype showed one idea: **the audio stays analog, the controls go digital**. Every control a mixer touches (encoders, buttons, faders, LEDs) is read by a microcontroller. The microcontroller sets digitally controlled analog parts, such as the Maxim DS1882 log-taper audio potentiometers, which do the actual work on the signal. Because the panel never carries audio, the controls can move, light up, recall and be driven remotely, and the signal path keeps the sound of the Ward-Beck circuits.
 
 EuroConsole turns that prototype into a whole console, built from 3U Eurorack modules. The first build is the **C1616**:

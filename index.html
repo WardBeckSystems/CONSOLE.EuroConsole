@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EuroConsole Guide</title>
+<style>
+:root {
+  --bg: #f4f1ea; --panel: #fffdf8; --ink: #1f1e1c; --muted: #6d6a63; --line: #d9d3c5; --accent: #1f3f6b; --glow: #2fa84a;
+  --sun: #f08a24; --sky: #2f6fd6; --grass: #2fa84a; --earth: #8a5a2b;
+  --sum: #e9c46a; --ins: #8ecae6; --patch: #a3b18a; --vu: #e76f51; --proc: #b8a1d9; --empty: #e5e1d8; --strip: #cfd8dc; --img: #ffffff;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8; --glow: #5fd37a;
+  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --strip: #4a555a; --img: #e9e6df; } }
+:root[data-theme="dark"] {
+  --bg: #16171a; --panel: #1f2125; --ink: #ecebe7; --muted: #a09d96; --line: #34373d; --accent: #8fb3e8; --glow: #5fd37a;
+  --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --strip: #4a555a; --img: #e9e6df; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { display: grid; grid-template-columns: 230px minmax(0, 1fr); max-width: 1200px; margin: 0 auto; gap: 28px; padding: 0 16px; }
+nav { position: sticky; top: 0; align-self: start; padding: 28px 0; max-height: 100vh; overflow: auto; }
+nav .brand { font-weight: 700; font-size: 20px; letter-spacing: .02em; }
+nav .brand small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
+nav ol { list-style: none; padding: 0; margin: 18px 0 0; counter-reset: s; }
+nav li a { display: flex; gap: 10px; align-items: center; padding: 6px 8px; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 14px; }
+nav li a::before { counter-increment: s; content: counter(s); width: 22px; height: 22px; flex: none; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; color: var(--muted); }
+nav li a.on { background: var(--panel); }
+nav li a.on::before { background: var(--glow); border-color: var(--glow); color: #fff; }
+main { padding: 28px 0 80px; }
+section { padding: 8px 0 36px; border-bottom: 1px solid var(--line); scroll-margin-top: 12px; }
+section:last-of-type { border-bottom: 0; }
+.step { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+h1 { font-size: 40px; line-height: 1.1; margin: 4px 0 10px; }
+h2 { font-size: 28px; margin: 2px 0 10px; }
+h3 { font-size: 17px; margin: 18px 0 6px; }
+p { margin: 8px 0; max-width: 74ch; }
+.lead { font-size: 19px; color: var(--muted); max-width: 66ch; }
+a { color: var(--accent); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin: 14px 0; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.fig { background: var(--img); border-radius: 8px; padding: 8px; }
+.fig img { display: block; width: 100%; height: auto; max-height: 560px; object-fit: contain; }
+figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+.tag { display: inline-block; font-size: 12px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.tag.have { border-color: var(--glow); color: var(--glow); }
+.pairs { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.pair { padding: 3px 10px; border-radius: 6px; color: #fff; font-weight: 600; font-size: 14px; }
+.next { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; }
+.next a { text-decoration: none; padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.btn { display: inline-block; text-decoration: none; padding: 10px 18px; border-radius: 8px; background: var(--accent); color: var(--panel); font-weight: 600; }
+.rack { display: grid; gap: 6px; }
+.rrow { display: grid; grid-template-columns: 34px repeat(6, minmax(0, 1fr)); gap: 5px; }
+.rrow span { border-radius: 5px; padding: 10px 2px; text-align: center; font-size: 12px; font-weight: 600; color: #1f1e1c; }
+.rrow .rn { background: none; color: var(--muted); font-weight: 400; align-self: center; }
+.t-SUM { background: var(--sum); } .t-INSERT { background: var(--ins); } .t-PATCH { background: var(--patch); } .t-BIGVU { background: var(--vu); }
+.t-EQ, .t-COMP, .t-DEESS, .t-GATE { background: var(--proc); } .t-EMPTY { background: var(--empty); }
+.strips { display: flex; gap: 3px; flex-wrap: wrap; }
+.strips i { width: 16px; height: 42px; border-radius: 3px; background: var(--strip); position: relative; }
+.strips i::after { content: ""; position: absolute; left: 7px; top: 11px; width: 2px; height: 24px; background: var(--muted); }
+svg text { font-family: system-ui, sans-serif; }
+code { font-size: 14px; }
+@media (max-width: 820px) {
+  .wrap { grid-template-columns: 1fr; gap: 0; }
+  nav { position: static; max-height: none; padding: 18px 0 0; }
+  nav ol { display: flex; flex-wrap: wrap; gap: 4px; }
+  nav li a { padding: 4px 6px; font-size: 13px; }
+  h1 { font-size: 32px; }
+  .rrow span { font-size: 10px; padding: 8px 1px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="brand">EuroConsole<small>Ward-Beck Systems · WBSps.ca</small></div>
+  <ol id="toc">
+    <li><a href="#idea">The idea</a></li>
+    <li><a href="#c1616">C1616 at a glance</a></li>
+    <li><a href="#strip">Channel strip</a></li>
+    <li><a href="#input">Input</a></li>
+    <li><a href="#qtp">QTP wiring</a></li>
+    <li><a href="#summing">Summing rows</a></li>
+    <li><a href="#processing">Processing</a></li>
+    <li><a href="#patch">Patch bay</a></li>
+    <li><a href="#bigvu">Big VU</a></li>
+    <li><a href="#boards">Boards</a></li>
+    <li><a href="#editor">Build yours</a></li>
+    <li><a href="#sources">Sources &amp; roadmap</a></li>
+  </ol>
+</nav>
+<main>
+
+<section id="idea">
+  <div class="step">Step 1</div>
+  <h1>A modular analog console in Eurorack</h1>
+  <p class="lead">Ward-Beck Systems circuits, digitally controlled, wired with Quad Twisted Pair. The audio stays analog; the controls go digital.</p>
+  <p>EuroConsole grows out of the 2016|49 <i>Digitally Controlled Analog Surround Sound Panner</i> (DCASSP), built at APK audio and Ward-Beck Systems as a Seneca College project. Every control you touch (encoder, button, fader, LED) is read by a microcontroller. The microcontroller sets digitally controlled analog parts, such as the Maxim DS1882 log-taper potentiometer, which do the work on the signal. The panel never carries audio, so controls can light up, recall and be driven remotely, while the signal path keeps the Ward-Beck sound.</p>
+  <figure class="fig"><img src="PHOTOS/2016%20-%20HUI%20prototype%20cross%20reference.png" alt="2016 HUI prototype: B300 and F300 panels beside the breadboarded prototype"></figure>
+  <figcaption>The 2016|49 prototype: B300 and F300 panel drawings, with arrows to the breadboarded encoders, Neopixels, buttons and fader.</figcaption>
+  <div class="next"><span></span><a href="#c1616">Next: C1616 at a glance →</a></div>
+</section>
+
+<section id="c1616">
+  <div class="step">Step 2</div>
+  <h2>C1616: 16 inputs × 16 summing amps</h2>
+  <p>The first build. 16 input channels feed 16 summing amplifiers. The summing side is 4 rows of 6 modules, and each row is a 4-input summing console of its own.</p>
+  <div class="card">
+    <h3 style="margin-top:0">16 channel strips</h3>
+    <div class="strips" id="strips"></div>
+    <h3>4 summing rows × 6 slots</h3>
+    <div class="rack" id="rack"></div>
+    <p class="small" style="font-size:13px;color:var(--muted)">Each row: four summing amps (the row's SUN · SKY · GRASS · EARTH buses), an insert / patch module and a Big VU. Slots 5–6 are provisional.</p>
+  </div>
+  <svg viewBox="0 0 900 190" width="100%" role="img" aria-label="Signal flow">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+    <g font-size="14" fill="var(--ink)">
+      <rect x="10" y="60" width="110" height="60" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="65" y="86" text-anchor="middle">16 XLR</text><text x="65" y="104" text-anchor="middle" font-size="12" fill="var(--muted)">inputs</text>
+      <rect x="150" y="60" width="120" height="60" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="210" y="86" text-anchor="middle">M480B</text><text x="210" y="104" text-anchor="middle" font-size="12" fill="var(--muted)">input module</text>
+      <rect x="300" y="60" width="130" height="60" rx="8" fill="var(--strip)" stroke="var(--line)"/><text x="365" y="86" text-anchor="middle">B300 + F300</text><text x="365" y="104" text-anchor="middle" font-size="12" fill="var(--muted)">strip · ESP32-S3</text>
+      <rect x="470" y="40" width="160" height="100" rx="8" fill="var(--sum)" stroke="var(--line)"/><text x="550" y="78" text-anchor="middle" fill="#1f1e1c">4 rows ×</text><text x="550" y="98" text-anchor="middle" fill="#1f1e1c">4 summing amps</text><text x="550" y="118" text-anchor="middle" font-size="12" fill="#1f1e1c">M450 · inserts</text>
+      <rect x="670" y="20" width="120" height="50" rx="8" fill="var(--proc)" stroke="var(--line)"/><text x="730" y="50" text-anchor="middle" fill="#1f1e1c">EQ · comp · gate</text>
+      <rect x="670" y="110" width="120" height="50" rx="8" fill="var(--vu)" stroke="var(--line)"/><text x="730" y="140" text-anchor="middle" fill="#1f1e1c">Big VU</text>
+      <rect x="810" y="65" width="80" height="50" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="850" y="95" text-anchor="middle">16 buses</text>
+    </g>
+    <g stroke="var(--muted)" stroke-width="2" fill="none" marker-end="url(#ar)">
+      <path d="M120 90H148"/><path d="M270 90H298"/><path d="M430 90H468"/><path d="M630 70L668 48"/><path d="M630 110L668 132"/><path d="M630 90H808"/>
+    </g>
+    <text x="449" y="80" text-anchor="middle" font-size="11" fill="var(--muted)">QTP</text>
+  </svg>
+  <div class="next"><a href="#idea">← The idea</a><a href="#strip">Next: Channel strip →</a></div>
+</section>
+
+<section id="strip">
+  <div class="step">Step 3</div>
+  <h2>The channel strip: B300 Brain + F300 Fader</h2>
+  <p>Two 6HP × 3U modules from <i>HUI front panel REV 4.1</i>. Together they are one channel: 12HP, so 16 strips need three rows of 84HP.</p>
+  <div class="cols">
+    <figure class="fig" style="margin:0"><img src="MECHANICAL/HUI%20front%20panel%20REV%204.1.png" alt="B300 and F300 panel drawing"><figcaption>B300 (left) and F300 (right) panels</figcaption></figure>
+    <div>
+      <h3>B300 Brain</h3>
+      <p>The INPUT LED and SEL button, plus four auxiliary controls (SUN, SKY, GRASS, EARTH), each with an encoder, a Neopixel and a push-button. It carries the channel's ESP32-S3.</p>
+      <h3>F300 Fader</h3>
+      <p><b>POS</b> pans across L · C · R · Ls · Rs. <b>ONLY</b> solos, <b>SEL</b> selects, the 60 mm Bourns fader sets the level, and <b>CH ON</b> switches the channel on.</p>
+      <h3>Panning</h3>
+      <p>POS indexes a table of DS1882 settings at 1 dB per step. Each speaker peaks at 63–64 steps, and neighbours cross at 48 (16 dB down). The fader scales the row to a percentage, and everything starts muted at power-up.</p>
+    </div>
+  </div>
+  <div class="next"><a href="#c1616">← C1616</a><a href="#input">Next: Input →</a></div>
+</section>
+
+<section id="input">
+  <div class="step">Step 4</div>
+  <h2>Input: M480B</h2>
+  <p>Each channel starts at an XLR into an <b>M480B input module</b>, redrawn in Eagle by APK in 2021|54 from the Ward-Beck original (LM201 op-amps, a MAT-01 matched pair, discrete output stage). Its <i>fader send</i> and <i>fader return</i> run through the B300/F300 strip, so the digitally controlled level sits inside the M480B's own path. Its M1 output is the channel (CH01–CH16).</p>
+  <p><a href="EAGLE/2021-APK/M480B%20Input%20module.sch">M480B Input module.sch</a> · symbol pins from <code>2026/Engineering/KICAD/M480B.kicad_sym</code></p>
+  <div class="next"><a href="#strip">← Channel strip</a><a href="#qtp">Next: QTP wiring →</a></div>
+</section>
+
+<section id="qtp">
+  <div class="step">Step 5</div>
+  <h2>QTP: four channels per RJ45</h2>
+  <p>Every interconnect is <b>Quad Twisted Pair</b>: four balanced analog channels on one RJ45 / CAT5e cable. 16 channels need four cables, and every summing row receives all four.</p>
+  <div class="pairs">
+    <span class="pair" style="background:var(--sun)">SUN · pins 2 / 1</span>
+    <span class="pair" style="background:var(--sky)">SKY · 4 / 5</span>
+    <span class="pair" style="background:var(--grass)">GRASS · 6 / 3</span>
+    <span class="pair" style="background:var(--earth)">EARTH · 8 / 7</span>
+  </div>
+  <p>The shell goes to ground. THAT 1246 receivers and THAT 1646 drivers keep the lines balanced end to end. The 2016|49 <b>QTP-BAC 14.1</b> board is the four-channel QTP backplane: RJ45, transformers, XLR and BNC.</p>
+  <figure class="fig"><img src="KICAD/QTP-BAC_14.1/QTP-BAC_14.1.png" alt="QTP-BAC 14.1 board"></figure>
+  <div class="next"><a href="#input">← Input</a><a href="#summing">Next: Summing rows →</a></div>
+</section>
+
+<section id="summing">
+  <div class="step">Step 6</div>
+  <h2>Summing rows: 4 × 6 = 16 summing amps</h2>
+  <p>Each row takes all 16 channels on four RJ45s. Every channel reaches each of the row's four summing amps through a summing resistor per leg (+ and −). The row's buses then pass an insert and a meter.</p>
+  <table>
+    <tr><th>Slot</th><th>Module</th><th>From the archive</th></tr>
+    <tr><td>1–4</td><td>Summing amplifier, one per bus</td><td><a href="https://github.com/WardBeckSystems/MODULES.AMPLIFIERS.M450-Program-Summing-Amplifier">M450</a> program/summing amp (1975|8) · <a href="https://github.com/WardBeckSystems/MODULES.SUMMING.M484-Dual-Summing-Amplifier">M484</a></td></tr>
+    <tr><td>5</td><td>Insert: send / return per bus</td><td><a href="https://github.com/WardBeckSystems/MODULES.UNSORTED.M499-Insertion-Switcher">M499</a> insertion switcher · M466N insert meter (1979|12)</td></tr>
+    <tr><td>6</td><td>Big VU for the row</td><td>RD87 (step 9)</td></tr>
+  </table>
+  <p>The 2016|49 prototype summed through 2 × 4 M450A cards. Here every bus gets its own M450.</p>
+  <div class="next"><a href="#qtp">← QTP</a><a href="#processing">Next: Processing →</a></div>
+</section>
+
+<section id="processing">
+  <div class="step">Step 7</div>
+  <h2>Processing: EQ, compressor, de-esser, gate</h2>
+  <p>Each processor is a Eurorack module with its own QTP patch point (SUN/SKY in, GRASS/EARTH out), so it patches into any insert. Each one starts from a Ward-Beck circuit already in the archive.</p>
+  <table>
+    <tr><th>Function</th><th>Starting from</th><th></th></tr>
+    <tr><td>EQ</td><td><a href="https://github.com/WardBeckSystems/MODULES.FILTERS.M462B-Equalizer-Module">M462B</a> effects equalizer; also M462, M472</td><td><span class="tag have">Eagle 2021|54</span></td></tr>
+    <tr><td>Compressor</td><td><a href="https://github.com/WardBeckSystems/MODULES.DYNAMICS.M466-Limiter-Compressor-Module">M466</a> limiter-compressor (1976|9) and its 6-106 control amp</td><td><span class="tag have">Eagle 2021|54</span></td></tr>
+    <tr><td>Output amp</td><td>the M466 / M462B output stage</td><td><span class="tag have">Eagle 2021|54</span></td></tr>
+    <tr><td>De-esser</td><td>M466 with a frequency-weighted side-chain</td><td><span class="tag">new circuit</span></td></tr>
+    <tr><td>Gate</td><td><a href="https://github.com/WardBeckSystems/MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module">M467</a> noise gate and meter</td><td><span class="tag">KiCad redraw</span></td></tr>
+  </table>
+  <div class="next"><a href="#summing">← Summing</a><a href="#patch">Next: Patch bay →</a></div>
+</section>
+
+<section id="patch">
+  <div class="step">Step 8</div>
+  <h2>Patch bay</h2>
+  <p>The QTP patch bay puts the inserts and buses on RJ45, normalled through, so one CAT cable patches four channels. It starts from <b>QTP-BITTREE PATCHBAY REV 2.1</b> (2021|54, Gerbers marked "good to go"): a card with top-row and bottom-row QTP that turns a Bittree bay into a QTP bay. <b>QTP-NEUTRIK D-hole</b> mounts a QTP RJ45 in a standard D-hole.</p>
+  <div class="cols">
+    <figure class="fig" style="margin:0"><img src="KICAD/QTP-BITTREE_Patchbay_REV2.1/QTP-BITTREE_Patchbay_REV2.1.png" alt="QTP Bittree patchbay card"><figcaption>QTP-BITTREE patchbay REV 2.1</figcaption></figure>
+    <figure class="fig" style="margin:0"><img src="KICAD/QTP-NEUTRIK_D-hole/QTP-NEUTRIK_D-hole.png" alt="QTP Neutrik D-hole"><figcaption>QTP-NEUTRIK D-hole</figcaption></figure>
+  </div>
+  <div class="next"><a href="#processing">← Processing</a><a href="#bigvu">Next: Big VU →</a></div>
+</section>
+
+<section id="bigvu">
+  <div class="step">Step 9</div>
+  <h2>Big VU (RD87): the meter</h2>
+  <p>Ward-Beck R&amp;D project <b>RD87</b>, the <i>RD87 LED tower</i> (2015|48). A dual op-amp line input feeds an Arduino, which drives two Neopixel towers of 57 pixels each, with a log scale, calibration and two falling peak dots. REV 5 (2021|54) is both the meter and its driver. In EuroConsole it meters the summing rows; it shows two buses per board, so four buses need two boards or a 4-bar version.</p>
+  <figure class="fig"><img src="KICAD/Big_VU_Meter_REV5/Big_VU_Meter_REV5.png" alt="Big VU Meter REV 5 board"></figure>
+  <p><a href="https://github.com/WardBeckSystems/PRODUCTS.BigVU">PRODUCTS.BigVU</a> · <a href="https://WBSps.ca/2026/PAGES/Big-VU.html">Big VU page</a> · <a href="https://WBSps.ca/2026/siumulation.html?plugin=bigvu">simulator</a> · <a href="SOFTWARE/BIG_VU_METERS_arduinopro_mini.ino">firmware</a></p>
+  <div class="next"><a href="#patch">← Patch bay</a><a href="#boards">Next: Boards →</a></div>
+</section>
+
+<section id="boards">
+  <div class="step">Step 10</div>
+  <h2>Boards so far</h2>
+  <p>KiCad 9 boards converted from the Eagle designs. The 2016|49 Encoder sheet is split per module and placed in the panel's coordinates, with the panel drawing on <i>User.Drawings</i>, then checked against it.</p>
+  <table>
+    <tr><th>Board</th><th>Size</th><th>Check against the panel</th></tr>
+    <tr><td>B300_Front</td><td>30 × 113.6 mm</td><td>all 14 controls within 0.18 mm</td></tr>
+    <tr><td>F300_Fader</td><td>30 × 113.6 mm</td><td>buttons within 0.01 mm · fader pads within 0.02 mm</td></tr>
+    <tr><td>B300_Main</td><td>133.8 × 113.4 mm</td><td>side board: 4 encoders, Arduino Mega (to become an ESP32-S3)</td></tr>
+    <tr><td>QTP-BAC 14.1</td><td>114 × 50 mm</td><td>QTP backplane</td></tr>
+    <tr><td>Big VU REV 5</td><td>102 × 64 mm</td><td>meter and driver</td></tr>
+    <tr><td>QTP-BITTREE · QTP-NEUTRIK</td><td>34 × 41 · 24 × 27 mm</td><td>patch bay</td></tr>
+  </table>
+  <div class="cols" style="margin-top:12px">
+    <figure class="fig" style="margin:0"><img src="KICAD/B300_Front/B300_Front.png" alt="B300 front board over its panel"><figcaption>B300 front over its panel</figcaption></figure>
+    <figure class="fig" style="margin:0"><img src="KICAD/F300_Fader/F300_Fader.png" alt="F300 fader board over its panel"><figcaption>F300 fader over its panel</figcaption></figure>
+  </div>
+  <div class="next"><a href="#bigvu">← Big VU</a><a href="#editor">Next: Build yours →</a></div>
+</section>
+
+<section id="editor">
+  <div class="step">Step 11</div>
+  <h2>Build your console</h2>
+  <p>The console editor builds a specific configuration and writes its KiCad 9 schematic. You choose the channels, the input module, the summing resistors, the rows, and the module in each slot. It downloads a hierarchical project: root, channels and one sheet per row, using the archive's own module symbols. The name follows the configuration: 16 × 16 is the C1616.</p>
+  <p><a class="btn" href="EDITOR/index.html">Open the console editor</a></p>
+  <figure class="fig"><img src="EDITOR/editor.png" alt="Console editor"></figure>
+  <div class="next"><a href="#boards">← Boards</a><a href="#sources">Next: Sources &amp; roadmap →</a></div>
+</section>
+
+<section id="sources">
+  <div class="step">Step 12</div>
+  <h2>Sources &amp; roadmap</h2>
+  <table>
+    <tr><th>Folder</th><th>What</th></tr>
+    <tr><td><a href="EAGLE/2016-DCASSP/">EAGLE/2016-DCASSP</a></td><td>Encoder PCB 17.2, QTP-BAC 14.1, DS1882 adapter, VU meter and summing amp, block diagram</td></tr>
+    <tr><td><a href="EAGLE/2021-APK/">EAGLE/2021-APK</a></td><td>M480B, M462B, M466 and its control amp, output amp, Big VU REV 5, QTP-BITTREE, QTP-NEUTRIK</td></tr>
+    <tr><td><a href="KICAD/">KICAD</a></td><td>the converted boards and <code>split_boards.py</code></td></tr>
+    <tr><td><a href="MANUALS/">MANUALS</a></td><td>2016|49 DCASSP final report and schematics</td></tr>
+    <tr><td><a href="MECHANICAL/">MECHANICAL</a> · <a href="GERBERS/">GERBERS</a> · <a href="SOFTWARE/">SOFTWARE</a> · <a href="PHOTOS/">PHOTOS</a></td><td>panels, fader drawing, patchbay Gerbers, Big VU firmware, prototype photo</td></tr>
+  </table>
+  <h3>Roadmap</h3>
+  <ol>
+    <li>B300 / F300 for Eurorack: ESP32-S3 on the B300, F300 by ribbon, 16-pin power (±12 V, regulated to ±7 V for the DS1882), I2C between modules.</li>
+    <li>M480B as a Eurorack input module.</li>
+    <li>Summing rows: QTP input board, an M450 per bus, an insert per bus.</li>
+    <li>EQ, compressor, de-esser and gate modules with QTP patch points.</li>
+    <li>QTP patch bay module and Big VU on the ESP32-S3.</li>
+    <li>The C1616 frame: rows, power, patch and network control.</li>
+  </ol>
+  <p style="font-size:13px;color:var(--muted)">© Ward-Beck Systems (Ward-Beck.com - Ward-Beck.ca) · DCASSP design and archive by Anthony Peter Kuzub · <a href="https://WBSps.ca">WBSps.ca</a> · <a href="https://WBSps.Kuzub.com">WBSps.Kuzub.com</a> · <a href="README.md">README</a></p>
+  <div class="next"><a href="#editor">← Build yours</a><a href="#idea">Back to the start ↑</a></div>
+</section>
+</main>
+</div>
+<script src="EDITOR/symbols.js"></script>
+<script src="EDITOR/generator.js"></script>
+<script>
+(function () {
+  const short = { SUM: 'Sum', INSERT: 'Insert', PATCH: 'Patch', BIGVU: 'Big VU', EQ: 'EQ', COMP: 'Comp', DEESS: 'De-ess', GATE: 'Gate', EMPTY: '' };
+  const cfg = (window.EC && EC.defaultConfig()) || { inputs: 16, rows: Array(4).fill(['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'BIGVU']) };
+  document.getElementById('strips').innerHTML = '<i></i>'.repeat(cfg.inputs);
+  let b = 0;
+  document.getElementById('rack').innerHTML = cfg.rows.map((r, i) => '<div class="rrow"><span class="rn">R' + (i + 1) + '</span>' +
+    r.map(s => { const t = s === 'SUM' ? 'Bus ' + (++b) : short[s]; return '<span class="t-' + s + '">' + t + '</span>'; }).join('') + '</div>').join('');
+  // the step in view glows in the side bar
+  const links = [...document.querySelectorAll('#toc a')], byId = {}; links.forEach(a => byId[a.hash.slice(1)] = a);
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { links.forEach(a => a.classList.remove('on')); (byId[e.target.id] || {}).classList && byId[e.target.id].classList.add('on'); } }), { rootMargin: '-35% 0px -60% 0px' });
+  document.querySelectorAll('section').forEach(s => io.observe(s));
+})();
+</script>
+</body>
+</html>
