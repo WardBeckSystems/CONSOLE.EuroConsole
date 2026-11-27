@@ -10,7 +10,7 @@ import json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LIB = sys.argv[1] if len(sys.argv) > 1 else os.path.normpath(os.path.join(HERE, '../../../2026/Engineering/KICAD'))
-MODULES = ['M480B', 'M450', 'M499', 'M462B', 'M466', 'M467', 'M405', 'M435']
+MODULES = ['M480', 'M460', 'M480B', 'M450', 'M499', 'M462B', 'M466', 'M467', 'M405', 'M435']
 
 
 def block(text, start):

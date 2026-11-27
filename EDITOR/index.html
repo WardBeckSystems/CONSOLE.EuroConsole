@@ -17,7 +17,7 @@
   --sum: #b8913a; --ins: #3f7f99; --patch: #6b7a55; --vu: #b4533c; --proc: #7c66a3; --empty: #2c2f34; --face: #e9e6df; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
-main { max-width: 1240px; margin: 0 auto; padding: 20px 16px 48px; }
+main { max-width: 1760px; margin: 0 auto; padding: 20px 16px 48px; }
 h1 { font-size: 30px; margin: 0; letter-spacing: .02em; }
 h1 small { font-size: 15px; font-weight: 400; color: var(--muted); margin-left: 8px; }
 h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 22px 0 8px; }
@@ -33,20 +33,20 @@ button.ghost { background: transparent; color: var(--accent); }
 .chip.on { border-color: var(--glow); color: var(--glow); box-shadow: 0 0 0 1px var(--glow) inset; }
 .chip.part { border-color: var(--glow); color: var(--ink); border-style: dashed; }
 /* channels: each channel is a row of module faces, as in the rack */
-.chans { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; margin-top: 12px; }
-.chan { border: 1px solid var(--line); border-radius: 8px; padding: 8px 8px 6px; background: var(--bg); }
-.chan h3 { margin: 0 0 6px; font-size: 13px; display: flex; justify-content: space-between; color: var(--muted); font-weight: 600; }
-.chan h3 b { color: var(--ink); }
-.chan h3 .warn { color: #c0392b; }
-.faces { display: flex; gap: 3px; align-items: flex-end; }
-.mod { width: 34px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; background: none; border: 0; padding: 0; color: var(--muted); }
-.mod .face { width: 34px; height: 132px; border-radius: 3px; background: var(--face); overflow: hidden; display: grid; place-items: center; outline: 2px solid transparent; }
-.mod .face img { height: 100%; width: 100%; object-fit: contain; }
-.mod.on .face { outline-color: var(--glow); }
-.mod.off .face { background: transparent; border: 1px dashed var(--line); }
-.mod.off .face img { opacity: .12; }
-.mod span { font-size: 10px; line-height: 1.1; text-align: center; white-space: nowrap; }
-.mod.on span { color: var(--ink); }
+.console { overflow-x: auto; margin-top: 12px; padding-bottom: 6px; }
+.cgrid { display: grid; grid-template-columns: 80px repeat(var(--n), 86px); gap: 4px 3px; width: max-content; }
+.chead { font-size: 12px; text-align: center; color: var(--muted); line-height: 1.2; padding-bottom: 2px; }
+.chead b { display: block; color: var(--ink); font-size: 13px; }
+.chead .warn { color: #c0392b; }
+.rl { position: sticky; left: 0; z-index: 1; background: var(--panel); border: 0; padding: 0 6px 0 0; font: inherit; font-size: 12px; text-align: right; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: flex-end; }
+.rl.all { color: var(--glow); font-weight: 600; } .rl.fixed { cursor: default; }
+.mod { width: 86px; height: 150px; padding: 3px; overflow: hidden; border: 0; border-radius: 4px; background: var(--face); cursor: pointer; outline: 2px solid transparent; outline-offset: -2px; display: flex; align-items: center; justify-content: center; }
+.mod img { height: 144px; width: auto; max-width: 80px; object-fit: contain; display: block; }
+.mod.tall img { height: 254px; }
+.mod.on { outline-color: var(--glow); }
+.mod.off { background: transparent; border: 1px dashed var(--line); }
+.mod.off img { opacity: .1; }
+.mod.tall { height: 260px; }
 .mod.fixed { cursor: default; }
 .key { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 14px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
 .key div { display: flex; gap: 8px; align-items: center; font-size: 13px; }
@@ -84,12 +84,11 @@ a { color: var(--accent); }
   <div class="card">
     <div class="controls">
       <label>Channels <input id="inputs" type="number" min="4" max="32" step="4" value="16"></label>
-      <span class="small muted">All channels:</span>
-      <span id="bulk" class="controls" style="gap:6px"></span>
+      <label>Preamp design <select id="preamp"></select></label>
     </div>
-    <div class="chans" id="chans"></div>
+    <div class="console" id="chans"></div>
     <div class="key" id="key"></div>
-    <p class="small muted" style="margin:10px 0 0">Click the preamp for Mic, Line or Direct; click any other module to add or remove it. Inserts and fader sit in the M480B fader send / return; the sends are post-fader, each on one QTP.</p>
+    <p class="small muted" style="margin:10px 0 0">Each column is a channel strip, top to bottom. Click the preamp for Mic, Line or Direct; click a module to add or remove it; click a row name to set it on every channel. Inserts and fader sit in the M480B fader send / return; the sends are post-fader, each on one QTP.</p>
   </div>
 
   <div class="grid2">
@@ -127,7 +126,7 @@ a { color: var(--accent); }
   const $ = id => document.getElementById(id);
   /* the strip, left to right, as modules in the rack */
   const STRIP = [
-    { key: 'PRE', label: 'Preamp', img: 'M480B' },
+    { key: 'PRE', label: 'Preamp', img: 'M480' },
     { key: 'GATE', label: 'Gate', img: 'M467', kind: 'fx' },
     { key: 'EQ', label: 'EQ', img: 'M462B', kind: 'fx' },
     { key: 'COMP', label: 'Comp', img: 'M466', kind: 'fx' },
@@ -139,7 +138,7 @@ a { color: var(--accent); }
   ];
   const GH = 'https://github.com/WardBeckSystems/', PDF = '../MANUALS/2016%20-%20DCASSP%20schematics%20V1.pdf#page=';
   const KEY = [
-    { img: 'M480B', name: 'Preamp · M480B input module', links: [['repo', GH + 'MODULES.INPUT-PRE-AMPS.M480B-Input-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M480B%20Input%20module.sch']] },
+    { img: 'M480', name: 'Preamp · M480 (design to choose: M480, M480B, M460)', links: [['M480', GH + 'MODULES.INPUT-PRE-AMPS.M480-Input-Module'], ['M480B', GH + 'MODULES.INPUT-PRE-AMPS.M480B-Input-Module'], ['M460', GH + 'MODULES.INPUT-PRE-AMPS.M460-Input-Module'], ['M480B Eagle', '../EAGLE/2021-APK/M480B%20Input%20module.sch']] },
     { img: 'M467', name: 'Gate · M467 noise gate', links: [['repo', GH + 'MODULES.DYNAMICS.M467-Noise-Gate-and-Meter-Module']] },
     { img: 'M462B', name: 'EQ · M462B equalizer', links: [['repo', GH + 'MODULES.FILTERS.M462B-Equalizer-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M462B%20Final.sch']] },
     { img: 'M466', name: 'Comp / De-ess · M466', links: [['repo', GH + 'MODULES.DYNAMICS.M466-Limiter-Compressor-Module'], ['Eagle 2021', '../EAGLE/2021-APK/M466-compressor-limiter.sch']] },
@@ -168,21 +167,22 @@ a { color: var(--accent); }
   function render() {
     explicit();
     const CHS = cfg.channels, design = EC.build(cfg), buses = design.buses;
+    cfg.preamp = cfg.preamp || 'M480'; STRIP[0].img = cfg.preamp === 'M480B' ? 'M480B' : cfg.preamp;
+    $('preamp').innerHTML = Object.entries(EC.PREAMPS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join(''); $('preamp').value = cfg.preamp;
     $('inputs').value = cfg.inputs; $('resist').checked = cfg.resistors; $('rval').value = cfg.rValue;
     $('rows').value = cfg.rows.length; $('slots').value = slotsPerRow();
     $('name').firstChild.nodeValue = design.name;
     $('sub').textContent = `${cfg.inputs} inputs × ${buses.length} summing amps`;
-    // bulk chips: lit when every channel has it
-    $('bulk').innerHTML = STRIP.filter(m => !m.fixed).map(m => {
-      const n = CHS.filter(c => has(c, m)).length;
-      return `<button class="chip ${n === CHS.length ? 'on' : n ? 'part' : ''}" data-m="${m.key}">${m.label}</button>`; }).join('');
-    // channels as rows of module faces
+    // the console: channels side by side, each strip top to bottom
     const direct = buses.some(b => !b.send), feeds = ch => direct || ch.sends.some(k => buses.some(b => b.send === k));
-    $('chans').innerHTML = CHS.map((ch, i) => `<div class="chan"><h3><b>CH ${String(i + 1).padStart(2, '0')}</b><span${feeds(ch) ? '' : ' class="warn"'}>${feeds(ch) ? EC.INPUTS[ch.in] : 'feeds no bus'}</span></h3><div class="faces">` +
-      STRIP.map(m => {
-        const on = has(ch, m), lab = m.key === 'PRE' ? (ch.in === 'DIRECT' ? 'Direct' : EC.INPUTS[ch.in]) : m.label;
-        return `<button class="mod ${on ? 'on' : 'off'} ${m.fixed ? 'fixed' : ''}" data-c="${i}" data-m="${m.key}" title="${m.label}${m.key === 'PRE' ? ': M480B' : ''}"><div class="face"><img src="img/${m.img}.jpg" alt=""></div><span>${lab}</span></button>`;
-      }).join('') + '</div></div>').join('');
+    let g = `<div class="cgrid" style="--n:${CHS.length}"><div></div>` + CHS.map((ch, i) =>
+      `<div class="chead"><b>${String(i + 1).padStart(2, '0')}</b><span${feeds(ch) ? '' : ' class="warn" title="feeds no bus"'}>${feeds(ch) ? EC.INPUTS[ch.in] : 'no bus'}</span></div>`).join('');
+    STRIP.forEach(m => {
+      const n = CHS.filter(c => has(c, m)).length;
+      g += `<button class="rl ${n === CHS.length ? 'all' : ''} ${m.fixed ? 'fixed' : ''}" data-m="${m.key}" title="${m.fixed ? m.label : 'Set on every channel'}">${m.label}</button>`;
+      g += CHS.map((ch, i) => `<button class="mod ${has(ch, m) ? 'on' : 'off'} ${m.fixed ? 'fixed tall' : ''}" data-c="${i}" data-m="${m.key}" title="CH ${i + 1} ${m.key === 'PRE' ? EC.INPUTS[ch.in] + ' (' + cfg.preamp + ')' : m.label}"><img src="img/${m.img}.jpg" alt=""></button>`).join('');
+    });
+    $('chans').innerHTML = g + '</div>';
     // summing rows, each amp labelled with its bus
     const opts = Object.entries(EC.SLOTS).map(([k, v]) => `<option value="${k}">${SHORT[k] || v.label}</option>`).join('');
     let bi = 0;
@@ -200,10 +200,12 @@ a { color: var(--accent); }
     if (key === 'PRE') { ch.in = { MIC: 'LINE', LINE: 'DIRECT', DIRECT: 'MIC' }[ch.in]; return; }
     const list = ch[m.kind], i = list.indexOf(key); if (i >= 0) list.splice(i, 1); else list.push(key);
   }
-  $('chans').addEventListener('click', e => { const b = e.target.closest('.mod'); if (!b) return; toggle(cfg.channels[+b.dataset.c], b.dataset.m); render(); });
-  $('bulk').addEventListener('click', e => {
-    const b = e.target.closest('.chip'); if (!b) return;
-    const m = STRIP.find(x => x.key === b.dataset.m), all = cfg.channels.every(c => has(c, m));
+  $('chans').addEventListener('click', e => {
+    const b = e.target.closest('.mod'), r = e.target.closest('.rl');
+    if (b) { toggle(cfg.channels[+b.dataset.c], b.dataset.m); render(); return; }
+    if (!r) return;
+    const m = STRIP.find(x => x.key === r.dataset.m); if (m.fixed) return;
+    const all = cfg.channels.every(c => has(c, m));
     cfg.channels.forEach(c => {
       if (m.key === 'PRE') c.in = all ? 'DIRECT' : (c.in === 'DIRECT' ? 'MIC' : c.in);
       else { const l = c[m.kind], i = l.indexOf(m.key); if (all && i >= 0) l.splice(i, 1); if (!all && i < 0) l.push(m.key); }
@@ -216,6 +218,7 @@ a { color: var(--accent); }
     const last = cfg.channels[cfg.channels.length - 1] || EC.TEMPLATE;
     while (cfg.channels.length < n) cfg.channels.push(JSON.parse(JSON.stringify(last)));
     cfg.channels.length = n; cfg.inputs = n; render(); });
+  $('preamp').addEventListener('change', () => { cfg.preamp = $('preamp').value; render(); });
   $('resist').addEventListener('change', () => { cfg.resistors = $('resist').checked; render(); });
   $('rval').addEventListener('change', () => { cfg.rValue = $('rval').value.trim() || '10k'; render(); });
   $('rows').addEventListener('change', () => { resize(); render(); });

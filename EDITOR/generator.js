@@ -28,6 +28,12 @@
   };
   const PAIR = ['SUN', 'SKY', 'GRASS', 'EARTH'];
   const INPUTS = { MIC: 'Mic', LINE: 'Line', DIRECT: 'Direct' };
+  /* the preamp design: a choice, M480 for now */
+  const PREAMPS = {
+    M480:  { label: 'M480 input module', sym: 'M480' },
+    M480B: { label: 'M480B input module', sym: 'M480B' },
+    M460:  { label: 'M460 input module', sym: 'M460' },
+  };
   /* inserts, in strip order; one module per channel, left leg */
   const CHAIN = {
     GATE:  { label: 'Gate', sym: 'M467', bom: 'M467 noise gate (channel)' },
@@ -49,7 +55,7 @@
   function defaultConfig() {
     const row = ['SUM', 'SUM', 'SUM', 'SUM', 'INSERT', 'BIGVU'];
     return { inputs: 16, rows: [row, row, row, row].map(r => r.slice()), resistors: true, rValue: '10k', rev: 'A',
-             template: JSON.parse(JSON.stringify(TEMPLATE)), channels: [] };
+             template: JSON.parse(JSON.stringify(TEMPLATE)), channels: [], preamp: 'M480' };
   }
   /* every channel: { in, fx: [...CHAIN], sends: [...SENDS] }; missing channels take the template */
   function channels(cfg) {
@@ -86,7 +92,8 @@
   const snap = v => Math.round(v / GRID) * GRID;
   function powerNet(name) {
     const n = name.toUpperCase();
-    for (const v of ['+25V', '-25V', '+24V', '+35V', '+15V', '-15V', '+12V', '-12V']) if (n.includes(v)) return v;
+    const m = n.replace(/\s+/g, '');
+    for (const v of ['+25V', '-25V', '+24V', '+35V', '+15V', '-15V', '+12V', '-12V']) if (m.includes(v)) return v;
     if (/GND|COMMON|SHIELD/.test(n)) return 'GND';
     if (n === 'VCC') return 'VCC';
     return null;
@@ -137,7 +144,7 @@
     const chs = new Sheet('Channels', `${name}-channels.kicad_sch`, `${name}: ${N} input channels`);
     sheets.push(chs);
     const W = sym => 2 * halfW(sym) + 25.4;
-    const rowW = sp => 58.42 + (sp.in !== 'DIRECT' ? 104.14 : 0) + sp.fx.reduce((w, k) => w + W(CHAIN[k].sym), 0) + W('FADER') + sp.sends.length * (W('AUX4') + 33.02);
+    const rowW = sp => 58.42 + (sp.in !== 'DIRECT' ? W((PREAMPS[cfg.preamp] || PREAMPS.M480).sym) : 0) + sp.fx.reduce((w, k) => w + W(CHAIN[k].sym), 0) + W('FADER') + sp.sends.length * (W('AUX4') + 33.02);
     const perCol = 8, colW = snap(Math.max(...CHS.map(rowW)) + 40), rowH = 58.42;
     chs.text(`${N} channels: preamp -> inserts -> fader -> CH (QTP) -> post-fader sends (Aux 1-4, Aux 5-8, M 1-4, one QTP each)`, 20.32, 15.24, 3);
     CHS.forEach((sp, ci) => {
@@ -156,13 +163,20 @@
         count('F300 fader module'); x = snap(x + W('FADER'));
       };
       if (sp.in !== 'DIRECT') {
-        const mic = sp.in === 'MIC';
-        chs.place('M480B', snap(x + 38.1), y0, next('U'), mic ? 'M480B mic' : 'M480B line', {
-          'MIC-IN-B +': mic ? `IN${pad2(c)}+` : 'NC', 'MIC-IN-B -': mic ? `IN${pad2(c)}-` : 'NC',
-          'Line IN-B +': mic ? 'NC' : `IN${pad2(c)}+`, 'Line IN-B -': mic ? 'NC' : `IN${pad2(c)}-`,
-          'Fader Send +': `FS${pad2(c)}+`, 'Fader Send -': `FS${pad2(c)}-`, 'Fader Return +': `FR${pad2(c)}+`, 'Fader Return -': `FR${pad2(c)}-`,
+        const mic = sp.in === 'MIC', P = PREAMPS[cfg.preamp] || PREAMPS.M480, n2 = pad2(c);
+        let nets;
+        if (P.sym === 'M460') {                       // pins come in pairs of one name: first +, second -
+          const pair = { 'MIC IN': mic ? `IN${n2}` : null, 'LINE IN': mic ? null : `IN${n2}`, 'INSERT OUT': `FS${n2}`, 'INSERT RETURN': `FR${n2}`, 'DIRECT OUT': CH(c) };
+          const seen = {}; nets = {};
+          SYM.M460.pins.forEach((p, i) => { if (p.name in pair) { const k = seen[p.name] = (seen[p.name] || 0) + 1; nets[i] = pair[p.name] ? pair[p.name] + (k === 1 ? '+' : '-') : 'NC'; } });
+        } else nets = {
+          'MIC-IN-B +': mic ? `IN${n2}+` : 'NC', 'MIC-IN-B -': mic ? `IN${n2}-` : 'NC',
+          'Line IN-B +': mic ? 'NC' : `IN${n2}+`, 'Line IN-B -': mic ? 'NC' : `IN${n2}-`,
+          'Fader Send +': `FS${n2}+`, 'Fader Send -': `FS${n2}-`, 'Fader Return +': `FR${n2}+`, 'Fader Return -': `FR${n2}-`,
           'M1 OUT +': CH(c) + '+', 'M1 OUT -': CH(c) + '-', 'Cue Solo +': 'NC', 'Cue Solo -': 'NC',
-          'M2 OUT +': 'NC', 'M2 OUT -': 'NC', 'Aux +': 'NC', 'Aux -': 'NC' }); count('M480B preamp / input module');
+          'M2 OUT +': 'NC', 'M2 OUT -': 'NC', 'Aux +': 'NC', 'Aux -': 'NC' };
+        chs.place(P.sym, snap(x + halfW(P.sym) + 12.7), y0, next('U'), `${P.sym} ${mic ? 'mic' : 'line'}`, nets); count(`${P.label} (preamp)`);
+        x = snap(x + 2 * halfW(P.sym) + 25.4 - 104.14);
         x = snap(x + 104.14);
         chain(`FS${pad2(c)}`, `FR${pad2(c)}`);       // inserts + fader in the M480B fader send / return
       } else chain(`IN${pad2(c)}`, CH(c));
@@ -367,6 +381,6 @@ ${body}
     return new Blob([...parts, ...cent, end], { type: 'application/zip' });
   }
 
-  const API = { SLOTS, PAIR, INPUTS, CHAIN, CHAIN_ORDER, SENDS, SEND_ORDER, TEMPLATE, channels, buses, defaultConfig, consoleName, busCount, build, serialize, zip, symbols: SYM };
+  const API = { SLOTS, PAIR, INPUTS, PREAMPS, CHAIN, CHAIN_ORDER, SENDS, SEND_ORDER, TEMPLATE, channels, buses, defaultConfig, consoleName, busCount, build, serialize, zip, symbols: SYM };
   if (typeof module !== 'undefined') module.exports = API; else root.EC = API;
 })(typeof window !== 'undefined' ? window : globalThis);
