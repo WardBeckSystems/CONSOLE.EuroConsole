@@ -37,6 +37,7 @@ button.ghost { background: transparent; color: var(--accent); }
 .chan { border: 1px solid var(--line); border-radius: 8px; padding: 8px 8px 6px; background: var(--bg); }
 .chan h3 { margin: 0 0 6px; font-size: 13px; display: flex; justify-content: space-between; color: var(--muted); font-weight: 600; }
 .chan h3 b { color: var(--ink); }
+.chan h3 .warn { color: #c0392b; }
 .faces { display: flex; gap: 3px; align-items: flex-end; }
 .mod { width: 34px; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; background: none; border: 0; padding: 0; color: var(--muted); }
 .mod .face { width: 34px; height: 132px; border-radius: 3px; background: var(--face); overflow: hidden; display: grid; place-items: center; outline: 2px solid transparent; }
@@ -176,7 +177,8 @@ a { color: var(--accent); }
       const n = CHS.filter(c => has(c, m)).length;
       return `<button class="chip ${n === CHS.length ? 'on' : n ? 'part' : ''}" data-m="${m.key}">${m.label}</button>`; }).join('');
     // channels as rows of module faces
-    $('chans').innerHTML = CHS.map((ch, i) => `<div class="chan"><h3><b>CH ${String(i + 1).padStart(2, '0')}</b><span>${EC.INPUTS[ch.in]}</span></h3><div class="faces">` +
+    const direct = buses.some(b => !b.send), feeds = ch => direct || ch.sends.some(k => buses.some(b => b.send === k));
+    $('chans').innerHTML = CHS.map((ch, i) => `<div class="chan"><h3><b>CH ${String(i + 1).padStart(2, '0')}</b><span${feeds(ch) ? '' : ' class="warn"'}>${feeds(ch) ? EC.INPUTS[ch.in] : 'feeds no bus'}</span></h3><div class="faces">` +
       STRIP.map(m => {
         const on = has(ch, m), lab = m.key === 'PRE' ? (ch.in === 'DIRECT' ? 'Direct' : EC.INPUTS[ch.in]) : m.label;
         return `<button class="mod ${on ? 'on' : 'off'} ${m.fixed ? 'fixed' : ''}" data-c="${i}" data-m="${m.key}" title="${m.label}${m.key === 'PRE' ? ': M480B' : ''}"><div class="face"><img src="img/${m.img}.jpg" alt=""></div><span>${lab}</span></button>`;
